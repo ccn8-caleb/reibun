@@ -1,0 +1,20 @@
+[
+  { "id": "s001", "ja": "私は昨日友達と新しい映画を見に行きました。", "en": "Yesterday I went to see a new movie with a friend.", "level": "N5", "focus": ["ni-iku"] },
+  { "id": "s002", "ja": "雨が降っているので、今日は家で本を読んでいます。", "en": "It's raining, so today I'm reading a book at home.", "level": "N5", "focus": ["te-iru", "node"] },
+  { "id": "s003", "ja": "彼が書いた手紙を読んで、少し泣いてしまった。", "en": "I read the letter he wrote and cried a little.", "level": "N4", "focus": ["te-shimau"] },
+  { "id": "s004", "ja": "日本語が話せるようになりたいです。", "en": "I want to become able to speak Japanese.", "level": "N4", "focus": ["you-ni-naru", "tai"] },
+  { "id": "s005", "ja": "子供の頃、母に毎日野菜を食べさせられた。", "en": "When I was a child, my mother made me eat vegetables every day.", "level": "N3", "focus": ["causative-passive"] },
+  { "id": "s006", "ja": "駅に着いたら電話してください。", "en": "Please call me when you get to the station.", "level": "N4", "focus": ["tara", "te-kudasai"] },
+  { "id": "s007", "ja": "このアプリは使いやすいけど、少し高い。", "en": "This app is easy to use, but it's a little expensive.", "level": "N4", "focus": ["yasui", "kedo"] },
+  { "id": "s008", "ja": "明日までにレポートを出さなければならない。", "en": "I have to hand in the report by tomorrow.", "level": "N4", "focus": ["nakereba-naranai"] },
+  { "id": "s009", "ja": "天気予報によると、明日は雪が降るそうだ。", "en": "According to the weather forecast, it's going to snow tomorrow.", "level": "N4", "focus": ["sou-hearsay"] },
+  { "id": "s010", "ja": "約束したのに、彼は来なかった。", "en": "Even though he promised, he didn't come.", "level": "N4", "focus": ["noni"] },
+  { "id": "s011", "ja": "音楽を聞きながら勉強するのは難しくないですか。", "en": "Isn't it hard to study while listening to music?", "level": "N4", "focus": ["nagara"] },
+  { "id": "s012", "ja": "先生がおっしゃったことをノートに書いておきました。", "en": "I wrote down what the teacher said in my notebook (for later).", "level": "N3", "focus": ["sonkeigo", "te-oku"] },
+  { "id": "s013", "ja": "春になると、この公園には桜を見に来る人がたくさんいる。", "en": "When spring comes, lots of people come to this park to see the cherry blossoms.", "level": "N4", "focus": ["to-conditional", "ni-iku"] },
+  { "id": "s014", "ja": "健康のために、毎朝走ることにしました。", "en": "For my health, I decided to run every morning.", "level": "N4", "focus": ["tame-ni", "koto-ni-suru"] },
+  { "id": "s015", "ja": "嫌いなわけではないが、あまり食べたくない。", "en": "It's not that I dislike it, but I don't really want to eat it.", "level": "N3", "focus": ["wake-dewa-nai", "tai"] },
+  { "id": "s016", "ja": "窓が開けてあるから、部屋が寒いのかもしれない。", "en": "The window has been left open, so maybe that's why the room is cold.", "level": "N3", "focus": ["te-aru", "kamoshirenai"] },
+  { "id": "s017", "ja": "日本の歴史について調べているうちに、城に興味を持つようになった。", "en": "While researching Japanese history, I became interested in castles.", "level": "N3", "focus": ["ni-tsuite", "uchi-ni", "you-ni-naru"] },
+  { "id": "s018", "ja": "少々お待ちください。担当の者がすぐに参ります。", "en": "Please wait a moment. The person in charge will be right with you.", "level": "N3", "focus": ["o-kudasai", "kenjougo"] }
+]

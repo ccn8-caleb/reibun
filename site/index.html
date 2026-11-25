@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>文の分析 | 例文 Reibun</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="例文">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('reibun_theme') === 'dark' ? 'dark' : 'light';</script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/pages/breakdown.js"></script>
+</head>
+<body>
+
+  <header id="top-bar">
+    <div class="brand-group">
+      <img class="brand-badge" src="icon.svg" alt="">
+      <span class="brand-title" data-ja="例文" data-en="Reibun" data-tip-ja="文を分解して読み解く" data-tip-en="Break sentences down">例文</span>
+      <div id="nexus-hub-slot"></div>
+    </div>
+    <div id="nexus-hub-controls"></div>
+  </header>
+
+  <main class="page">
+    <div class="bd-layout">
+      <div class="bd-main">
+        <section class="card bd-input">
+          <textarea id="bd-text" lang="ja" rows="3" spellcheck="false" autocomplete="off"
+            data-placeholder-ja="日本語の文を入力・貼り付け（複数の文もOK）" data-placeholder-en="Type or paste Japanese (several sentences are fine)"></textarea>
+          <div class="bd-input-row">
+            <button type="button" id="bd-run" class="tb-btn primary" data-tip-ja="分析する（Ctrl+Enter）" data-tip-en="Analyze (Ctrl+Enter)">
+              <span data-icon="breakdown"></span><span data-ja="分析" data-en="Analyze">分析</span>
+            </button>
+            <button type="button" id="bd-clear" class="tb-btn" data-ja="クリア" data-en="Clear">クリア</button>
+            <span id="bd-status" class="bd-status" role="status"></span>
+          </div>
+          <div class="bd-examples" id="bd-examples"></div>
+        </section>
+
+        <section class="bd-toolbar" id="bd-toolbar" hidden>
+          <div class="toggle-group" role="group" aria-label="Display">
+            <button type="button" class="chip" data-view="furigana" data-ja="ふりがな" data-en="Furigana">ふりがな</button>
+            <button type="button" class="chip" data-view="pos" data-ja="品詞の色" data-en="Word classes">品詞の色</button>
+            <button type="button" class="chip" data-view="roles" data-ja="文節の役割" data-en="Phrase roles">文節の役割</button>
+          </div>
+          <div class="legend" id="bd-legend"></div>
+        </section>
+
+        <div id="bd-output"></div>
+      </div>
+
+      <aside class="card inspector idle" id="inspector" aria-live="polite"></aside>
+    </div>
+  </main>
+
+</body>
+</html>
