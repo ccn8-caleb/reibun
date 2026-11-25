@@ -6,6 +6,8 @@ to [Kanji Nexus](https://kanjinexus.concatn8.com/) with the same look and shell.
 
 Everything runs client-side from static files. There are no accounts and no server.
 
+Live at **https://reibun.concatn8.com/** (deployed from `master`).
+
 | Page | Purpose |
 | :--- | :--- |
 | **Breakdown** (`index.html`) | Paste text. Each sentence is split into phrases (文節) with furigana, word-class colours and phrase roles, plus the sentence skeleton, a structure tree and the grammar patterns it uses. Tap anything for the inspector: conjugation chain, dictionary entry, grammar notes. `index.html?s=<text>` deep-links a sentence. |
@@ -68,7 +70,8 @@ reibun dict build <jmdict.json> <out-dir>  JMdict shards for lookups
 ## Releases
 
 Branches: feature → `development` (checks only) → `master` (deploys `site/` to GitHub
-Pages via `.github/workflows/static.yml`). Every release bumps the patch number in
+Pages via `.github/workflows/static.yml`, served at reibun.concatn8.com behind
+Cloudflare). Check what's live with `curl -s https://reibun.concatn8.com/ | grep app-version`. Every release bumps the patch number in
 `site/js/core/version.js` and needs a matching `CHANGELOG.md` entry.
 
 ## Your data
