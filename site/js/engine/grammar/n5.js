@@ -77,7 +77,7 @@ export default [
   P('kata', 'N5', '〜方（かた）', 'The way of doing: 書き方 "how to write".', 'やり方・方法。', [{ alt: [[{ s: /[いきぎしじちにひびみりえけげせぜてでねべめれ]方$/, pos: '名詞' }], [STEM, { s: '方', p1: '接尾' }]] }], { group: 'modality', ex: '漢字の書き方を教えてください。' }),
 
   // --- Time ----------------------------------------------------------------------------------
-  P('te-kara', 'N5', '〜てから', 'After doing, then …', '〜した後で。', [TE, { s: 'から', pos: '助詞' }], { group: 'time', ex: 'ご飯を食べてから出かけます。' }),
+  P('te-kara', 'N5', '〜てから', 'After doing, then …', '〜した後で。', [TE, { s: 'から', pos: '助詞' }], { group: 'time', generic: true, ex: 'ご飯を食べてから出かけます。' }),
   P('mae-ni', 'N5', '〜前に', 'Before doing.', '〜する前。', [{ pos: '動詞', cform: '基本形', opt: true }, { s: ['前', 'まえ'] }, { s: 'に' }], { group: 'time', ex: '寝る前に歯を磨く。' }),
   P('ato-de', 'N5', '〜後で', 'After doing.', '〜した後。', [{ s: ['後', 'あと'] }, { s: 'で' }], { group: 'time', ex: '授業の後で図書館に行った。' }),
   P('toki', 'N5', '〜時', 'When … (at the time of).', '〜する／した時。', [{ s: ['時', 'とき'], pos: '名詞', p1: ['非自立', '副詞可能', '一般'] }], { group: 'time', ex: '子供の時、よく泳いだ。' }),
@@ -88,14 +88,14 @@ export default [
 
   // --- Appearance, hearsay, probability ------------------------------------------------------
   P('deshou', 'N5', '〜でしょう／だろう', 'Probably … / … right?', '推量・確認。', [{ b: ['です', 'だ'], cform: /^未然/ }, { s: 'う' }], { group: 'evidential', ex: '明日は晴れるでしょう。' }),
-  P('n-desu', 'N5', '〜んです／のだ', 'Explaining or asking for an explanation (the background is…).', '説明・事情の確認。', [{ s: ['ん', 'の'], pos: '名詞', p1: '非自立' }, { b: ['だ', 'です'] }], { group: 'evidential', ex: 'どこに行くんですか。' }),
+  P('n-desu', 'N5', '〜んです／のだ', 'Explaining or asking for an explanation (the background is…).', '説明・事情の確認。', [{ s: ['ん', 'の'], pos: '名詞', p1: '非自立' }, { b: ['だ', 'です'] }], { group: 'evidential', generic: true, ex: 'どこに行くんですか。' }),
 
   // --- Comparison, limits, scope -------------------------------------------------------------
-  P('yori', 'N5', '〜より', 'Than … (comparison).', '比較の基準。', [{ s: 'より', pos: '助詞' }], { group: 'limits', ex: '東京は大阪より大きい。' }),
+  P('yori', 'N5', '〜より', 'Than … (comparison).', '比較の基準。', [{ s: 'より', pos: '助詞' }], { group: 'limits', generic: true, ex: '東京は大阪より大きい。' }),
   P('no-hou-ga', 'N5', '〜のほうが', 'A is more … (the side that wins a comparison).', '比較で勝る方。', [{ s: 'の', p1: '連体化' }, { s: ['ほう', '方'] }, { s: 'が' }], { group: 'limits', ex: 'バスより電車のほうが速い。' }),
   P('dochira-ga', 'N5', '〜と〜とどちらが', 'Which (of two) is more …?', '二つの比較の質問。', [{ s: ['どちら', 'どっち'] }, { s: ['が', 'の'], pos: '助詞' }], { group: 'limits', ex: '肉と魚とどちらが好きですか。' }),
   P('ichiban', 'N5', '〜の中で〜が一番', 'The most … (among a group).', '最上級。', [{ alt: [[{ s: 'の' }, { s: '中' }, { s: 'で' }, GAP(3), { s: ['一番', 'いちばん'] }], [{ s: ['一番', 'いちばん'], p1: '副詞可能' }]] }], { group: 'limits', ex: '果物の中でりんごが一番好きです。' }),
   P('amari-nai', 'N5', 'あまり〜ない', 'Not very / not much.', '程度が低い（否定と呼応）。', [{ s: ['あまり', 'あんまり'], pos: '副詞' }, GAP(4), ...NEG_ANY], { group: 'limits', ex: 'この映画はあまり面白くない。' }),
   P('zenzen-nai', 'N5', '全然〜ない', 'Not at all.', '全面的な否定。', [{ s: ['全然', 'ぜんぜん'] }, GAP(4), ...NEG_ANY], { group: 'limits', ex: 'フランス語は全然分からない。' }),
-  P('dake', 'N5', '〜だけ', 'Only / just.', '限定。', [{ s: 'だけ', pos: '助詞' }], { group: 'limits', ex: '水だけ飲んだ。' }),
+  P('dake', 'N5', '〜だけ', 'Only / just.', '限定。', [{ s: 'だけ', pos: '助詞' }], { group: 'limits', generic: true, ex: '水だけ飲んだ。' }),
 ];

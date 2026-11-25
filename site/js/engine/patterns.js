@@ -59,6 +59,8 @@ export const GROUPS = [
 ];
 
 export const PATTERN_BY_ID = new Map(PATTERNS.map((p) => [p.id, p]));
+const hasGap = (steps) => steps.some((st) => 'gap' in st || (st.alt && st.alt.some(hasGap)));
+const HAS_GAP = new Set(PATTERNS.filter((p) => hasGap(p.steps)).map((p) => p.id));
 export const LEVELS = ['N5', 'N4', 'N3', 'N2', 'N1'];
 
 function test(value, want) {
@@ -145,10 +147,12 @@ export function findPatterns(tokens) {
       }
     }
   }
-  // Hide generic matches covered by a longer, more specific one.
+  // Hide generic matches covered by a longer, more specific one. Patterns with a gap
+  // don't hide anything: the words in the gap aren't part of them (あまり食べたくない
+  // still shows 〜たい).
   const kept = found.filter((m) => {
     if (!PATTERN_BY_ID.get(m.id).generic) return true;
-    return !found.some((o) => o !== m && o.start <= m.start && o.end >= m.end && o.end - o.start > m.end - m.start);
+    return !found.some((o) => o !== m && !HAS_GAP.has(o.id) && o.start <= m.start && o.end >= m.end && o.end - o.start > m.end - m.start);
   });
   return kept.sort((a, b) => a.start - b.start || b.end - a.end);
 }
