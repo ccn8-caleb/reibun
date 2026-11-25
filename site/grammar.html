@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>文法 | 例文 Reibun</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="例文">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('reibun_theme') === 'dark' ? 'dark' : 'light';</script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/pages/grammar.js"></script>
+</head>
+<body>
+
+  <header id="top-bar">
+    <div class="brand-group">
+      <img class="brand-badge" src="icon.svg" alt="">
+      <span class="brand-title" data-ja="例文" data-en="Reibun" data-tip-ja="文を分解して読み解く" data-tip-en="Break sentences down">例文</span>
+      <div id="nexus-hub-slot"></div>
+    </div>
+    <div id="nexus-hub-controls"></div>
+  </header>
+
+  <main class="page">
+    <section class="gr-filters">
+      <label class="search-field">
+        <span data-icon="search"></span>
+        <input type="search" id="gr-search" autocomplete="off" spellcheck="false"
+          data-placeholder-ja="文法を検索（〜ている、because…）" data-placeholder-en="Search grammar (〜ている, because…)">
+      </label>
+      <div class="toggle-group" id="gr-levels"></div>
+      <span class="bd-status" id="gr-status"></span>
+    </section>
+    <div id="gr-list"></div>
+  </main>
+
+</body>
+</html>

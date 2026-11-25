@@ -1,0 +1,20 @@
+{
+  "name": "例文 Reibun",
+  "short_name": "例文",
+  "description": "Break Japanese sentences down: words, phrases, roles, conjugations and grammar patterns.",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "文法 / Grammar", "url": "./grammar.html", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "例文帳 / Library", "url": "./library.html", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
