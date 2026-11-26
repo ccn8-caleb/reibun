@@ -7,7 +7,7 @@ import { t, tr } from '../core/prefs.js';
 import { KINDS, rubyParts } from '../engine/tokens.js';
 import { ROLES, CONNECTORS } from '../engine/roles.js';
 import { summarize } from '../engine/conjugation.js';
-import { PATTERN_BY_ID } from '../engine/patterns.js';
+import { PATTERN_BY_ID, visiblePatterns } from '../engine/patterns.js';
 
 export const posGroup = (tok) => KINDS[tok.kind]?.group || 'other';
 export const roleOf = (b) => ROLES[b.role] || ROLES.noun;
@@ -75,7 +75,7 @@ export function treeHtml(s) {
 }
 
 export function patternChipsHtml(s) {
-  if (!s.patterns.length) return `<span class="insp-empty">${t('この文では文法パターンが見つかりませんでした。', 'No grammar patterns found in this sentence.')}</span>`;
+  if (!patternIds(s).length) return `<span class="insp-empty">${t('この文では文法パターンが見つかりませんでした。', 'No grammar patterns found in this sentence.')}</span>`;
   return `<div class="pattern-row">${patternIds(s)
     .map((id) => {
       const p = PATTERN_BY_ID.get(id);
@@ -85,8 +85,8 @@ export function patternChipsHtml(s) {
     .join('')}</div>`;
 }
 
-// Distinct pattern ids in order of first appearance.
-export const patternIds = (s) => [...new Set(s.patterns.map((m) => m.id))];
+// Distinct pattern ids in order of first appearance (quiet basics left out).
+export const patternIds = (s) => [...new Set(visiblePatterns(s.patterns).map((m) => m.id))];
 
 // Mark every occurrence of pattern `id` (or clear with null) inside root.
 export function highlightTokens(root, s, id) {

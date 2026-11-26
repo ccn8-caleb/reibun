@@ -7,6 +7,25 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.1] — 2026-11-26 — Full JLPT grammar
+
+### Added
+- **Grammar** now covers the JLPT from N5 to N1: about 490 grammar points (up from
+  85), from the basic particles to written N1 phrases like や否や and をもって. Each
+  has an example sentence, and Breakdown finds them in your own sentences.
+- New groups on the Grammar page: basic forms, particles, giving and receiving,
+  time, contrast, emphasis, judgement and feeling, and formal / written style.
+- Breakdown leaves the most basic points (は, が, を, です, ます…) out of a
+  sentence's grammar chips so the interesting ones stand out. Tap a word to see
+  every pattern it belongs to.
+
+### Fixed
+- Several patterns fired where they shouldn't: 〜てはいけない on 心配でならない,
+  〜ようだ on 〜のような, honorific くださる on コーヒーをください, 〜たり on
+  たりとも, and others.
+- 〜始める／〜出す now also catches compound verbs the tokenizer keeps as one word
+  (降り出す).
+
 ## [0.2.0] — 2026-11-25 — Static rewrite
 
 Reibun is rebuilt as a static, zero-backend app in the same family as Kanji Nexus.

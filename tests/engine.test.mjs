@@ -3,18 +3,42 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { getTokenizer } from './tokenizer-node.mjs';
 import { analyzeText } from '../site/js/engine/analyze.js';
-import { PATTERNS } from '../site/js/engine/patterns.js';
+import { readFileSync } from 'node:fs';
+import { PATTERNS, PATTERN_BY_ID, GROUPS, LEVELS, visiblePatterns } from '../site/js/engine/patterns.js';
 import { rubyParts, splitSentences } from '../site/js/engine/tokens.js';
 
 const tokenizer = await getTokenizer();
 const analyze = async (text) => (await analyzeText(text, (s) => tokenizer.tokenize(s)))[0];
 const ids = (s) => s.patterns.map((p) => p.id);
+const patternIds = (s) => visiblePatterns(s.patterns).map((p) => p.id);
 
 for (const p of PATTERNS) {
   test(`pattern ${p.id}: ${p.ex}`, async () => {
     assert.ok(p.ex, `${p.id} has no example sentence`);
     const s = await analyze(p.ex);
     assert.ok(ids(s).includes(p.id), `expected ${p.id}, got [${ids(s).join(', ')}]`);
+  });
+}
+
+test('pattern ids are unique and groups exist', () => {
+  const seen = new Set();
+  for (const p of PATTERNS) {
+    assert.ok(!seen.has(p.id), `duplicate pattern id ${p.id}`);
+    seen.add(p.id);
+    assert.ok(GROUPS.some((g) => g.id === p.group), `${p.id}: unknown group ${p.group}`);
+    assert.ok(LEVELS.includes(p.level), `${p.id}: bad level ${p.level}`);
+  }
+});
+
+// The starter sentences (site/data/samples.json) must show the patterns they're there for.
+const samples = JSON.parse(readFileSync(new URL('../site/data/samples.json', import.meta.url), 'utf8'));
+for (const smp of samples) {
+  test(`sample ${smp.id} shows ${smp.focus.join(', ')}`, async () => {
+    const found = (await analyzeText(smp.ja, (x) => tokenizer.tokenize(x))).flatMap(patternIds);
+    for (const id of smp.focus) {
+      assert.ok(PATTERN_BY_ID.has(id), `${smp.id}: unknown pattern ${id}`);
+      assert.ok(found.includes(id), `${smp.id}: expected ${id}, got [${found.join(', ')}]`);
+    }
   });
 }
 
