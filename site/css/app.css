@@ -417,7 +417,7 @@ ruby rt {
   font-size: 12px;
 }
 
-/* Structure tree */
+/* Connection threads (inside the collapsible structure section) */
 details.structure > summary {
   cursor: pointer;
   list-style: none;
@@ -436,49 +436,196 @@ details.structure > summary::before {
 details.structure[open] > summary::before {
   transform: rotate(90deg);
 }
-.tree,
-.tree ul {
+/* Connection threads: rows of phrases, lines in the left gutter. */
+.threads {
+  position: relative;
+  margin-top: 10px;
+  --gutter: calc((var(--lanes) + 1) * 12px);
+}
+.threads-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.thread-rows {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 var(--gutter);
 }
-.tree {
-  margin-top: 10px;
-  font-size: 15px;
-}
-.tree ul {
-  margin-left: 14px;
-  padding-left: 14px;
-  border-left: 2px solid var(--border-color);
-}
-.tree li {
-  position: relative;
-  padding: 3px 0;
-}
-.tree ul > li::before {
-  content: '';
-  position: absolute;
-  left: -14px;
-  top: 15px;
-  width: 10px;
-  border-top: 2px solid var(--border-color);
-}
-.tree-node {
+.thread-row {
   --tone: var(--role-other);
-  display: inline-flex;
+  display: flex;
   align-items: baseline;
   gap: 8px;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
 }
-.tree-node:hover {
-  background: var(--bg-elevated);
-}
-.tree-node .tree-role {
+.thread-row:hover { background: var(--bg-elevated); }
+.thread-role {
   font-size: 11px;
   font-weight: 800;
   color: var(--tone);
+}
+.threads-svg path {
+  fill: none;
+  stroke: var(--tone);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+.threads.focused .thread-row:not(.lit) { opacity: 0.4; }
+.threads.focused .threads-svg path { opacity: 0.15; }
+.threads.focused .threads-svg path.lit { opacity: 1; stroke-width: 2.4; }
+.sentence-card.flash { box-shadow: 0 0 0 3px var(--accent-primary); }
+
+/* ================= LOGIC CHART ================= */
+:root {
+  --lg-addition: #2563eb;
+  --lg-example: #0284c7;
+  --lg-rephrase: #4f46e5;
+  --lg-contrast: #9333ea;
+  --lg-concession: #c026d3;
+  --lg-cause: #ea580c;
+  --lg-result: #b45309;
+  --lg-condition: #0d9488;
+  --lg-purpose: #059669;
+  --lg-conclusion: #dc2626;
+  --lg-sequence: #64748b;
+  --lg-topic: #475569;
+}
+[data-theme='dark'] {
+  --lg-addition: #60a5fa;
+  --lg-example: #38bdf8;
+  --lg-rephrase: #818cf8;
+  --lg-contrast: #c084fc;
+  --lg-concession: #e879f9;
+  --lg-cause: #fb923c;
+  --lg-result: #fbbf24;
+  --lg-condition: #2dd4bf;
+  --lg-purpose: #34d399;
+  --lg-conclusion: #f87171;
+  --lg-sequence: #94a3b8;
+  --lg-topic: #cbd5e1;
+}
+[data-logic='addition'] { --lg: var(--lg-addition); }
+[data-logic='example'] { --lg: var(--lg-example); }
+[data-logic='rephrase'] { --lg: var(--lg-rephrase); }
+[data-logic='contrast'] { --lg: var(--lg-contrast); }
+[data-logic='concession'] { --lg: var(--lg-concession); }
+[data-logic='cause'] { --lg: var(--lg-cause); }
+[data-logic='result'] { --lg: var(--lg-result); }
+[data-logic='condition'] { --lg: var(--lg-condition); }
+[data-logic='purpose'] { --lg: var(--lg-purpose); }
+[data-logic='conclusion'] { --lg: var(--lg-conclusion); }
+[data-logic='sequence'] { --lg: var(--lg-sequence); }
+[data-logic='topic'] { --lg: var(--lg-topic); }
+.logic-chart { display: flex; flex-direction: column; gap: 10px; }
+.logic-chart[hidden] { display: none; }
+.lc-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+.lc-step {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--lg, var(--text-muted));
+}
+.lc-step.plain {
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+}
+.lc-arrow, .lc-para { color: var(--text-muted); font-size: 13px; }
+.lc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lc-node { display: flex; flex-direction: column; gap: 4px; }
+.lc-edge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin-left: 14px;
+  padding: 6px 0 6px 16px;
+  border-left: 3px solid var(--lg, var(--border-color));
+}
+.lc-edge.plain { border-left-style: dotted; }
+.lc-link { font-weight: 700; color: var(--lg); }
+.lc-fn {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--lg);
+  padding: 0 7px;
+  border-radius: 4px;
+}
+.lc-hint { font-size: 12px; color: var(--text-muted); }
+.lc-box {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.lc-box:hover { border-color: var(--accent-primary); }
+.lc-num {
+  flex: none;
+  min-width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+}
+.lc-text { font-size: 15px; line-height: 1.6; }
+.lc-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin-left: 40px;
+}
+.lc-chip {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--lg);
+  border: 1px solid var(--lg);
+}
+.lc-break {
+  margin: 10px 0 4px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 /* ================= INSPECTOR ================= */
@@ -698,6 +845,7 @@ details.structure[open] > summary::before {
   border: 1px dashed var(--border-color);
 }
 .level-badge[data-level='extra'] { color: var(--text-muted); }
+.logic-badge[data-logic] { color: var(--lg); border-color: var(--lg); border-style: solid; background: transparent; }
 .gr-filters .search-field {
   flex: 1;
   min-width: 200px;
