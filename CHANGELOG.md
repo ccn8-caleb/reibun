@@ -7,6 +7,35 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.2] — 2026-11-26 — Highlighter, connection threads, logic chart
+
+### Added
+- **Logic flow** (Breakdown, 2+ sentences): a chart of how the text's argument moves.
+  A strip such as 起点 → 理由 → 例 → 結論, then each sentence as a step, with
+  the connective that opens it (しかし, なぜなら, したがって…) and its function on the
+  link, and the connectors inside the sentence (〜ので, 〜けど…). A blank line starts
+  a new paragraph. Tap a sentence to jump to it. Toggle with **論理の流れ**.
+- **Connection threads** replace the indented structure tree in each sentence card:
+  phrases top to bottom, with a coloured line from each to the phrase it attaches
+  to. Tap a phrase to light up its chain to the predicate and what hangs on it.
+  Opening or closing them applies to every card and is remembered.
+- Logic functions now have colours (shared by badges, the chart and filters).
+- **Highlighter** (蛍光ペン, `highlight.html`): read a passage with four pens:
+  topic/subject, predicate, connector and key point. Select words to mark them, and
+  tap a mark to erase it. **Check** grades each mark against Reibun's own analysis:
+  - right, close or not quite, with a reason (the particle was left off, the mark
+    covers too much, this is a linked clause's predicate and not the main one…);
+  - connectors are named with their logic function (cause, contrast…);
+  - a list of what Reibun would also have marked.
+  **Reibun's marks** shows its answer key as underlines. Key points aren't graded.
+  Four sample passages (N5–N2); the passage and marks are kept on this device.
+
+### Fixed
+- A linked clause (〜と, 〜ので, 〜て…) no longer attaches to a relative clause
+  inside the sentence: in 辞書を使うと、調べたい言葉…が目に入る, 使うと now links
+  to 入る, not 調べたい. Sentence-opening connectors (しかし…) link to the main
+  predicate.
+
 ## [0.2.1] — 2026-11-26 — Full JLPT grammar
 
 ### Added
