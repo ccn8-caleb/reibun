@@ -169,10 +169,12 @@ function isTime(b) {
 
 // Can chunk c take b as an argument? Any predicate except a modifier, with two
 // exceptions: a verb relative clause takes its own arguments (彼が [書いた] 手紙), and
-// an adverb can describe an adjective (とても [高い] 本).
+// an adverb can describe an adjective (とても [高い] 本). A linked clause never
+// attaches inside a relative clause: 辞書を使うと、[調べたい] 言葉…目に入る → 入る.
 function acceptsArgument(b, c) {
   if (!isPredicate(c)) return false;
   if (c.role !== 'modifier') return true;
+  if (b.role === 'clause') return false;
   return c.tokens[c.head]?.kind === 'verb' || b.role === 'adverbial';
 }
 
@@ -191,7 +193,8 @@ export function assignRoles(chunks) {
     if (b.role === 'predicate' && chunks.slice(k + 1).every((c) => c.role !== 'predicate' && c.role !== 'clause')) return;
     // は usually reaches past embedded clauses to the main predicate:
     // 私は [雨が降ったので] 家にいた → 私は … いた.
-    if ((b.role === 'topic' || b.roleInfo.topic) && root && root.id > k) {
+    // A sentence-opening connector (しかし, つまり…) links the whole sentence.
+    if ((b.role === 'topic' || b.roleInfo.topic || b.role === 'conjunction') && root && root.id > k) {
       b.dep = root.id;
       return;
     }

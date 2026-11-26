@@ -17,7 +17,8 @@ import { KINDS, POS_GROUPS } from '../engine/tokens.js';
 import { CONNECTORS } from '../engine/roles.js';
 import { CLASSES, FORMS, summarize } from '../engine/conjugation.js';
 import { PATTERN_BY_ID, LOGIC_BY_ID } from '../engine/patterns.js';
-import { sentenceLineHtml, skeletonHtml, treeHtml, patternChipsHtml, highlightTokens, rubyHtml, posGroup, roleOf, levelBadge, logicBadge } from './render.js';
+import { paragraphChart } from '../engine/discourse.js';
+import { sentenceLineHtml, skeletonHtml, threadsHtml, drawThreads, focusThreads, logicChartHtml, patternChipsHtml, highlightTokens, rubyHtml, posGroup, roleOf, levelBadge, logicBadge } from './render.js';
 
 const { store } = await initPage('breakdown');
 
@@ -36,7 +37,7 @@ let runSeq = 0;
 // ---------------------------------------------------------------------------
 // Display toggles
 // ---------------------------------------------------------------------------
-const view = { furigana: true, pos: true, roles: true };
+const view = { furigana: true, pos: true, roles: true, chart: true, threads: true };
 try {
   Object.assign(view, JSON.parse(localStorage.getItem(STORAGE_KEYS.VIEW) || '{}'));
 } catch (_) {}
@@ -50,6 +51,7 @@ function applyView() {
     b.setAttribute('aria-pressed', String(view[b.dataset.view]));
   });
   $('bd-legend').hidden = !view.pos;
+  renderChart();
 }
 
 document.querySelectorAll('[data-view]').forEach((b) =>
@@ -222,16 +224,56 @@ function render() {
           <div class="section-title">${esc(t('文法パターン', 'Grammar patterns'))}</div>
           ${patternChipsHtml(s)}
         </div>
-        <details class="structure">
-          <summary class="section-title">${esc(t('構造（どの語がどこにかかるか）', 'Structure (what modifies what)'))}</summary>
-          ${treeHtml(s)}
+        <details class="structure"${view.threads ? ' open' : ''}>
+          <summary class="section-title">${esc(t('つながり（どの語がどこにかかるか）', 'Connections (what attaches to what)'))}</summary>
+          ${threadsHtml(s)}
         </details>
       </article>`;
     })
     .join('');
+  drawThreads(output);
+  renderChart();
   applySelection();
   renderInspector();
 }
+
+// ---------------------------------------------------------------------------
+// Logic chart (two or more sentences) and connection threads
+// ---------------------------------------------------------------------------
+function renderChart() {
+  const chart = $('bd-chart');
+  const show = view.chart && results.length >= 2;
+  chart.hidden = !show;
+  if (!show) return;
+  chart.innerHTML = `<div class="section-title">${esc(t('論理の流れ', 'Logic flow'))}</div>${logicChartHtml(paragraphChart(results, input.value.trim()))}`;
+}
+$('bd-chart').addEventListener('click', (e) => {
+  const k = e.target.closest('[data-goto-s]')?.dataset.gotoS;
+  const card = k != null && output.querySelector(`.sentence-card[data-s="${k}"]`);
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  card.classList.add('flash');
+  setTimeout(() => card.classList.remove('flash'), 1200);
+});
+
+// Opening or closing a card's threads applies to every card and is remembered.
+output.addEventListener(
+  'toggle',
+  (e) => {
+    if (!e.target.matches?.('details.structure')) return;
+    if (view.threads !== e.target.open) {
+      view.threads = e.target.open;
+      try {
+        localStorage.setItem(STORAGE_KEYS.VIEW, JSON.stringify(view));
+      } catch (_) {}
+      output.querySelectorAll('details.structure').forEach((d) => (d.open = view.threads));
+    }
+    drawThreads(output);
+    applySelection();
+  },
+  true
+);
+new ResizeObserver(() => drawThreads(output)).observe(output);
 
 // ---------------------------------------------------------------------------
 // Selection & inspector
@@ -245,6 +287,7 @@ function select(next) {
 function applySelection() {
   output.querySelectorAll('.selected').forEach((el) => el.classList.remove('selected'));
   output.querySelectorAll('.tok.hl').forEach((el) => el.classList.remove('hl'));
+  focusThreads(output, null);
   if (!selection) return;
   const card = output.querySelector(`[data-s="${selection.s}"]`);
   if (!card) return;
@@ -253,6 +296,7 @@ function applySelection() {
     card.querySelector(`.tok[data-tok="${selection.index}"]`)?.classList.add('selected');
     const b = s.chunks.find((c) => c.tokens.some((x) => x.i === selection.index));
     if (b) card.querySelector(`.chunk[data-chunk="${b.id}"]`)?.classList.add('selected');
+    if (b) focusThreads(card, b.id);
   } else {
     card.querySelector(`.pattern-chip[data-pattern="${selection.id}"]`)?.classList.add('selected');
     highlightTokens(card, s, selection.id);

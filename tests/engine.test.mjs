@@ -6,7 +6,8 @@ import { analyzeText } from '../site/js/engine/analyze.js';
 import { readFileSync } from 'node:fs';
 import { PATTERNS, PATTERN_BY_ID, GROUPS, LEVELS, LOGIC_BY_ID, visiblePatterns } from '../site/js/engine/patterns.js';
 import { LOGIC_OF_PATTERN } from '../site/js/engine/grammar/logic.js';
-import { logicFlow } from '../site/js/engine/discourse.js';
+import { logicFlow, paragraphChart } from '../site/js/engine/discourse.js';
+import { threadEdges, arcDepths } from '../site/js/engine/threads.js';
 import { rubyParts, splitSentences } from '../site/js/engine/tokens.js';
 
 const tokenizer = await getTokenizer();
@@ -137,4 +138,37 @@ test('sentence splitting keeps offsets and closing quotes', () => {
   const parts = splitSentences(text);
   assert.deepEqual(parts.map((p) => p.text), ['「行こう。」', 'と言った。', '次の文！']);
   for (const p of parts) assert.equal(text.slice(p.offset, p.offset + p.text.length), p.text);
+});
+
+test('paragraph chart: openers, inner links and paragraphs', async () => {
+  const text = '最近、電車がよく遅れる。なぜなら、利用者が増えたからだ。\n\n雨が降ったので、家にいた。しかし、退屈だった。';
+  const chart = paragraphChart(await analyzeText(text, (x) => tokenizer.tokenize(x)), text);
+  assert.equal(chart.length, 4);
+  assert.equal(chart[0].opener, null);
+  assert.equal(chart[1].opener.logic, 'cause');
+  assert.equal(chart[1].opener.text, 'なぜなら');
+  assert.deepEqual(chart.map((c) => c.para), [0, 0, 1, 1]);
+  assert.ok(chart[2].inner.some((l) => l.logic === 'cause' && l.text === 'ので'));
+  assert.equal(chart[3].opener.logic, 'contrast');
+});
+
+test('thread edges and lanes', async () => {
+  const s = await analyze('私は昨日友達と新しい映画を見に行きました。');
+  const { rows, edges } = threadEdges(s.chunks);
+  assert.equal(rows.length, 7);
+  assert.equal(edges.length, 6); // every phrase but the predicate attaches somewhere
+  const depth = arcDepths(edges);
+  // 私は → 行きました spans everything, so it runs outermost.
+  const outer = edges.findIndex((e) => e.from === 0);
+  assert.equal(depth[outer], Math.max(...depth));
+  // 新しい → 映画を is adjacent: innermost lane.
+  assert.equal(depth[edges.findIndex((e) => e.from === 3)], 1);
+});
+
+test('linked clauses and connectors skip relative clauses to reach the main predicate', async () => {
+  const s = await analyze('しかし、紙の辞書を使うと、調べたい言葉の周りにある別の言葉も目に入る。');
+  const dep = (text) => s.chunks[s.chunks.find((b) => b.text.startsWith(text)).dep].text.replace(/[、。]/g, '');
+  assert.equal(dep('しかし'), '入る');
+  assert.equal(dep('使うと'), '入る');
+  assert.equal(dep('調べたい'), '言葉の'); // the relative clause still describes its noun
 });
