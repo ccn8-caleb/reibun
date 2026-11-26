@@ -303,6 +303,7 @@ export function openDataPanel() {
 function versionFooter() {
   return `<div class="app-version">Reibun ${versionLabel()} · <a href="${CHANGELOG_URL}" target="_blank" rel="noopener noreferrer">${t('変更履歴', 'Changelog')}</a>
     <br>${t('辞書データ', 'Dictionary data')}: <a href="https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project" target="_blank" rel="noopener noreferrer">JMdict</a> © <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener noreferrer">EDRDG, CC BY-SA 4.0</a>
+    <br>${t('例文', 'Example sentences')}: <a href="https://tatoeba.org" target="_blank" rel="noopener noreferrer">Tatoeba</a> (<a href="https://creativecommons.org/licenses/by/2.0/fr/" target="_blank" rel="noopener noreferrer">CC BY 2.0 FR</a>)
     <br>${t('形態素解析', 'Morphological analysis')}: <a href="https://github.com/takuyaa/kuromoji.js" target="_blank" rel="noopener noreferrer">kuromoji.js</a> (Apache-2.0) · IPADIC</div>`;
 }
 

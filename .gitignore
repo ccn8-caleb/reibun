@@ -3,5 +3,7 @@
 #   go run ./tools/reibun dict build <jmdict> …   JMdict shards
 site/kuromoji/
 site/dict/
+# Tatoeba exports and candidates for the sentence bank (go run ./tools/reibun tatoeba build)
+cache/
 
 .DS_Store
