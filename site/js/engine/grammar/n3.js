@@ -44,7 +44,7 @@ export default [
   P('nai-koto-wa-nai', 'N3', '〜ないことはない', 'It’s not that … not (= it is possible, sort of).', '二重否定（可能性はある）。', [T('ないことはない', 'ないこともない', 'なくはない', 'ないことはありません')], { group: 'modality', ex: '辛い料理も食べられないことはない。' }),
 
   // --- Conditions ----------------------------------------------------------------------------
-  P('to-shitara', 'N3', '〜としたら／とすれば', 'If (we suppose that) …', '仮定。', [T('としたら', 'とすれば', 'とすると', 'としても')], { group: 'condition', ex: '宝くじが当たったとしたら、何がしたいですか。' }),
+  P('to-shitara', 'N3', '〜としたら／とすれば', 'If (we suppose that) …', '仮定。', [T('としたら', 'とすれば', 'とすると')], { group: 'condition', ex: '宝くじが当たったとしたら、何がしたいですか。' }),
   P('sae-ba', 'N3', '〜さえ〜ば', 'As long as … / if only …', 'それだけで十分な条件。', [{ s: 'さえ' }, GAP(5), { alt: [[{ s: 'ば', p1: '接続助詞' }], [{ ctype: '特殊・タ', cform: '仮定形' }]] }], { group: 'condition', ex: '時間さえあれば、旅行に行きたい。' }),
   P('ba-hodo', 'N3', '〜ば〜ほど', 'The more …, the more …', '一方の変化に伴うもう一方の変化。', [{ s: 'ば', p1: '接続助詞' }, GAP(3), { s: 'ほど', pos: '助詞' }], { group: 'condition', ex: '練習すればするほど上手になる。' }),
   P('baai', 'N3', '〜場合', 'In the case of … / if …', '仮定の状況。', [{ s: '場合' }, { s: ['は', 'に', 'には', 'でも', 'も'], opt: true }], { group: 'condition', ex: '雨の場合は試合を中止します。' }),
@@ -94,9 +94,9 @@ export default [
   // --- Emphasis & examples -------------------------------------------------------------------
   P('bakari', 'N3', '〜ばかり', 'Nothing but / always doing; after た: just did.', '限定・直後。', [{ s: 'ばかり', pos: '助詞' }], { group: 'emphasis', generic: true, ex: '弟はゲームばかりしている。' }),
   P('sae', 'N3', '〜さえ', 'Even … (an extreme example).', '極端な例の強調。', [{ s: ['さえ', 'でさえ'] }], { group: 'emphasis', generic: true, ex: '忙しくて、水を飲む時間さえない。' }),
-  P('koso', 'N3', '〜こそ', 'It is precisely … (strong emphasis).', '強調（〜が一番）。', [{ s: 'こそ' }], { group: 'emphasis', ex: '今年こそ合格したい。' }),
+  P('koso', 'N3', '〜こそ', 'It is precisely … (strong emphasis).', '強調（〜が一番）。', [{ s: 'こそ' }], { group: 'emphasis', generic: true, ex: '今年こそ合格したい。' }),
   P('nante', 'N3', '〜なんて', 'Things like … (surprise or contempt).', '驚き・軽視。', [{ s: ['なんて', 'なんか'], pos: '助詞' }], { group: 'emphasis', ex: '彼が結婚するなんて信じられない。' }),
-  P('mono-da', 'N3', '〜ものだ', 'Used to … (nostalgia) / That’s how it is (general truth).', '回想・一般的な傾向。', [{ s: 'もの', p1: '非自立' }, { b: 'だ', pos: '助動詞', cform: ['基本形', '連用タ接続'] }], { group: 'attitude', ex: '昔はよくこの川で泳いだものだ。' }),
+  P('mono-da', 'N3', '〜ものだ', 'Used to … (nostalgia) / That’s how it is (general truth).', '回想・一般的な傾向。', [{ s: 'もの', p1: '非自立' }, { b: 'だ', pos: '助動詞', cform: ['基本形', '連用タ接続'] }], { group: 'attitude', generic: true, ex: '昔はよくこの川で泳いだものだ。' }),
   P('te-tamaranai', 'N3', '〜てたまらない', 'Unbearably … / dying to …', '感情・感覚が抑えられない。', [TE, T('たまらない', 'たまりません', 'たまらなかった')], { group: 'attitude', ex: '暑くてたまらない。' }),
   P('te-shou-ga-nai', 'N3', '〜てしょうがない', 'Extremely … (can’t help feeling it).', '感情が強くてどうしようもない。', [TE, T('しょうがない', 'しかたがない', '仕方がない', 'しようがない', '仕方ない', 'しかたない', 'しょうがありません', '仕方がありません')], { group: 'attitude', ex: '試験の結果が気になってしょうがない。' }),
 
@@ -107,8 +107,8 @@ export default [
   P('ni-kanshite', 'N3', '〜に関して', 'Regarding … (more formal than について).', '〜について（改まった言い方）。', [T('に関して', 'に関する', 'に関し', 'に関しては')], { group: 'quote', ex: 'この件に関して質問があります。' }),
 
   // --- Compound particles --------------------------------------------------------------------
-  P('ni-yotte', 'N3', '〜によって', 'By (agent of a passive) / depending on / by means of.', '動作主・手段・依存。', [T('によって', 'により', 'によっては', 'による'), { not: { s: ['と', 'ば'] } }], { group: 'phrases', ex: 'この絵はピカソによって描かれた。' }),
-  P('to-shite', 'N3', '〜として', 'As (a role or capacity).', '資格・立場。', [T('として', 'としては', 'としての', 'としても')], { group: 'phrases', ex: '通訳として働いている。' }),
+  P('ni-yotte', 'N3', '〜によって', 'By (agent of a passive) / depending on / by means of.', '動作主・手段・依存。', [T('によって', 'により', 'による'), { not: { s: ['と', 'ば', 'は'] } }], { group: 'phrases', ex: 'この絵はピカソによって描かれた。' }),
+  P('to-shite', 'N3', '〜として', 'As (a role or capacity).', '資格・立場。', [T('として', 'としては', 'としての'), { not: { s: 'も' } }], { group: 'phrases', before: { pos: '名詞' }, ex: '通訳として働いている。' }),
   P('ni-totte', 'N3', '〜にとって', 'For (from the point of view of).', '〜の立場から見ると。', [T('にとって', 'にとっては', 'にとっての')], { group: 'phrases', ex: '私にとって大切な人だ。' }),
   P('ni-taishite', 'N3', '〜に対して', 'Toward / against / in contrast to.', '対象・対比。', [T('に対して', 'に対し', 'に対する', 'に対しては')], { group: 'phrases', ex: '質問に対して答えた。' }),
   P('ni-kuwaete', 'N3', '〜に加えて', 'In addition to …', '〜に付け加えて。', [T('に加えて', 'に加え')], { group: 'phrases', ex: '雨に加えて風も強くなってきた。' }),

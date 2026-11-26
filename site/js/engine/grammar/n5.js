@@ -41,7 +41,7 @@ export default [
   P('kara-made', 'N5', '〜から〜まで', 'From … to / until …', '起点と終点。', [{ s: 'から', p1: '格助詞' }, GAP(4), { s: 'まで', pos: '助詞' }, { not: { s: 'に' } }], { group: 'particles', ex: '九時から五時まで働く。' }),
   P('kara-from', 'N5', '〜から（起点）', 'From (a starting point in place or time).', '起点。', [{ s: 'から', p1: '格助詞' }], { group: 'particles', quiet: true, generic: true, ex: '駅から歩いて来た。' }),
   P('made', 'N5', '〜まで', 'Until / up to / as far as.', '終点・限度。', [{ s: 'まで', pos: '助詞' }, { not: { s: 'に' } }], { group: 'particles', quiet: true, generic: true, ex: '駅まで歩いた。' }),
-  P('gurai', 'N5', '〜ぐらい／くらい', 'About (an amount); also "to the extent of".', 'おおよその量・程度。', [{ s: ['ぐらい', 'くらい'], pos: '助詞' }], { group: 'particles', ex: '駅まで十分ぐらいかかる。' }),
+  P('gurai', 'N5', '〜ぐらい／くらい', 'About (an amount); also "to the extent of".', 'おおよその量・程度。', [{ s: ['ぐらい', 'くらい'], pos: '助詞' }], { group: 'particles', generic: true, ex: '駅まで十分ぐらいかかる。' }),
   P('goro', 'N5', '〜ごろ', 'Around (a point in time).', 'おおよその時刻。', [{ s: ['ごろ', '頃'], p1: '接尾' }], { group: 'particles', ex: '三時ごろ行きます。' }),
   P('nado', 'N5', '〜など', 'And so on / things like …', '例示。', [{ s: ['など', 'なんか'], pos: '助詞' }], { group: 'particles', ex: 'ペンやノートなどを買った。' }),
   P('tachi', 'N5', '〜たち', 'Plural suffix for people (私たち, 学生たち).', '人の複数。', [{ s: ['たち', '達'], p1: '接尾' }], { group: 'particles', ex: '学生たちが教室に入ってきた。' }),
@@ -54,10 +54,10 @@ export default [
   P('naide-kudasai', 'N5', '〜ないでください', 'Please do not …', '丁寧な禁止の依頼。', [{ s: 'ない', ctype: '特殊・ナイ' }, { s: 'で', pos: '助詞' }, { b: 'くださる', cform: '命令ｉ' }], { group: 'aspect', ex: 'ここで写真を撮らないでください。' }),
   P('wo-kudasai', 'N5', '〜をください', 'Please give me … (asking for a thing).', '物を頼む。', [{ s: 'を', pos: '助詞' }, GAP(2), { b: 'くださる', p1: '自立', cform: '命令ｉ' }], { group: 'aspect', ex: 'コーヒーを二つください。' }),
   P('te-mo-ii', 'N5', '〜てもいい', 'Permission: it is OK to …', '許可。', [TE, { s: 'も' }, GOOD], { group: 'aspect', generic: true, ex: '写真を撮ってもいいです。' }),
-  P('te-wa-ikenai', 'N5', '〜てはいけない', 'Prohibition: must not …', '禁止。', [{ s: ['て', 'で', 'ちゃ', 'じゃ'], pos: '助詞' }, { s: 'は', opt: true }, { b: ['いける', 'なる', 'だめ', 'ダメ'] }, ...NEG_ANY], { group: 'aspect', generic: true, ex: 'ここで写真を撮ってはいけない。' }),
+  P('te-wa-ikenai', 'N5', '〜てはいけない', 'Prohibition: must not …', '禁止。', [{ alt: [[{ s: ['て', 'で'], pos: '助詞' }, { s: 'は' }], [{ s: ['ちゃ', 'じゃ'], pos: '助詞' }]] }, { alt: [[{ b: ['いける', 'なる'] }, ...NEG_ANY], [{ s: ['だめ', 'ダメ'] }]] }], { group: 'aspect', generic: true, ex: 'ここで写真を撮ってはいけない。' }),
 
   // --- Giving & receiving --------------------------------------------------------------------
-  P('giving-verbs', 'N5', 'あげる・もらう・くれる', 'Giving and receiving: give (あげる), receive (もらう), give to me (くれる).', '物のやりもらい。', [{ b: ['あげる', 'もらう', 'くれる', 'やる', 'さしあげる', '差し上げる', 'いただく', 'くださる'], pos: '動詞', p1: '自立', not: { b: 'くださる', cform: '命令ｉ' } }], { group: 'giving', ex: '友達に本をもらった。' }),
+  P('giving-verbs', 'N5', 'あげる・もらう・くれる', 'Giving and receiving: give (あげる), receive (もらう), give to me (くれる).', '物のやりもらい。', [{ b: ['あげる', 'もらう', 'くれる', 'さしあげる', '差し上げる', 'いただく', 'くださる'], pos: '動詞', p1: '自立', not: { b: 'くださる', cform: '命令ｉ' } }], { group: 'giving', ex: '友達に本をもらった。' }),
 
   // --- Wanting, intending, purpose ------------------------------------------------------------
   P('tai', 'N5', '〜たい', 'Want to do (your own desire).', '話し手の希望。', [{ ctype: '特殊・タイ' }], { group: 'intent', generic: true, ex: '水が飲みたい。' }),
@@ -67,7 +67,7 @@ export default [
   P('masen-ka', 'N5', '〜ませんか', "Invitation: won't you …? / shall we …?", '勧誘。', [{ ctype: '特殊・マス', cform: '未然形' }, { b: 'ん' }, { s: 'か' }], { group: 'intent', generic: true, ex: '映画を見に行きませんか。' }),
   P('tsumori', 'N5', '〜つもり', 'Intend to / plan to.', '意図・予定。', [{ s: 'つもり' }], { group: 'intent', ex: '明日行くつもりです。' }),
   P('ni-iku', 'N5', '〜に行く／来る', 'Go / come (somewhere) in order to do.', '移動の目的。', [STEM, { s: 'に', pos: '助詞' }, { b: ['行く', '来る', 'いく', 'くる', '帰る', '戻る', '出かける'] }], { group: 'intent', ex: '本を借りに行った。' }),
-  P('ni-suru', 'N5', '〜にする', 'Decide on / choose (コーヒーにする).', '選択・決定。', [{ pos: '名詞', p1: ['一般', '固有名詞', '代名詞', 'サ変接続', '副詞可能'], not: { s: ['こと', 'よう', 'の', 'ん'] } }, { s: 'に', p1: '格助詞' }, { b: 'する', pos: '動詞' }], { group: 'intent', generic: true, ex: '私はコーヒーにします。' }),
+  P('ni-suru', 'N5', '〜にする', 'Decide on / choose (コーヒーにする).', '選択・決定。', [{ pos: '名詞', p1: ['一般', '固有名詞', '代名詞', 'サ変接続', '副詞可能'], not: { s: ['こと', 'よう', 'の', 'ん'] } }, { s: 'に', p1: '格助詞' }, { b: 'する', pos: '動詞', not: { cform: '仮定形' } }, { not: { ctype: '特殊・タ', cform: '仮定形' } }], { group: 'intent', generic: true, ex: '私はコーヒーにします。' }),
   P('dou-desu-ka', 'N5', '〜はどうですか', 'How is …? / How about …? (asking or suggesting).', '様子を尋ねる・提案する。', [{ s: ['どう', 'いかが'] }, { b: ['です', 'でしょう'], pos: '助動詞' }, { s: 'か', opt: true }], { group: 'intent', generic: true, ex: '日本の生活はどうですか。' }),
 
   // --- Ability, obligation, permission -------------------------------------------------------
@@ -83,8 +83,8 @@ export default [
   P('toki', 'N5', '〜時', 'When … (at the time of).', '〜する／した時。', [{ s: ['時', 'とき'], pos: '名詞', p1: ['非自立', '副詞可能', '一般'] }], { group: 'time', ex: '子供の時、よく泳いだ。' }),
 
   // --- Reasons & contrast -------------------------------------------------------------------
-  P('kara-reason', 'N5', '〜から（理由）', 'Because … (speaker’s reason; can be subjective).', '理由。', [{ s: 'から', p1: '接続助詞' }], { group: 'reason', ex: '暑いから窓を開けた。' }),
-  P('kedo', 'N5', '〜けど／が', 'But / although (or a soft lead-in).', '逆接・前置き。', [{ s: ['けど', 'けれど', 'けれども', 'が'], p1: '接続助詞' }], { group: 'contrast', ex: '高いけど買いたい。' }),
+  P('kara-reason', 'N5', '〜から（理由）', 'Because … (speaker’s reason; can be subjective).', '理由。', [{ s: 'から', p1: '接続助詞' }], { group: 'reason', generic: true, ex: '暑いから窓を開けた。' }),
+  P('kedo', 'N5', '〜けど／が', 'But / although (or a soft lead-in).', '逆接・前置き。', [{ s: ['けど', 'けれど', 'けれども', 'が'], p1: '接続助詞' }], { group: 'contrast', generic: true, ex: '高いけど買いたい。' }),
 
   // --- Appearance, hearsay, probability ------------------------------------------------------
   P('deshou', 'N5', '〜でしょう／だろう', 'Probably … / … right?', '推量・確認。', [{ b: ['です', 'だ'], cform: /^未然/ }, { s: 'う' }], { group: 'evidential', ex: '明日は晴れるでしょう。' }),

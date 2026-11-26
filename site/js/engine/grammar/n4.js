@@ -33,9 +33,9 @@ export default [
   P('te-miru', 'N4', '〜てみる', 'Try doing something to see what it is like.', '試しにする。', [TE, { b: 'みる', p1: '非自立' }], { group: 'aspect', ex: '着てみてもいいですか。' }),
   P('te-iku', 'N4', '〜ていく', 'A change continuing from now on, or doing something and then going.', 'これから先へ続く変化、またはしてから行く。', [TE, { b: ['いく', '行く'], p1: '非自立' }], { group: 'aspect', ex: 'これから寒くなっていく。' }),
   P('te-kuru', 'N4', '〜てくる', 'A change up to now, or doing something and coming back.', '今までの変化、またはしてから来る。', [TE, { b: ['くる', '来る'], p1: '非自立' }], { group: 'aspect', ex: 'だんだん暖かくなってきた。' }),
-  P('ta-bakari', 'N4', '〜たばかり', 'Have just (done).', '動作の直後。', [PAST, { s: 'ばかり' }], { group: 'aspect', ex: '日本に来たばかりです。' }),
+  P('ta-bakari', 'N4', '〜たばかり', 'Have just (done).', '動作の直後。', [PAST, { s: 'ばかり' }], { group: 'aspect', generic: true, ex: '日本に来たばかりです。' }),
   P('naide', 'N4', '〜ないで', 'Without doing / instead of doing.', '〜しない状態で。', [{ s: 'ない', ctype: '特殊・ナイ' }, { s: 'で', p1: '接続助詞' }, { not: { b: ['くださる', 'ほしい', 'いる', 'おく', 'もらう', 'くれる', 'いただく', 'ある', 'しまう'] } }], { group: 'aspect', ex: '傘を持たないで出かけた。' }),
-  P('zuni', 'N4', '〜ずに', 'Without doing (more formal than ないで).', '〜しないで（書き言葉的）。', [{ s: 'ず', ctype: '特殊・ヌ' }, { s: 'に', pos: '助詞' }], { group: 'aspect', ex: '何も言わずに帰った。' }),
+  P('zuni', 'N4', '〜ずに', 'Without doing (more formal than ないで).', '〜しないで（書き言葉的）。', [{ s: 'ず', ctype: '特殊・ヌ' }, { s: 'に', pos: '助詞' }], { group: 'aspect', generic: true, ex: '何も言わずに帰った。' }),
   P('te-mo-kamawanai', 'N4', '〜てもかまわない', "It's fine to … / I don't mind if …", '許可・容認。', [TE, { s: 'も' }, { b: ['かまう', '構う'] }, ...NEG_ANY], { group: 'aspect', ex: 'ここに座ってもかまいません。' }),
 
   // --- Giving & receiving --------------------------------------------------------------------
@@ -75,10 +75,10 @@ export default [
   P('ba', 'N4', '〜ば', 'If (a general condition: if A, then B follows).', '仮定条件。', [{ s: 'ば', p1: '接続助詞' }], { group: 'condition', generic: true, ex: '安ければ買います。' }),
   P('tara', 'N4', '〜たら', 'If / when (once A has happened, B).', '仮定・確定条件。', [{ ctype: '特殊・タ', cform: '仮定形' }], { group: 'condition', generic: true, ex: '駅に着いたら電話してください。' }),
   P('to-conditional', 'N4', '〜と（条件）', 'Whenever / if (an automatic or habitual result).', '必然・習慣的な条件。', [DICT, { s: 'と', p1: '接続助詞' }], { group: 'condition', generic: true, ex: '春になると桜が咲く。' }),
-  P('nara', 'N4', '〜なら', 'If (it is the case that) … — reacting to a topic or situation.', '話題・前提を受けた条件。', [{ s: 'なら', ctype: '特殊・ダ' }], { group: 'condition', ex: '京都に行くなら秋がいい。' }),
+  P('nara', 'N4', '〜なら', 'If (it is the case that) … — reacting to a topic or situation.', '話題・前提を受けた条件。', [{ s: 'なら', ctype: '特殊・ダ' }], { group: 'condition', generic: true, ex: '京都に行くなら秋がいい。' }),
 
   // --- Time ----------------------------------------------------------------------------------
-  P('nagara', 'N4', '〜ながら', 'While doing (two actions at once, same subject).', '同時進行。', [{ s: 'ながら', pos: '助詞' }], { group: 'time', ex: '音楽を聞きながら勉強する。' }),
+  P('nagara', 'N4', '〜ながら', 'While doing (two actions at once, same subject).', '同時進行。', [{ s: 'ながら', pos: '助詞' }], { group: 'time', generic: true, ex: '音楽を聞きながら勉強する。' }),
   P('tokoro', 'N4', '〜ところ', 'Just about to (dict.) / in the middle of (ている) / just did (た).', '動作の段階（直前・最中・直後）。', [{ s: 'ところ', p1: '非自立' }, { ...COPULA, opt: true }], { group: 'time', generic: true, ex: '今出かけるところだ。' }),
   P('aida', 'N4', '〜間／〜間に', 'During / while (間: the whole time; 間に: at some point within it).', '期間（間：ずっと、間に：その期間内に）。', [{ s: ['間', 'あいだ'], p1: ['一般', '副詞可能', '非自立'] }, { s: 'に', opt: true }], { group: 'time', before: { pos: ['助詞', '動詞', '助動詞'], not: { s: ['が', 'を', 'は', 'も', 'に'] } }, ex: '母が寝ている間に掃除した。' }),
   P('tari', 'N4', '〜たり〜たりする', 'Doing things like A and B (an example list of actions).', '動作の例示。', [{ s: ['たり', 'だり'] }], { group: 'time', ex: '週末は掃除したり洗濯したりする。' }),
@@ -104,7 +104,7 @@ export default [
   // --- Ease, degree, compound verbs ----------------------------------------------------------
   P('yasui', 'N4', '〜やすい', 'Easy to do.', '〜するのが簡単。', [STEM, { b: 'やすい' }], { group: 'degree', ex: 'このペンは書きやすい。' }),
   P('nikui', 'N4', '〜にくい', 'Hard to do.', '〜するのが難しい。', [STEM, { b: ['にくい', 'づらい'] }], { group: 'degree', ex: 'この漢字は覚えにくい。' }),
-  P('sugiru', 'N4', '〜すぎる', 'Too much / excessively.', '程度が過ぎる。', [{ b: ['すぎる', '過ぎる'], pos: '動詞' }], { group: 'degree', ex: '昨日は食べすぎた。' }),
+  P('sugiru', 'N4', '〜すぎる', 'Too much / excessively.', '程度が過ぎる。', [{ b: ['すぎる', '過ぎる'], pos: '動詞' }], { group: 'degree', generic: true, ex: '昨日は食べすぎた。' }),
   P('hajimeru', 'N4', '〜始める／出す／終わる', 'Compound verb: start / burst out / finish doing.', '複合動詞（開始・終了）。', [{ alt: [[STEM, { b: ['始める', 'はじめる', '出す', '終わる', '終える', '続ける'] }], [{ pos: '動詞', b: /^.+[いきぎしちにびみりえけげせてねべめれ](始める|はじめる|終わる|終える|続ける|出す)$/, not: { b: ['思い出す', '取り出す', '引き出す', '呼び出す', '追い出す', '貸し出す', '持ち出す', '差し出す', '見出す', '作り出す', '生み出す', '抜け出す', '乗り出す', '言い出す'] } }]] }], { group: 'degree', ex: '雨が降り始めた。' }),
 
   // --- Comparison, limits, scope -------------------------------------------------------------
@@ -114,7 +114,7 @@ export default [
   P('nakanaka-nai', 'N4', 'なかなか〜ない', 'Just won’t … / not easily (it takes longer than expected).', '期待通りに進まない。', [{ s: 'なかなか' }, GAP(4), ...NEG_ANY], { group: 'limits', ex: 'バスがなかなか来ない。' }),
 
   // --- Quoting & topics ----------------------------------------------------------------------
-  P('to-iu', 'N4', '〜という', 'Called … / that says … (quoting or naming).', '名称・内容の引用。', [{ alt: [[{ s: ['と', 'って'], pos: '助詞' }, { b: ['いう', '言う'] }], [{ s: ['という', 'っていう', 'といった', 'といって'] }]] }], { group: 'quote', generic: true, ex: '山田という人が来た。' }),
+  P('to-iu', 'N4', '〜という', 'Called … / that says … (quoting or naming).', '名称・内容の引用。', [{ alt: [[{ s: ['と', 'って'], pos: '助詞' }, { b: ['いう', '言う'] }], [{ s: ['という', 'っていう', 'といって'] }]] }], { group: 'quote', generic: true, ex: '山田という人が来た。' }),
   P('to-omou', 'N4', '〜と思う', 'I think that …', '考えの引用。', [{ s: ['と', 'って'], pos: '助詞' }, { b: ['思う', 'おもう', '考える'] }], { group: 'quote', generic: true, ex: '明日は晴れると思う。' }),
   P('ka-dou-ka', 'N4', '〜かどうか', 'Whether or not …', '二者択一の不確かさ。', [{ s: 'か', pos: '助詞' }, { s: 'どう' }, { s: 'か', pos: '助詞' }], { group: 'quote', ex: '彼が来るかどうか分からない。' }),
   P('embedded-question', 'N4', '〜か（間接疑問）', 'A question inside a sentence: 何時に来るか知らない "I don’t know when he’ll come".', '文中の疑問（間接疑問）。', [PLAIN, { s: 'か', pos: '助詞' }, { s: ['を', 'は', 'が', 'も'], opt: true }, { b: ['知る', '分かる', 'わかる', '教える', '聞く', '覚える', '忘れる', '調べる', '考える', '決める', '尋ねる'] }], { group: 'quote', ex: '彼がどこに住んでいるか知っていますか。' }),
