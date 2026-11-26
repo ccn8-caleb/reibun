@@ -14,6 +14,7 @@ import { analyze, onTokenizerState, preloadTokenizer } from '../engine/tokenizer
 import { PATTERNS, PATTERN_BY_ID, LEVELS } from '../engine/patterns.js';
 import { splitSentences } from '../engine/tokens.js';
 import { makeStarQuestion, isRightOrder } from '../engine/star.js';
+import { DRILL_SENTENCES } from '../engine/grammar/drill.js';
 import { levelBadge, logicBadge } from './render.js';
 
 const { store } = await initPage('drill');
@@ -59,7 +60,7 @@ function chips(set, items, key, multi) {
 
 function renderSetup() {
   $('dr-sources').innerHTML = chips(settings.source, SOURCES, 'source', false);
-  $('dr-levels').innerHTML = chips(settings.levels, LEVELS.map((l) => ({ id: l, text: l === 'extra' ? esc(t('接続表現', 'Connectives')) : l })), 'level', true);
+  $('dr-levels').innerHTML = chips(settings.levels, LEVELS.filter((l) => l !== 'extra').map((l) => ({ id: l, text: l })), 'level', true);
   $('dr-modes').innerHTML = chips(settings.mode, MODES, 'mode', false);
   $('dr-levels-row').hidden = settings.source !== 'grammar';
   const n = settings.source === 'library' ? store.sentences.length : null;
@@ -98,7 +99,7 @@ async function loadPassages() {
 
 // Candidate sentences for the current source: [{ text, focus?, level? }]
 function candidates() {
-  if (settings.source === 'grammar') return PATTERNS.filter((p) => settings.levels.includes(p.level)).map((p) => ({ text: p.ex, focus: p.id, level: p.level }));
+  if (settings.source === 'grammar') return PATTERNS.filter((p) => settings.levels.includes(p.level) && DRILL_SENTENCES[p.id]).map((p) => ({ text: DRILL_SENTENCES[p.id], focus: p.id, level: p.level }));
   if (settings.source === 'library') return store.sentences.flatMap((s) => splitSentences(s.ja).map((x) => ({ text: x.text })));
   return passages.flatMap((p) => splitSentences(p.ja).map((x) => ({ text: x.text, level: p.level })));
 }

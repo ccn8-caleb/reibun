@@ -6,7 +6,8 @@
 //       before / after: the visible text around the blanks (commas inside the blanks are dropped)
 //       pieces: shuffled; order: piece ids in the right order; star: the ★ slot (0–3);
 //       answer: the id that goes in the ★ slot; focus: the pattern id the blanks cover
-//     → null when the sentence can't make a fair question (too short, repeated pieces)
+//     → null when the sentence can't make a fair question: too short to leave context
+//       on both sides of the blanks (as the exam always does), or repeated pieces
 
 import { PATTERN_BY_ID } from './patterns.js';
 
@@ -77,18 +78,19 @@ function units(sentence, fine) {
     }
     return c;
   };
-  // Aim for four pieces plus context; settle for exactly four pieces rather than strand
-  // a particle, and strand one only if four can't be made otherwise.
-  for (;;) {
-    const allowLone = out.length < SLOTS;
-    if (out.length >= SLOTS + 1) break;
-    let k = -1;
-    for (let j = 0; j < out.length; j++) if (cuts(out[j], allowLone).length && (k < 0 || out[j].end - out[j].start > out[k].end - out[k].start)) k = j;
-    if (k < 0) break;
-    const u = out[k];
-    const mid = (u.start + u.end) / 2;
-    const cut = cuts(u, allowLone).sort((x, y) => Math.abs(x - mid) - Math.abs(y - mid))[0];
-    out.splice(k, 1, { start: u.start, end: cut }, { start: cut, end: u.end });
+  // Aim for four pieces plus a phrase of context on each side; split a particle off its
+  // noun only if that's the only way to get there.
+  const NEED = SLOTS + 2;
+  for (const allowLone of [false, true]) {
+    while (out.length < NEED) {
+      let k = -1;
+      for (let j = 0; j < out.length; j++) if (cuts(out[j], allowLone).length && (k < 0 || out[j].end - out[j].start > out[k].end - out[k].start)) k = j;
+      if (k < 0) break;
+      const u = out[k];
+      const mid = (u.start + u.end) / 2;
+      const cut = cuts(u, allowLone).sort((x, y) => Math.abs(x - mid) - Math.abs(y - mid))[0];
+      out.splice(k, 1, { start: u.start, end: cut }, { start: cut, end: u.end });
+    }
   }
   return out;
 }
@@ -104,14 +106,15 @@ export function makeStarQuestion(sentence, { seed = hash(sentence.text), focus =
 
 function build(sentence, seed, focus, fine) {
   const us = units(sentence, fine);
-  if (us.length < SLOTS) return null;
+  if (us.length < SLOTS + 2) return null;
   const random = rng(seed);
   const tok = sentence.tokens;
   // Pattern matches worth centring on: the requested one, else any visible one.
   const matches = sentence.patterns.filter((m) => (focus ? m.id === focus : !PATTERN_BY_ID.get(m.id).quiet));
 
   let best = null;
-  for (let w = 0; w + SLOTS <= us.length; w++) {
+  // Blanks never start the sentence or end it: there is always context on both sides.
+  for (let w = 1; w + SLOTS < us.length; w++) {
     const win = us.slice(w, w + SLOTS);
     const a = win[0].start;
     // Trailing punctuation of the last piece stays visible after the blanks.
@@ -126,8 +129,7 @@ function build(sentence, seed, focus, fine) {
     const covered = matches.filter((m) => m.start >= a && m.end <= bEnd);
     if (focus && !covered.length) continue;
     let score = covered.length ? 4 : 0;
-    if (w > 0) score += 1; // some context before
-    if (w + SLOTS < us.length) score += 1; // and after
+    score += Math.min(w, 2) * 0.25 + Math.min(us.length - w - SLOTS, 2) * 0.25; // more context is better
     score -= tok.slice(a, bEnd).filter((t) => /^[、，,]$/.test(t.surface)).length * 0.5; // prefer no dropped commas
     score -= win.filter((u) => u.end - u.start === 1 && tok[u.start].pos === '助詞').length * 0.75; // and few lone particles
     score += random() * 0.5; // vary among equals

@@ -5,6 +5,7 @@ import { getTokenizer } from './tokenizer-node.mjs';
 import { analyzeText } from '../site/js/engine/analyze.js';
 import { PATTERNS } from '../site/js/engine/patterns.js';
 import { makeStarQuestion, isRightOrder } from '../site/js/engine/star.js';
+import { DRILL_SENTENCES, NO_DRILL } from '../site/js/engine/grammar/drill.js';
 
 const tokenizer = await getTokenizer();
 const analyze = async (text) => (await analyzeText(text, (x) => tokenizer.tokenize(x)))[0];
@@ -26,7 +27,7 @@ test('a question rebuilds its sentence and stars one slot', async () => {
 });
 
 test('same seed, same question; the blanks cover the focus pattern', async () => {
-  const s = await analyze('約束したのに、彼は来なかった。');
+  const s = await analyze('彼は来ると約束したのに、パーティーに来なかったので、みんな怒っています。');
   const a = makeStarQuestion(s, { seed: 7, focus: 'noni' });
   const b = makeStarQuestion(s, { seed: 7, focus: 'noni' });
   assert.deepEqual(a, b);
@@ -36,22 +37,28 @@ test('same seed, same question; the blanks cover the focus pattern', async () =>
 });
 
 test('no sentence end inside the blanks; too-short sentences give null', async () => {
-  const s = await analyze('雨が降っても、試合は行います。');
+  const s = await analyze('明日はたとえ雨が降っても、予定どおりに試合を行います。');
   const q = makeStarQuestion(s, { seed: 3 });
   for (const p of q.pieces) assert.ok(!/[。]/.test(p.text) && !/^[、]/.test(p.text), p.text);
   assert.equal(makeStarQuestion(await analyze('はい。')), null);
 });
 
-test('most grammar examples make a question that covers their pattern', async () => {
-  let made = 0;
+test('every drill sentence makes a question with context that covers its pattern', async () => {
   for (const p of PATTERNS) {
-    const s = await analyze(p.ex);
-    const q = makeStarQuestion(s, { focus: p.id });
-    if (!q) continue;
-    made++;
-    assert.equal(rebuild(q), plain(s.text), p.id);
-    assert.equal(new Set(q.pieces.map((x) => x.text)).size, 4, p.id);
+    if (p.quiet || p.level === 'extra' || NO_DRILL.has(p.id)) continue;
+    const text = DRILL_SENTENCES[p.id];
+    assert.ok(text, `${p.id} has no drill sentence`);
+    const ss = await analyzeText(text, (x) => tokenizer.tokenize(x));
+    assert.equal(ss.length, 1, `${p.id}: drill text must be one sentence`);
+    assert.ok(ss[0].patterns.some((m) => m.id === p.id), `${p.id}: drill sentence doesn't match: ${text}`);
+    const q = makeStarQuestion(ss[0], { focus: p.id, seed: 1 });
+    assert.ok(q, `${p.id}: no question from ${text}`);
+    assert.ok(q.before && q.after.replace(/[。！？]/g, ''), `${p.id}: no context`);
+    assert.equal(rebuild(q), plain(text), p.id);
   }
-  // Short examples can't always hold four pieces around their pattern.
-  assert.ok(made / PATTERNS.length > 0.9, `only ${made} of ${PATTERNS.length}`);
+  for (const id of Object.keys(DRILL_SENTENCES)) assert.ok(PATTERNS.some((p) => p.id === id), `drill sentence for unknown pattern ${id}`);
+});
+
+test('short sentences without room for context give no question', async () => {
+  assert.equal(makeStarQuestion(await analyze('雨が降っている。')), null);
 });

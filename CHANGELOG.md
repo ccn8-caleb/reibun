@@ -14,13 +14,23 @@ deploy also carries a build id (commit hash), shown next to the version in the a
   A sentence has four blanks, one marked ★, and four shuffled pieces.
   - **★のみ:** pick the piece for ★, as in the exam.
   - **全部並べる:** put all four in order. Tap a filled slot to take a piece back.
-  - **Questions from:** the grammar examples (choose levels, with the grammar point
-    shown after each answer), your Library, or the sample passages.
+  - **Questions from:** about 470 drill sentences, one per grammar point at N5–N1
+    (choose levels, with the grammar point shown after each answer), your Library,
+    or the sample passages.
+  - Like the exam, the blanks always have context before and after them. Each drill
+    sentence is longer than the Grammar page example and puts the point mid-sentence.
   - Ten per round, with the full sentence and a link to Breakdown after each
     answer, a score at the end, and a retry of the ones you missed. Keys 1–4 pick
     a piece, and Enter goes on.
 - Pieces follow natural boundaries: whole phrases where possible, never inside an
   inflection (降っ|て), and the blanks centre on the grammar point being practised.
+
+### Fixed
+- 〜て形 (shown only on tap) no longer hides the pattern inside it: ほめられて shows
+  受身 again, and 食べすぎて shows 〜すぎる.
+- Patterns that only matched right before 。 now also match mid-sentence:
+  〜一方だと, 〜ものかと, 〜ことか、, 〜とは、, 〜に限ると, 〜もんと.
+- 〜ばかりで, 〜には及びません and 〜といったところだろう are now recognised.
 
 ## [0.2.2] — 2026-11-26 — Highlighter, connection threads, logic chart
 
