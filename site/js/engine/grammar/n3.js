@@ -25,7 +25,7 @@ export default [
   // --- te-form & aspect ------------------------------------------------------------------
   P('tokoro-datta', 'N3', '〜ところだった', 'Almost … (but it didn’t happen).', 'もう少しで〜しそうだった。', [{ s: 'ところ', p1: '非自立' }, { b: 'だ', cform: '連用タ接続' }, PAST], { group: 'aspect', ex: 'もう少しで遅刻するところだった。' }),
   P('you-to-suru', 'N3', '〜ようとする', 'Try to … / be about to …', '試み・直前。', [{ pos: '動詞', cform: /^未然/, opt: true }, { b: ['う', 'よう'], pos: '助動詞' }, { s: 'と' }, { b: 'する', pos: '動詞' }], { group: 'aspect', ex: '家を出ようとしたとき、電話が鳴った。' }),
-  P('te-hajimete', 'N3', '〜てはじめて', 'Only after … (did I realize / do).', '〜して初めて分かる・する。', [TE, { s: ['はじめて', '初めて'] }], { group: 'aspect', ex: '日本に来てはじめて寿司を食べた。' }),
+  P('te-hajimete', 'N3', '〜てはじめて', 'Only after … (did I realize / do).', '〜して初めて分かる・する。', [TE, { s: ['はじめて', '初めて'] }], { group: 'aspect', generic: true, ex: '日本に来てはじめて寿司を食べた。' }),
   P('te-kara-denai-to', 'N3', '〜てからでないと', 'Not until … / only after …', '〜した後でなければ。', [TE, T('からでないと', 'からでなければ', 'からじゃないと')], { group: 'aspect', ex: '宿題をしてからでないと遊べない。' }),
   P('kiru', 'N3', '〜切る／〜切れない', 'Do completely (使い切る) / can’t finish (食べ切れない).', '完全に〜する／〜しきれない。', [COMPOUND(/^.+(切る|切れる|きる|きれる)$/, ['切る', '切れる', 'きる', 'きれる'], ['生きる', '起きる', '飽きる', '尽きる', '出来る', 'できる', '着る', '大きい'])], { group: 'degree', ex: 'お金を全部使い切った。' }),
   P('kakeru', 'N3', '〜かける／〜かけ', 'Half-done / start to (読みかけの本).', '途中まで〜する。', [COMPOUND(/^.+(かける|かけ)$/, ['かける'], ['出かける', '見かける', '腰かける', '話しかける', '呼びかける', '働きかける', '問いかける', '追いかける', '押しかける', '出掛ける', '見掛ける'])], { group: 'degree', ex: '本を読みかけたまま寝てしまった。' }),
@@ -39,7 +39,7 @@ export default [
   P('koto-da', 'N3', '〜ことだ（助言）', 'You should … (advice: the best thing is to …).', '助言・忠告。', [{ pos: '動詞', cform: '基本形' }, { s: 'こと' }, { b: 'だ', pos: '助動詞', cform: '基本形' }, { not: { s: ['から', 'ろう', 'し'] } }], { group: 'modality', ex: '困ったときは先生に相談することだ。' }),
   P('koto-wa-nai', 'N3', '〜ことはない', 'There’s no need to …', '必要がない。', [{ pos: '動詞', cform: '基本形', opt: true }, { s: 'こと' }, { s: 'は' }, { b: 'ない' }], { group: 'modality', generic: true, ex: 'そんなに心配することはない。' }),
   P('shika-nai-must', 'N3', '〜しかない', 'Have no choice but to …', 'それ以外に方法がない。', [{ pos: '動詞', cform: '基本形' }, { s: 'しか' }, { alt: [[{ b: 'ない' }], [{ b: 'ある' }, { ctype: '特殊・マス' }, { b: 'ん' }]] }], { group: 'modality', ex: '終電がないので、歩いて帰るしかない。' }),
-  P('beki', 'N3', '〜べき', 'Should / ought to (a duty or what is right).', '当然・義務。', [{ b: 'べし' }], { group: 'modality', ex: '約束は守るべきだ。' }),
+  P('beki', 'N3', '〜べき', 'Should / ought to (a duty or what is right).', '当然・義務。', [{ b: 'べし', not: { s: ['べく', 'べから', 'べからず', 'べからざる'] } }], { group: 'modality', generic: true, ex: '約束は守るべきだ。' }),
   P('wake-ni-wa-ikanai', 'N3', '〜わけにはいかない', 'Can’t (very well) … (for social or moral reasons).', '事情があって〜できない。', [T('わけにはいか', 'わけにもいか', 'わけにはいきませ', 'わけにはいけ'), { gap: 1 }, ...NEG_ANY], { group: 'modality', ex: '大事な会議なので、休むわけにはいかない。' }),
   P('nai-koto-wa-nai', 'N3', '〜ないことはない', 'It’s not that … not (= it is possible, sort of).', '二重否定（可能性はある）。', [T('ないことはない', 'ないこともない', 'なくはない', 'ないことはありません')], { group: 'modality', ex: '辛い料理も食べられないことはない。' }),
 
@@ -101,7 +101,7 @@ export default [
   P('te-shou-ga-nai', 'N3', '〜てしょうがない', 'Extremely … (can’t help feeling it).', '感情が強くてどうしようもない。', [TE, T('しょうがない', 'しかたがない', '仕方がない', 'しようがない', '仕方ない', 'しかたない', 'しょうがありません', '仕方がありません')], { group: 'attitude', ex: '試験の結果が気になってしょうがない。' }),
 
   // --- Quoting & topics ----------------------------------------------------------------------
-  P('to-ieba', 'N3', '〜といえば／というと', 'Speaking of … / when it comes to …', '話題の提示。', [T('といえば', 'と言えば', 'というと', 'と言うと', 'といったら', 'と言ったら')], { group: 'quote', ex: '日本といえば、富士山だ。' }),
+  P('to-ieba', 'N3', '〜といえば／というと', 'Speaking of … / when it comes to …', '話題の提示。', [T('といえば', 'と言えば', 'というと', 'と言うと', 'といったら', 'と言ったら')], { group: 'quote', generic: true, ex: '日本といえば、富士山だ。' }),
   P('to-iu-yori', 'N3', '〜というより', 'Rather than … (it’s more that …)', '別の言い方の方が適切。', [T('というより', 'と言うより', 'というよりは')], { group: 'quote', ex: '彼は友達というより家族のような存在だ。' }),
   P('to-iu-no-wa', 'N3', '〜というのは', '(What we call) … is … / The reason is …', '定義・説明の提示。', [T('というのは', 'っていうのは', 'と言うのは')], { group: 'quote', ex: '「積ん読」というのは、本を買っても読まないことだ。' }),
   P('ni-kanshite', 'N3', '〜に関して', 'Regarding … (more formal than について).', '〜について（改まった言い方）。', [T('に関して', 'に関する', 'に関し', 'に関しては')], { group: 'quote', ex: 'この件に関して質問があります。' }),

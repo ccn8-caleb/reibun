@@ -11,7 +11,7 @@ const Tx = (...base) =>
 
 export default [
   // --- Basic forms ---------------------------------------------------------------------
-  P('mai', 'N2', '〜まい', 'Will not … / probably not … (written negative volitional).', '否定の意志・推量（書き言葉）。', [{ b: 'まい', pos: '助動詞' }], { group: 'basics', ex: 'もう二度と行くまいと思った。' }),
+  P('mai', 'N2', '〜まい', 'Will not … / probably not … (written negative volitional).', '否定の意志・推量（書き言葉）。', [{ b: 'まい', pos: '助動詞' }], { group: 'basics', generic: true, ex: 'もう二度と行くまいと思った。' }),
   P('buri', 'N2', '〜ぶり', 'For the first time in … (三年ぶり) / manner of (話しぶり).', '時間の経過・様子。', [{ s: ['ぶり', '振り', 'っぷり'], p1: '接尾' }], { group: 'basics', ex: '三年ぶりに国へ帰った。' }),
   P('ge', 'N2', '〜げ', '-looking: seeming to feel … (寂しげ, 楽しげ).', '〜そうな様子。', [{ s: /^.+げ$/, pos: '名詞', p1: ['一般', '形容動詞語幹'], not: { s: ['ひげ', 'おかげ', 'お陰げ', 'とげ', 'まつげ', 'かげ', '影げ'] } }, { s: ['な', 'に', 'だ'] }], { group: 'basics', ex: '彼女は寂しげな顔をしていた。' }),
   P('gimi', 'N2', '〜気味', 'A touch of … / slightly … (風邪気味).', '少し〜の傾向がある。', [{ s: ['気味', 'ぎみ'], p1: '接尾' }], { group: 'basics', ex: '最近、少し風邪気味だ。' }),
@@ -92,7 +92,7 @@ export default [
   P('mono-da-kara', 'N2', '〜ものだから', 'Because … (excuse or explanation).', '理由・言い訳。', [T('ものだから', 'もんだから', 'ものですから', 'もので'), { not: { s: ['は', 'も', 'す', 'ござい'] } }], { group: 'reason', ex: '道が混んでいたものだから、遅れてしまった。' }),
   P('koto-kara', 'N2', '〜ことから', 'From the fact that … / because …', '〜という事実から判断して。', [T('ことから')], { group: 'reason', ex: '富士山が見えることから、この町は富士見町と呼ばれる。' }),
   P('koto-da-kara', 'N2', '〜ことだから', 'Knowing (him / her), … (judging by character).', '〜の性格から考えると。', [T('ことだから', 'ことですから')], { group: 'reason', ex: 'まじめな彼のことだから、きっと時間通りに来るだろう。' }),
-  P('bakari-ni', 'N2', '〜ばかりに', 'Just because … (a regrettable result).', 'それだけが原因で（悪い結果）。', [{ ...PAST, opt: true }, T('ばかりに')], { group: 'reason', ex: '一言多かったばかりに、彼女を怒らせてしまった。' }),
+  P('bakari-ni', 'N2', '〜ばかりに', 'Just because … (a regrettable result).', 'それだけが原因で（悪い結果）。', [{ ...PAST, opt: true }, T('ばかりに')], { group: 'reason', generic: true, ex: '一言多かったばかりに、彼女を怒らせてしまった。' }),
   P('kara-koso', 'N2', '〜からこそ', 'Precisely because …', 'まさに〜だから。', [T('からこそ')], { group: 'reason', ex: 'あなたのことを思うからこそ、厳しく言うのだ。' }),
   P('dake-atte', 'N2', '〜だけあって', 'As you’d expect of … (praise).', '〜にふさわしく。', [T('だけあって', 'だけのことはある', 'だけのことはあって', 'だけある')], { group: 'reason', ex: 'プロだけあって、料理が本当にうまい。' }),
   P('dake-ni', 'N2', '〜だけに', 'Precisely because … (all the more).', '〜なので、なおさら。', [T('だけに'), { not: { pos: '名詞' } }], { group: 'reason', ex: '期待していただけに、がっかりした。' }),
@@ -104,13 +104,13 @@ export default [
   P('ni-kakawarazu', 'N2', '〜にかかわらず', 'Regardless of …', '〜に関係なく。', [T('にかかわらず', 'に関わらず', 'に拘らず', 'に拘わらず')], { group: 'contrast', ex: '年齢にかかわらず、誰でも参加できる。' }),
   P('wo-towazu', 'N2', '〜を問わず', 'Regardless of … / no matter …', '〜に関係なく。', [T('を問わず', 'をとわず', 'は問わず', 'は問いません')], { group: 'contrast', ex: 'この仕事は経験を問わず応募できる。' }),
   P('mono-no', 'N2', '〜ものの', 'Although … (but in fact).', '〜けれども（書き言葉）。', [{ pos: ['動詞', '形容詞', '助動詞'], cform: '基本形' }, T('ものの')], { group: 'contrast', ex: '車の免許は取ったものの、ほとんど運転していない。' }),
-  P('nagara-mo', 'N2', '〜ながらも', 'Although … / while …', '〜けれども。', [T('ながらも', 'ながら')], { group: 'contrast', before: { not: { pos: '動詞', cform: '連用形' } }, ex: '狭いながらも、楽しい我が家だ。' }),
+  P('nagara-mo', 'N2', '〜ながらも', 'Although … / while …', '〜けれども。', [T('ながらも', 'ながら')], { group: 'contrast', generic: true, before: { not: { pos: '動詞', cform: '連用形' } }, ex: '狭いながらも、楽しい我が家だ。' }),
   P('hanmen', 'N2', '〜反面', 'On the other hand … (two sides of the same thing).', '一つの物事の別の面。', [T('反面', '半面')], { group: 'contrast', ex: 'この薬はよく効く反面、副作用も強い。' }),
   P('ippou-de', 'N2', '〜一方（で）', 'While … / on the other hand …', '対比・並行。', [{ pos: ['動詞', '形容詞', '助動詞'], cform: '基本形', opt: true }, T('一方で', '一方では', '一方、', 'いっぽうで')], { group: 'contrast', ex: '彼は仕事をする一方で、大学にも通っている。' }),
   P('dokoro-ka', 'N2', '〜どころか', 'Far from … (actually the opposite).', '〜はもちろん、反対に。', [T('どころか')], { group: 'contrast', ex: '雨はやむどころか、ますます強くなった。' }),
   P('dokoro-dewa-nai', 'N2', '〜どころではない', 'This is no time for … / out of the question.', '〜する余裕などない。', [T('どころではない', 'どころじゃない', 'どころではありません', 'どころではなかった')], { group: 'contrast', ex: '忙しくて、旅行どころではない。' }),
   P('ni-hanshite', 'N2', '〜に反して', 'Contrary to …', '〜とは反対に。', [T('に反して', 'に反し', 'に反する', 'に反した')], { group: 'contrast', ex: '予想に反して、試合に負けた。' }),
-  P('ni-shite-wa', 'N2', '〜にしては', 'For … (it’s surprisingly …).', '〜から予想されるのと違って。', [T('にしては')], { group: 'contrast', ex: '初めてにしては、上手にできた。' }),
+  P('ni-shite-wa', 'N2', '〜にしては', 'For … (it’s surprisingly …).', '〜から予想されるのと違って。', [{ pos: '名詞', opt: true }, T('にしては')], { group: 'contrast', ex: '初めてにしては、上手にできた。' }),
   P('wa-tomokaku', 'N2', '〜はともかく', 'Setting … aside / regardless of …', '〜は問題にしないで。', [T('はともかく', 'はともかくとして', 'はさておき')], { group: 'contrast', ex: '値段はともかく、デザインがいい。' }),
   P('mo-kamawazu', 'N2', '〜もかまわず', 'Without caring about …', '〜を気にしないで。', [T('もかまわず', 'も構わず')], { group: 'contrast', ex: '彼は人目もかまわず泣いた。' }),
 
@@ -123,12 +123,12 @@ export default [
   P('yara', 'N2', '〜やら〜やら', 'What with … and … (a messy list).', 'いろいろな物事の列挙。', [{ s: 'やら' }, GAP(4), { s: 'やら' }], { group: 'limits', ex: '引っ越しの準備やら仕事やらで忙しい。' }),
   P('hodo-wa-nai', 'N2', '〜ほど〜はない', 'Nothing is as … as …', '〜が最高だ。', [{ s: 'ほど', pos: '助詞' }, GAP(4), { s: ['は', 'も'] }, { b: 'ない' }], { group: 'limits', ex: '健康ほど大切なものはない。' }),
   P('wa-mochiron', 'N2', '〜はもちろん', 'Not to mention … / … of course, and also …', '〜は当然として、さらに。', [T('はもちろん', 'はもちろんのこと', 'はもとより')], { group: 'limits', ex: 'この店は味はもちろん、サービスもいい。' }),
-  P('to-itta', 'N2', '〜といった', 'Such as … (listing examples).', '例の列挙。', [T('といった', 'などといった'), { not: { pos: ['記号', '助詞', '助動詞', '動詞'] } }], { group: 'limits', ex: '京都や奈良といった古い町が好きだ。' }),
+  P('to-itta', 'N2', '〜といった', 'Such as … (listing examples).', '例の列挙。', [T('といった', 'などといった'), { not: { pos: ['記号', '助詞', '助動詞', '動詞'] } }], { group: 'limits', generic: true, ex: '京都や奈良といった古い町が好きだ。' }),
   P('wo-hajime', 'N2', '〜をはじめ', 'Starting with … / including …', '代表例を挙げて、他にも。', [T('をはじめとして', 'をはじめとする', 'をはじめ', 'を始め'), { not: { pos: ['助動詞', '助詞', '動詞'] } }], { group: 'limits', ex: '社長をはじめ、社員全員が参加した。' }),
 
   // --- Quoting & topics ----------------------------------------------------------------------
   P('to-ittemo', 'N2', '〜といっても', 'Although (I say) … — it’s only …', '〜と言っても実際は。', [T('といっても', 'と言っても', 'とはいえ', 'とはいっても')], { group: 'quote', ex: '料理ができるといっても、簡単なものだけです。' }),
-  P('ni-shitara', 'N2', '〜にしたら／にすれば', 'From the standpoint of …', '〜の立場から考えると。', [T('にしたら', 'にすれば', 'にしてみれば', 'にしてみたら')], { group: 'quote', ex: '子供にしたら、親の話は退屈だろう。' }),
+  P('ni-shitara', 'N2', '〜にしたら／にすれば', 'From the standpoint of …', '〜の立場から考えると。', [{ pos: '名詞', opt: true }, T('にしたら', 'にすれば', 'にしてみれば', 'にしてみたら')], { group: 'quote', ex: '子供にしたら、親の話は退屈だろう。' }),
   P('kara-suru-to', 'N2', '〜からすると', 'Judging from … / from the standpoint of …', '〜から判断すると。', [T('からすると', 'からすれば', 'から見ると', 'から見れば', 'から見て', 'からいうと', 'から言うと', 'から言えば')], { group: 'quote', ex: '彼の話し方からすると、関西の人だろう。' }),
   P('kara-shite', 'N2', '〜からして', 'Even (just) … / starting with …', '〜一つを取ってもそうだ。', [T('からして')], { group: 'quote', ex: 'この店は、店員の態度からして気に入らない。' }),
   P('wo-megutte', 'N2', '〜をめぐって', 'Concerning / over (a dispute or debate).', '〜を中心とする議論・対立。', [T('をめぐって', 'を巡って', 'をめぐる', 'を巡る', 'をめぐり')], { group: 'quote', ex: '新しい空港の建設をめぐって、意見が分かれている。' }),
@@ -146,7 +146,7 @@ export default [
   P('ni-tomonatte', 'N2', '〜に伴って', 'Along with … / as … (changes).', '〜と一緒に変化する。', [T('に伴って', 'に伴い', 'に伴う', 'にともなって', 'にともない')], { group: 'phrases', ex: '人口の増加に伴って、住宅が不足している。' }),
   P('ni-kotaete', 'N2', '〜にこたえて', 'In response to (requests, expectations).', '〜に応じて。', [T('にこたえて', 'に応えて', 'に応え', 'に応える')], { group: 'phrases', ex: 'ファンの声援にこたえて、選手は手を振った。' }),
   P('ni-mukete', 'N2', '〜に向けて', 'Toward (a goal) …', '目標に向かって。', [T('に向けて', 'に向けた', 'に向け')], { group: 'phrases', ex: '試験に向けて、毎日勉強している。' }),
-  P('ni-tsuki', 'N2', '〜につき', 'Due to … (notices) / per …', '〜のため（掲示）・〜ごとに。', [T('につき'), { not: { pos: '動詞' } }], { group: 'phrases', ex: '工事中につき、通行できません。' }),
+  P('ni-tsuki', 'N2', '〜につき', 'Due to … (notices) / per …', '〜のため（掲示）・〜ごとに。', [T('につき'), { not: { pos: ['動詞', '助動詞'] } }], { group: 'phrases', ex: '工事中につき、通行できません。' }),
   P('no-moto-de', 'N2', '〜のもとで', 'Under (guidance, conditions).', '〜の影響・指導の下で。', [T('のもとで', 'の下で', 'のもとに', 'の下に'), { not: { pos: '動詞', b: ['寝る', '待つ', '休む', '座る', '置く', 'ある', 'いる'] } }], { group: 'phrases', ex: '先生のもとで研究を続けている。' }),
   P('nuki-de', 'N2', '〜抜きで', 'Without … / leaving out …', '〜を除いて。', [T('抜きで', 'ぬきで', '抜きに', 'ぬきに', 'を抜きにして', 'をぬきにして', '抜きには', '抜きの')], { group: 'phrases', ex: '冗談は抜きで、真剣に話そう。' }),
 ];

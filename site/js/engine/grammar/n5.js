@@ -67,7 +67,7 @@ export default [
   P('masen-ka', 'N5', '〜ませんか', "Invitation: won't you …? / shall we …?", '勧誘。', [{ ctype: '特殊・マス', cform: '未然形' }, { b: 'ん' }, { s: 'か' }], { group: 'intent', generic: true, ex: '映画を見に行きませんか。' }),
   P('tsumori', 'N5', '〜つもり', 'Intend to / plan to.', '意図・予定。', [{ s: 'つもり' }], { group: 'intent', ex: '明日行くつもりです。' }),
   P('ni-iku', 'N5', '〜に行く／来る', 'Go / come (somewhere) in order to do.', '移動の目的。', [STEM, { s: 'に', pos: '助詞' }, { b: ['行く', '来る', 'いく', 'くる', '帰る', '戻る', '出かける'] }], { group: 'intent', ex: '本を借りに行った。' }),
-  P('ni-suru', 'N5', '〜にする', 'Decide on / choose (コーヒーにする).', '選択・決定。', [{ pos: '名詞', p1: ['一般', '固有名詞', '代名詞', 'サ変接続', '副詞可能'], not: { s: ['こと', 'よう', 'の', 'ん'] } }, { s: 'に', p1: '格助詞' }, { b: 'する', pos: '動詞', not: { cform: '仮定形' } }, { not: { ctype: '特殊・タ', cform: '仮定形' } }], { group: 'intent', generic: true, ex: '私はコーヒーにします。' }),
+  P('ni-suru', 'N5', '〜にする', 'Decide on / choose (コーヒーにする).', '選択・決定。', [{ pos: '名詞', p1: ['一般', '固有名詞', '代名詞', 'サ変接続', '副詞可能'], not: { s: ['こと', 'よう', 'の', 'ん', '気', '耳', '目', '口', '手', '大事', '大切', '別', '馬鹿', 'バカ', '一緒'] } }, { s: 'に', p1: '格助詞' }, { b: 'する', pos: '動詞', not: { cform: '仮定形' } }, { not: { ctype: '特殊・タ', cform: '仮定形' } }], { group: 'intent', generic: true, ex: '私はコーヒーにします。' }),
   P('dou-desu-ka', 'N5', '〜はどうですか', 'How is …? / How about …? (asking or suggesting).', '様子を尋ねる・提案する。', [{ s: ['どう', 'いかが'] }, { b: ['です', 'でしょう'], pos: '助動詞' }, { s: 'か', opt: true }], { group: 'intent', generic: true, ex: '日本の生活はどうですか。' }),
 
   // --- Ability, obligation, permission -------------------------------------------------------
