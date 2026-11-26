@@ -1,6 +1,7 @@
 // ★ drill (JLPT 文法 ② 並べ替え): four shuffled pieces fill four blanks; pick the one
 // for the ★ slot (★のみ), or put all four in order (全部並べる). Questions come from the
-// grammar examples (by level), the Library, or the sample passages, and are built by
+// drill sentences (by level), Tatoeba (by level; site/data/bank), the Library, or the
+// sample passages, and are built by
 // engine/star.js. Ten per round; misses can be retried.
 
 import { initPage } from '../core/hub.js';
@@ -24,6 +25,7 @@ const ROUND = 10;
 
 const SOURCES = [
   { id: 'grammar', ja: '文法の例文', en: 'Grammar examples' },
+  { id: 'tatoeba', ja: 'Tatoeba', en: 'Tatoeba' },
   { id: 'library', ja: '例文帳', en: 'Library' },
   { id: 'passages', ja: '例の文章', en: 'Sample passages' },
 ];
@@ -44,7 +46,24 @@ const saveSettings = () => {
 
 // Round state
 let round = null; // { questions: [q], i, results: [bool], picked: [ids] , answered }
+
+// The round in progress survives leaving the page (Open in Breakdown, a grammar link,
+// a reload) and coming back: it lives in sessionStorage, so it belongs to this tab.
+function saveRound() {
+  try {
+    if (round) sessionStorage.setItem(STORAGE_KEYS.DRILL_ROUND, JSON.stringify(round));
+    else sessionStorage.removeItem(STORAGE_KEYS.DRILL_ROUND);
+  } catch (_) {}
+}
+function loadRound() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEYS.DRILL_ROUND) || 'null');
+    if (saved && Array.isArray(saved.questions) && saved.questions.length && Number.isInteger(saved.i)) return saved;
+  } catch (_) {}
+  return null;
+}
 let passages = [];
+const bank = new Map(); // level → items from data/bank/<level>.json
 
 // ---------------------------------------------------------------------------
 // Setup
@@ -62,7 +81,8 @@ function renderSetup() {
   $('dr-sources').innerHTML = chips(settings.source, SOURCES, 'source', false);
   $('dr-levels').innerHTML = chips(settings.levels, LEVELS.filter((l) => l !== 'extra').map((l) => ({ id: l, text: l })), 'level', true);
   $('dr-modes').innerHTML = chips(settings.mode, MODES, 'mode', false);
-  $('dr-levels-row').hidden = settings.source !== 'grammar';
+  $('dr-levels-row').hidden = !['grammar', 'tatoeba'].includes(settings.source);
+  $('dr-credit').hidden = settings.source !== 'tatoeba';
   const n = settings.source === 'library' ? store.sentences.length : null;
   $('dr-status').textContent = n === 0 ? t('例文帳が空です。文の分析で文を保存してください。', 'Your Library is empty. Save sentences from Breakdown first.') : '';
 }
@@ -97,8 +117,26 @@ async function loadPassages() {
   }
 }
 
-// Candidate sentences for the current source: [{ text, focus?, level? }]
-function candidates() {
+// Tatoeba sentences for a level (fetched once).
+async function bankLevel(level) {
+  if (!bank.has(level)) {
+    try {
+      const res = await fetch(`data/bank/${level.toLowerCase()}.json?v=${BUILD}`);
+      bank.set(level, res.ok ? (await res.json()).items : []);
+    } catch (_) {
+      bank.set(level, []);
+    }
+  }
+  return bank.get(level);
+}
+
+// Candidate sentences for the current source: [{ text, focus?, level?, en?, t? }]
+async function candidates() {
+  if (settings.source === 'tatoeba') {
+    const levels = settings.levels.filter((l) => l !== 'extra');
+    const lists = await Promise.all(levels.map(async (l) => (await bankLevel(l)).map((x) => ({ text: x.ja, focus: x.p, level: l, en: x.en, t: x.t, by: x.by }))));
+    return lists.flat();
+  }
   if (settings.source === 'grammar') return PATTERNS.filter((p) => settings.levels.includes(p.level) && DRILL_SENTENCES[p.id]).map((p) => ({ text: DRILL_SENTENCES[p.id], focus: p.id, level: p.level }));
   if (settings.source === 'library') return store.sentences.flatMap((s) => splitSentences(s.ja).map((x) => ({ text: x.text })));
   return passages.flatMap((p) => splitSentences(p.ja).map((x) => ({ text: x.text, level: p.level })));
@@ -124,7 +162,7 @@ async function startRound(pool) {
       seen.add(c.text);
       const [s] = await analyze(c.text);
       const q = s && makeStarQuestion(s, { seed: (Math.random() * 2 ** 32) >>> 0, focus: c.focus || null });
-      if (q) questions.push({ ...q, level: c.level || null, focus: q.focus || c.focus || null });
+      if (q) questions.push({ ...q, level: c.level || null, focus: q.focus || c.focus || null, en: c.en || null, t: c.t || null, by: c.by || null });
     }
   } catch (err) {
     $('dr-status').textContent = t('問題を作れませんでした: ', 'Could not make questions: ') + err.message;
@@ -143,7 +181,7 @@ async function startRound(pool) {
   renderQuestion();
 }
 
-$('dr-start').addEventListener('click', () => startRound(shuffle(candidates())));
+$('dr-start').addEventListener('click', async () => startRound(shuffle(await candidates())));
 $('dr-start').addEventListener('pointerenter', preloadTokenizer, { once: true });
 
 // ---------------------------------------------------------------------------
@@ -151,7 +189,7 @@ $('dr-start').addEventListener('pointerenter', preloadTokenizer, { once: true })
 // ---------------------------------------------------------------------------
 const pieceText = (q, id) => q.pieces.find((p) => p.id === id).text;
 
-function slotsHtml(q, filled, reveal) {
+function slotsHtml(q, filled, reveal, right) {
   return q.order
     .map((_, n) => {
       const id = reveal ? q.order[n] : filled[n];
@@ -159,13 +197,14 @@ function slotsHtml(q, filled, reveal) {
       const cls = ['dr-slot'];
       if (star) cls.push('star');
       if (id) cls.push('filled');
-      if (reveal && filled.length && filled[n] !== undefined) cls.push(pieceText(q, filled[n]) === pieceText(q, q.order[n]) ? 'right' : 'wrong');
+      if (reveal && filled.length && filled[n] !== undefined) cls.push(right || pieceText(q, filled[n]) === pieceText(q, q.order[n]) ? 'right' : 'wrong');
       return `<button type="button" class="${cls.join(' ')}" data-slot="${n}" ${reveal || !id ? 'tabindex="-1"' : ''}>${star ? '<span class="dr-star">★</span>' : ''}${id ? `<span class="dr-slot-text" lang="ja">${esc(pieceText(q, id))}</span>` : ''}</button>`;
     })
     .join('');
 }
 
 function renderQuestion() {
+  saveRound();
   const box = $('dr-question');
   if (round.i >= round.questions.length) return renderSummary();
   const q = round.questions[round.i];
@@ -187,11 +226,15 @@ function renderQuestion() {
 
   const prompt = order ? t('四つを正しい順に並べてください。', 'Put the four pieces in order.') : t('★に入るものはどれですか。', 'Which piece goes in ★?');
   const verdict = done
-    ? `<div class="dr-verdict ${right ? 'right' : 'wrong'}">${icon(right ? 'check' : 'close')}${esc(right ? t('正解！', 'Correct!') : t('不正解', 'Not quite'))}</div>`
+    ? `<div class="dr-verdict ${right ? 'right' : 'wrong'}">${icon(right ? 'check' : 'close')}${esc(right ? t('正解！', 'Correct!') : t('不正解', 'Not quite'))}</div>${
+        right && order && round.picked.some((id, n) => id !== q.order[n]) ? `<p class="muted">${esc(t('この順番でも正しい文になります。元の文は下のとおりです。', 'That order works too. The original sentence is below.'))}</p>` : ''
+      }`
     : '';
   const explain = done
     ? `<div class="dr-explain">
         <div class="dr-full" lang="ja">${esc(q.before)}${q.order.map((id, n) => `<span class="dr-full-piece${n === q.star ? ' star' : ''}">${esc(pieceText(q, id))}</span>`).join('')}${esc(q.after)}</div>
+        ${q.en ? `<p class="dr-en">${esc(q.en)}</p>` : ''}
+        ${q.t ? `<p class="dr-source"><a href="https://tatoeba.org/sentences/show/${q.t}" target="_blank" rel="noopener noreferrer">Tatoeba #${q.t}</a>${q.by ? ` · ${esc(t(`作成: ${q.by}`, `by ${q.by}`))}` : ''} · CC BY 2.0 FR</p>` : ''}
         ${p ? `<a class="pattern-chip" href="grammar.html#${esc(p.id)}">${levelBadge(p.level)}<span lang="ja">${esc(p.label)}</span>${logicBadge(p)}</a><p class="muted">${esc(t(p.ja, p.en))}</p>` : ''}
         <div class="dr-next-row">
           <a class="tb-btn" href="index.html?s=${encodeURIComponent(q.text)}">${icon('breakdown')}${esc(t('文の分析で開く', 'Open in Breakdown'))}</a>
@@ -210,7 +253,7 @@ function renderQuestion() {
       <button type="button" class="icon-btn small" id="dr-quit" aria-label="${esc(t('やめる', 'Quit'))}" title="${esc(t('やめる', 'Quit'))}">${icon('close')}</button>
     </div>
     <p class="dr-prompt">${esc(prompt)}</p>
-    <div class="dr-sentence" lang="ja">${esc(q.before)}<span class="dr-slots">${slotsHtml(q, order ? round.picked : [], done)}</span>${esc(q.after)}</div>
+    <div class="dr-sentence" lang="ja">${esc(q.before)}<span class="dr-slots">${slotsHtml(q, order ? round.picked : [], done, right)}</span>${esc(q.after)}</div>
     <div class="dr-pieces">${pieces}</div>
     ${canCheck ? `<button type="button" class="tb-btn primary" id="dr-check">${icon('check')}${esc(t('チェック', 'Check'))}</button>` : ''}
     ${verdict}${explain}`;
@@ -226,8 +269,8 @@ function answer(right) {
 $('dr-question').addEventListener('click', (e) => {
   if (!round) return;
   if (e.target.closest('#dr-quit')) return quit();
-  if (e.target.closest('#dr-again')) return startRound(shuffle(candidates()));
-  if (e.target.closest('#dr-retry')) return startRound(round.questions.filter((_, n) => !round.results[n]).map((q) => ({ text: q.text, focus: q.focus, level: q.level })));
+  if (e.target.closest('#dr-again')) return candidates().then((c) => startRound(shuffle(c)));
+  if (e.target.closest('#dr-retry')) return startRound(round.questions.filter((_, n) => !round.results[n]).map((q) => ({ text: q.text, focus: q.focus, level: q.level, en: q.en, t: q.t, by: q.by })));
   if (e.target.closest('#dr-setup-btn')) return quit();
   if (e.target.closest('#dr-next')) return next();
   if (round.i >= round.questions.length) return;
@@ -263,6 +306,7 @@ function next() {
 
 function quit() {
   round = null;
+  saveRound();
   $('dr-question').hidden = true;
   $('dr-setup').hidden = false;
   renderSetup();
@@ -311,4 +355,11 @@ store.onChange(() => !round && renderSetup());
 
 renderSetup();
 hydrateIcons(document.body);
+// Back from Breakdown or Grammar (or a reload): pick up where the round left off.
+round = loadRound();
+if (round) {
+  $('dr-setup').hidden = true;
+  $('dr-question').hidden = false;
+  renderQuestion();
+}
 loadPassages();

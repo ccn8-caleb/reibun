@@ -16,7 +16,9 @@ the same change belongs in Kanji Nexus too.
   live in `grammar/logic.js`; connectives carry theirs inline and use `initial`.
   After changes, run unrelated sentences through the matcher and look for false
   positives, not just the examples.
-- Tooling is Go (`tools/reibun`), stdlib only. Run `gofmt` and `go vet`.
+- Tooling is Go (`tools/reibun`), stdlib only. Run `gofmt` and `go vet`. Exception:
+  `tools/bank/build.mjs` is Node because it needs the JS matcher; `reibun tatoeba build`
+  runs it. Rebuild the bank (site/data/bank) after matcher changes if the bank test fails.
 - `site/js/vendor/kuromoji.js` is vendored with one patch marked `[reibun patch]`.
 - Versioning: patch bump per release (0.2.1, 0.2.2, …) in `site/js/core/version.js`
   plus a `## [x.y.z]` entry in CHANGELOG.md (CI enforces). Minor bumps only when the
