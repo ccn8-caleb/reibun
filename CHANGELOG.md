@@ -7,6 +7,33 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.4] — 2026-11-26 — Tatoeba sentence bank
+
+### Added
+- **Tatoeba sentences in the ★ drill:** about 2,800 real example sentences from
+  [Tatoeba](https://tatoeba.org) (CC BY 2.0 FR), each written by a native speaker
+  of Japanese and tagged with the grammar point it practises (N5–N1). After each
+  answer you see the English translation and a link to the sentence on Tatoeba
+  with its author. The credit is on the drill page and in the app's About line.
+- `go run ./tools/reibun tatoeba build` downloads the weekly Tatoeba exports and
+  rebuilds the bank. It keeps sentences by native speakers whose origin is known,
+  with an English translation and a sensible length, then keeps only those that
+  make a fair ★ question for a grammar point (at most 20 per point).
+
+### Changed
+- **★ questions have one right answer.** Japanese word order is free: phrases like
+  家で and 何も can swap. The ★ now goes only where every valid order puts the
+  same piece. In 全部並べる, any valid order counts as right. Pieces are never a
+  bare particle (が, を).
+
+### Fixed
+- Many grammar points no longer fire on look-alike words (found by running
+  thousands of Tatoeba sentences through the matcher). For example: お下げ is not
+  〜げ, わめく is not 〜めく, 椅子の下で is not 〜のもとで, 目を通して is not
+  〜を通じて, 風に当たって is not 〜にあたって, 楽しみにしている is not 〜にする,
+  私のようになりたい is not 〜ようになる, 友達の間に (between) is not 〜間に
+  (during), and が最後のひとつ is not 〜が最後.
+
 ## [0.2.3] — 2026-11-26 — ★ drill
 
 ### Added

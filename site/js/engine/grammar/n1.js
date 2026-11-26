@@ -4,11 +4,11 @@ import { TE, NEG_ANY, PAST, STEM, T, GAP, P } from './common.js';
 
 const PLAIN = { pos: ['動詞', '形容詞', '助動詞'], cform: '基本形' };
 const ENDS = { s: ['。', '！', '？', '!', '?', '」', '…', '、'] };
-const NUM = { pos: '名詞', p1: ['数', '接尾'] };
+const NUM = { alt: [[{ pos: '名詞', p1: '数' }], [{ pos: '名詞', p1: '接尾', p2: '助数詞' }]] };
 
 export default [
   // --- Basic forms ---------------------------------------------------------------------
-  P('meku', 'N1', '〜めく', 'Show signs of … / -ish (春めく, 皮肉めいた).', '〜らしくなる・〜のように見える。', [{ pos: '動詞', b: /^.+めく$/ }], { group: 'basics', ex: '日差しが春めいてきた。' }),
+  P('meku', 'N1', '〜めく', 'Show signs of … / -ish (春めく, 皮肉めいた).', '〜らしくなる・〜のように見える。', [{ pos: '動詞', b: /^.+めく$/, not: { b: ['わめく', 'ひらめく', '閃く', 'うごめく', '蠢く', 'ときめく', 'きらめく', '煌めく', 'ざわめく', 'どよめく', 'よろめく', 'ひしめく', '犇めく', 'はためく', 'うめく', '呻く', 'めく', 'おめく'] } }], { group: 'basics', ex: '日差しが春めいてきた。' }),
   P('gotoki', 'N1', '〜ごとき／ごとく', 'Like … / such as … (literary).', '〜のような（書き言葉）。', [{ b: ['ごとし', '如し'] }], { group: 'basics', ex: '彼のごとき人物は珍しい。' }),
   P('taru', 'N1', '〜たる', 'Who is (in the position of) … — as befits a …', '〜という立場にある。', [{ s: 'たる', pos: '助動詞' }, { s: ['もの', '者'], opt: true }], { group: 'basics', before: { pos: '名詞' }, ex: '教師たるもの、生徒の手本でなければならない。' }),
   P('mamire', 'N1', '〜まみれ', 'Covered all over in … (dirt, blood, sweat).', '全体に〜が付いている。', [{ alt: [[T('まみれ')], [{ s: /^.+まみれ$/, pos: '名詞' }]] }], { group: 'basics', ex: '子供たちは泥まみれになって遊んだ。' }),
@@ -17,11 +17,11 @@ export default [
   P('tsu-tsu', 'N1', '〜つ〜つ', 'Alternately …ing and …ing (持ちつ持たれつ).', '二つの動作が交互に。', [STEM, { s: 'つ', pos: '助動詞' }, GAP(2), { s: 'つ', pos: '助動詞' }], { group: 'basics', ex: '近所の人とは持ちつ持たれつの関係だ。' }),
 
   // --- Particles -----------------------------------------------------------------------
-  P('sura', 'N1', '〜すら', 'Even … (written: さえ).', '〜さえ（書き言葉）。', [{ s: ['すら', 'ですら'] }], { group: 'emphasis', ex: '疲れて、名前すら書けない。' }),
+  P('sura', 'N1', '〜すら', 'Even … (written: さえ).', '〜さえ（書き言葉）。', [{ s: ['すら', 'ですら'], pos: '助詞' }, { not: { s: /^すら/ } }], { group: 'emphasis', before: { not: { s: /すら$/ } }, ex: '疲れて、名前すら書けない。' }),
   P('dani', 'N1', '〜だに', 'Even (just) … (literary).', '〜するだけでも。', [{ s: 'だに' }], { group: 'emphasis', ex: '事故のことは想像するだに恐ろしい。' }),
   P('tari-tomo', 'N1', '〜たりとも', 'Not even one … (with a negative).', '〜も（〜ない）。', [T('たりとも')], { group: 'emphasis', ex: '一円たりとも無駄にできない。' }),
   P('nari-tomo', 'N1', '〜なりとも', 'At least / even a little …', '少しでも。', [T('なりとも')], { group: 'emphasis', ex: '少しなりともお役に立てれば幸いです。' }),
-  P('tote', 'N1', '〜とて', 'Even … (is no exception).', '〜でも（例外ではない）。', [{ alt: [[T('とて')], [T('だって')]] }, { not: { pos: ['動詞', '助動詞'] } }], { group: 'emphasis', generic: true, before: { pos: '名詞' }, ex: '私とて、失敗することはある。' }),
+  P('tote', 'N1', '〜とて', 'Even … (is no exception).', '〜でも（例外ではない）。', [T('とて'), { not: { pos: ['動詞', '助動詞'] } }], { group: 'emphasis', generic: true, before: { pos: '名詞' }, ex: '私とて、失敗することはある。' }),
   P('koso-are', 'N1', '〜こそあれ／こそすれ', 'Even if (it is …), never … / only …', '〜ことはあっても（〜ない）。', [T('こそあれ', 'こそすれ')], { group: 'emphasis', ex: '感謝こそすれ、恨むことなどない。' }),
   P('nomi', 'N1', '〜のみ', 'Only … (written: だけ).', '〜だけ（書き言葉）。', [{ s: 'のみ', pos: '助詞' }, { not: { s: ['なら'] } }], { group: 'limits', ex: '合格者のみ面接を受けられる。' }),
   P('nomi-narazu', 'N1', '〜のみならず', 'Not only … (but also).', '〜だけでなく（書き言葉）。', [T('のみならず')], { group: 'limits', ex: '彼は国内のみならず、海外でも有名だ。' }),
@@ -38,11 +38,11 @@ export default [
   P('wo-keiki-ni', 'N1', '〜を契機に', 'Taking … as an opportunity (formal).', '〜をきっかけに（書き言葉）。', [T('を契機に', 'を契機として', 'を契機にして')], { group: 'time', ex: '入院を契機に、生活を見直した。' }),
   P('ni-itatte', 'N1', '〜に至って／に至るまで', 'Only when it came to … / (all the way) down to …', '〜という段階になって・〜まで。', [T('に至って', 'に至っては', 'に至るまで', 'に至る', 'に至り', 'にいたって', 'にいたるまで')], { group: 'time', ex: '事故が起きるに至って、ようやく対策が取られた。' }),
   P('ni-shite', 'N1', '〜にして', 'Only at … (年齢・段階) / at the same time …', '〜という段階で初めて。', [T('にして'), { s: ['初めて', 'はじめて', 'ようやく', 'やっと', 'すでに', '既に'] }], { group: 'time', ex: '四十歳にして初めて結婚した。' }),
-  P('ga-saigo', 'N1', '〜が最後', 'Once … (there’s no going back).', '〜したら、もう終わり。', [T('が最後', 'たら最後', 'だら最後')], { group: 'condition', ex: 'この本は読み始めたが最後、やめられない。' }),
+  P('ga-saigo', 'N1', '〜が最後', 'Once … (there’s no going back).', '〜したら、もう終わり。', [{ alt: [[{ pos: '助動詞', ctype: '特殊・タ', cform: '基本形' }, T('が最後')], [{ pos: '助動詞', ctype: '特殊・タ', cform: '仮定形' }, T('最後')]] }], { group: 'condition', ex: 'この本は読み始めたが最後、やめられない。' }),
 
   // --- Conditions ----------------------------------------------------------------------------
-  P('ou-ga', 'N1', '〜（よ）うが／うと', 'No matter (what / how) … — even if …', '〜しても関係ない。', [{ pos: '動詞', cform: /^未然/, opt: true }, { b: ['う', 'よう'], pos: '助動詞' }, { s: ['が', 'と'], pos: '助詞' }, { s: '、' }], { group: 'condition', ex: '何を言われようが、気にしない。' }),
-  P('de-are', 'N1', '〜であれ', 'Whether it be … / even if it is …', '〜でも（関係なく）。', [T('であれ', 'であろうと', 'であろうが')], { group: 'condition', ex: 'どんな理由であれ、遅刻は許されない。' }),
+  P('ou-ga', 'N1', '〜（よ）うが／うと', 'No matter (what / how) … — even if …', '〜しても関係ない。', [{ pos: '動詞', cform: /^未然/, opt: true }, { b: ['う', 'よう'], pos: '助動詞' }, { s: 'が', pos: '助詞' }, { s: '、' }], { group: 'condition', ex: '何を言われようが、気にしない。' }),
+  P('de-are', 'N1', '〜であれ', 'Whether it be … / even if it is …', '〜でも（関係なく）。', [T('であれ', 'であろうと', 'であろうが'), { not: { s: 'ば' } }], { group: 'condition', ex: 'どんな理由であれ、遅刻は許されない。' }),
   P('to-areba', 'N1', '〜とあれば', 'If it’s (for) … (then I’ll do anything).', '〜という事情なら。', [T('とあれば', 'とあらば')], { group: 'condition', ex: '子供のためとあれば、親は何でもする。' }),
   P('naku-shite-wa', 'N1', '〜なくしては／なしには', 'Without … (it would be impossible).', '〜がなければ。', [T('なくしては', 'なくして', 'なしには', 'なしに', 'なしでは')], { group: 'condition', generic: true, ex: '皆さんの協力なくしては、成功できなかった。' }),
   P('koto-nashi-ni', 'N1', '〜ことなしに', 'Without …ing.', '〜しないで。', [T('ことなしに', 'ことなしには', 'ことなく')], { group: 'condition', ex: '努力することなしに、成功はない。' }),
@@ -64,7 +64,7 @@ export default [
   // --- Contrast & concession ------------------------------------------------------------------
   P('to-iedomo', 'N1', '〜といえども', 'Even though … / even (a …).', '〜であっても。', [T('といえども', 'と言えども')], { group: 'contrast', ex: '子供といえども、ルールは守らなければならない。' }),
   P('to-omoikiya', 'N1', '〜と思いきや', 'I thought … but (unexpectedly) …', '〜と思ったが、意外にも。', [T('と思いきや', 'かと思いきや')], { group: 'contrast', ex: '簡単に勝てると思いきや、意外に苦戦した。' }),
-  P('mono-wo', 'N1', '〜ものを', 'If only … (but you didn’t) — regret / reproach.', '〜のに（不満・後悔）。', [T('ものを'), ENDS], { group: 'contrast', ex: '早く言ってくれれば手伝ったものを。' }),
+  P('mono-wo', 'N1', '〜ものを', 'If only … (but you didn’t) — regret / reproach.', '〜のに（不満・後悔）。', [{ pos: '助動詞', ctype: '特殊・タ' }, T('ものを'), { s: ['。', '！', '…', '!', '、'] }], { group: 'contrast', ex: '早く言ってくれれば手伝ったものを。' }),
   P('ni-hikikae', 'N1', '〜にひきかえ', 'In contrast to …', '〜とは反対に。', [T('にひきかえ', 'に引き換え', 'に引きかえ')], { group: 'contrast', ex: '兄にひきかえ、弟は勉強が苦手だ。' }),
   P('nai-made-mo', 'N1', '〜ないまでも', 'Even if not …, at least …', '〜ほどではなくても。', [T('ないまでも')], { group: 'contrast', ex: '毎日とは言わないまでも、週に一度は運動したい。' }),
   P('wo-yoso-ni', 'N1', '〜をよそに', 'Ignoring / despite (others’ concerns).', '〜を気にしないで。', [T('をよそに')], { group: 'contrast', ex: '親の心配をよそに、彼は一人で旅に出た。' }),
@@ -102,9 +102,9 @@ export default [
   // --- Appearance, hearsay ------------------------------------------------------------------
   P('n-bakari', 'N1', '〜んばかり', 'As if about to … (almost).', '今にも〜しそうなほど。', [T('んばかり', 'んばかりに', 'んばかりの', 'んばかりだ')], { group: 'evidential', ex: '彼女は泣き出さんばかりの顔をしていた。' }),
   P('to-bakari-ni', 'N1', '〜とばかりに', 'As if to say … (showing it in actions).', 'いかにも〜と言うように。', [T('とばかりに', 'と言わんばかりに', 'といわんばかりに')], { group: 'evidential', ex: '彼は帰れとばかりに、ドアを開けた。' }),
-  P('to-mieru', 'N1', '〜とみえる', 'It seems that … (judging from what I see).', '様子から判断すると〜らしい。', [T('とみえる', 'と見える', 'とみえて', 'と見えて', 'とみえ', 'と見え')], { group: 'evidential', ex: '彼は相当疲れているとみえて、すぐに寝てしまった。' }),
+  P('to-mieru', 'N1', '〜とみえる', 'It seems that … (judging from what I see).', '様子から判断すると〜らしい。', [T('とみえる', 'と見える', 'とみえて', 'と見えて'), { not: { b: ['くる', '来る', 'いる'] } }], { group: 'evidential', ex: '彼は相当疲れているとみえて、すぐに寝てしまった。' }),
   P('to-oboshiki', 'N1', '〜とおぼしき', 'Apparently … / seemingly … (written).', '〜と思われる。', [T('とおぼしき', 'と思しき')], { group: 'evidential', ex: '犯人とおぼしき男が逮捕された。' }),
-  P('to-wa', 'N1', '〜とは（驚き）', 'To think that …! (surprise).', '驚き・意外な気持ち。', [PLAIN, { s: 'と', pos: '助詞' }, { s: 'は' }, { alt: [[{ s: ['。', '！', '…', '!', '、'] }], [{ b: ['思う', 'おもう', '驚く'] }], [{ s: ['夢にも', '信じ', '思わ'] }]] }], { group: 'evidential', ex: 'まさか彼が優勝するとは。' }),
+  P('to-wa', 'N1', '〜とは（驚き）', 'To think that …! (surprise).', '驚き・意外な気持ち。', [PLAIN, { s: 'と', pos: '助詞' }, { s: 'は' }, { alt: [[{ s: ['。', '！', '…', '!', '、'] }], [{ b: ['驚く'] }], [{ s: ['夢にも', '信じ', '思わ', '想像'] }]] }], { group: 'evidential', ex: 'まさか彼が優勝するとは。' }),
 
   // --- Comparison, limits, scope -------------------------------------------------------------
   P('ni-todomarazu', 'N1', '〜にとどまらず', 'Not limited to … (it extends further).', '〜の範囲を超えて。', [T('にとどまらず', 'に留まらず')], { group: 'limits', ex: 'その影響は国内にとどまらず、世界中に広がった。' }),
@@ -116,14 +116,14 @@ export default [
   P('nari-nari', 'N1', '〜なり〜なり', 'Either … or … (some such option).', '例を挙げて選ばせる。', [{ s: 'なり', pos: '助詞' }, GAP(4), { s: 'なり', pos: '助詞' }], { group: 'limits', ex: '電話するなりメールするなりして、連絡してください。' }),
   P('to-ii-to-ii', 'N1', '〜といい〜といい', 'Both … and … (in every respect).', 'どの点から見ても。', [T('といい'), GAP(4), T('といい')], { group: 'limits', ex: '味といい値段といい、この店は最高だ。' }),
   P('mo-saru-koto-nagara', 'N1', '〜もさることながら', '… is important, but even more so …', '〜もそうだが、さらに。', [T('もさることながら')], { group: 'limits', ex: 'この店は味もさることながら、サービスが素晴らしい。' }),
-  P('ni-taru', 'N1', '〜に足る', 'Worthy of … / enough to …', '〜する価値がある。', [T('に足る', 'に足りない', 'に足らない', 'にたる')], { group: 'evidential', ex: '彼は信頼に足る人物だ。' }),
+  P('ni-taru', 'N1', '〜に足る', 'Worthy of … / enough to …', '〜する価値がある。', [T('に足る', 'に足らない', 'にたる')], { group: 'evidential', ex: '彼は信頼に足る人物だ。' }),
   P('ni-taeru', 'N1', '〜にたえる／たえない', 'Worth …ing / unbearable to … (見るにたえない).', '〜する価値がある／〜できない。', [T('にたえる', 'に堪える', 'に耐える', 'にたえない', 'に堪えない', 'に耐えない', 'にたえません')], { group: 'evidential', ex: 'その番組は見るにたえない。' }),
 
   // --- Quoting & topics ----------------------------------------------------------------------
   P('to-kitara', 'N1', '〜ときたら', 'When it comes to … (complaint).', '〜について言えば（不満）。', [T('ときたら', 'ってきたら')], { group: 'quote', ex: 'うちの息子ときたら、ゲームばかりしている。' }),
   P('ni-kakawaru', 'N1', '〜にかかわる', 'Concerning / affecting (something serious).', '〜に関係する（重大なこと）。', [T('にかかわる', 'に関わる', 'に係わる', 'にかかわります', 'に関わります')], { group: 'quote', ex: 'これは命にかかわる問題だ。' }),
   P('ni-sokushite', 'N1', '〜に即して', 'In line with / based on (rules, facts).', '〜に合わせて・〜に従って。', [T('に即して', 'に即した', 'に即し', 'に則して', 'に則って', 'に則った', 'にのっとって', 'にのっとり')], { group: 'phrases', ex: '規則に即して処理してください。' }),
-  P('ni-atte', 'N1', '〜にあって', 'In (a situation / position) …', '〜という状況で。', [T('にあって', 'にあっては', 'にあっても')], { group: 'phrases', ex: '厳しい状況にあって、彼は最後まで諦めなかった。' }),
+  P('ni-atte', 'N1', '〜にあって', 'In (a situation / position) …', '〜という状況で。', [T('にあって', 'にあっては', 'にあっても'), { ahead: { s: ['、', 'は', 'も'] } }], { group: 'phrases', ex: '厳しい状況にあって、彼は最後まで諦めなかった。' }),
   P('to-aimatte', 'N1', '〜と相まって', 'Combined with …', '〜と一緒になって効果が高まる。', [{ alt: [[T('と相まって', 'とあいまって', 'と相まった', 'も相まって')], [{ s: ['相まって', 'あいまって', '相まった'] }]] }], { group: 'phrases', ex: '才能と努力が相まって、彼は成功した。' }),
   P('ni-sakigakete', 'N1', '〜に先駆けて', 'Ahead of … / before anyone else …', '他より先に。', [T('に先駆けて', 'に先駆け', 'にさきがけて')], { group: 'phrases', ex: 'この会社は他社に先駆けて新製品を発売した。' }),
   P('wo-fumaete', 'N1', '〜を踏まえて', 'Based on / taking into account …', '〜を前提・根拠として。', [T('を踏まえて', 'を踏まえ', 'をふまえて', 'を踏まえた')], { group: 'phrases', ex: '調査の結果を踏まえて、計画を立てた。' }),

@@ -1261,4 +1261,7 @@ details.structure[open] > summary::before {
 .dr-next-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .dr-summary { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .dr-big { font-size: 40px; font-weight: 800; }
+.dr-en { margin: 0; color: var(--text-muted); font-size: 14px; }
+.dr-source, .dr-credit { margin: 0; font-size: 12px; color: var(--text-muted); }
+.dr-credit[hidden] { display: none; }
 .dr-missed { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }

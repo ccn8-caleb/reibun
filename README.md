@@ -12,7 +12,7 @@ Live at **https://reibun.concatn8.com/** (deployed from `master`).
 | :--- | :--- |
 | **Breakdown** (`index.html`) | Paste text. Each sentence is split into phrases (文節) with furigana, word-class colours and phrase roles, plus the sentence skeleton, connection threads (what attaches to what), the grammar patterns it uses, and for several sentences a logic-flow chart of the argument (cause → example → conclusion…). Tap anything for the inspector: conjugation chain, dictionary entry, grammar notes. `index.html?s=<text>` deep-links a sentence. |
 | **Highlighter** (`highlight.html`) | Read a passage with pens (topic/subject, predicate, connector, key point) and check your marks against Reibun's analysis: each mark is graded with a reason, connectors are named by logic function, and Reibun lists what you missed. |
-| **★ Drill** (`drill.html`) | JLPT-style word ordering: four shuffled pieces, one blank marked ★. Pick the ★ piece, or order all four. Questions come from the grammar examples (by level), your Library, or the sample passages (`engine/star.js` builds them). |
+| **★ Drill** (`drill.html`) | JLPT-style word ordering: four shuffled pieces, one blank marked ★. Pick the ★ piece, or order all four. Questions come from drill sentences (by level), about 2,800 Tatoeba sentences by native speakers (by level, with English), your Library, or the sample passages (`engine/star.js` builds them; the ★ only goes where every valid word order agrees). |
 | **Grammar** (`grammar.html`) | The pattern catalog (about 490 JLPT points, N5–N1, plus about 50 connectives such as しかし and したがって), filterable by level, grammar group and logic function (cause, contrast, example, conclusion…), and searchable, each with an example that opens in Breakdown. `grammar.html#te-iru` links to one pattern. |
 | **Library** (`library.html`) | Sentences you saved, with a translation and note. |
 
@@ -40,6 +40,20 @@ Live at **https://reibun.concatn8.com/** (deployed from `master`).
 6. **Discourse** (`discourse.js`): `logicFlow()` lists the logic functions a text uses;
    `paragraphChart()` gives each sentence's opening link and inner links for the chart.
    `threads.js` lays out the connection-thread lines.
+
+### Sentence bank (Tatoeba)
+
+`site/data/bank/n5.json` … `n1.json` hold example sentences from
+[Tatoeba](https://tatoeba.org), licensed [CC BY 2.0 FR](https://creativecommons.org/licenses/by/2.0/fr/):
+each item keeps its Tatoeba id (`t`), author (`by`), English translation (`en`) and
+grammar point (`p`). To refresh it from the weekly exports:
+
+```bash
+go run ./tools/reibun tatoeba build     # downloads into cache/ (git-ignored), then runs tools/bank/build.mjs
+```
+
+The tests check that every bank sentence still makes a question for its grammar point,
+so a matcher change that breaks entries fails CI until the bank is rebuilt.
 
 ### Adding a grammar pattern
 
