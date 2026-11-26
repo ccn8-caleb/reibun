@@ -171,10 +171,10 @@ export function findPatterns(tokens) {
   }
   // Hide generic matches covered by a longer, more specific one. Patterns with a gap
   // don't hide anything: the words in the gap aren't part of them (あまり食べたくない
-  // still shows 〜たい).
+  // still shows 〜たい). Nor do quiet ones (〜て形 must not hide 受身 in ほめられて).
   const kept = found.filter((m) => {
     if (!PATTERN_BY_ID.get(m.id).generic) return true;
-    return !found.some((o) => o !== m && !HAS_GAP.has(o.id) && o.start <= m.start && o.end >= m.end && o.end - o.start > m.end - m.start);
+    return !found.some((o) => o !== m && !HAS_GAP.has(o.id) && !PATTERN_BY_ID.get(o.id).quiet && o.start <= m.start && o.end >= m.end && o.end - o.start > m.end - m.start);
   });
   return kept.sort((a, b) => a.start - b.start || b.end - a.end);
 }

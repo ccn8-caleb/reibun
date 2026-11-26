@@ -12,6 +12,7 @@ Live at **https://reibun.concatn8.com/** (deployed from `master`).
 | :--- | :--- |
 | **Breakdown** (`index.html`) | Paste text. Each sentence is split into phrases (文節) with furigana, word-class colours and phrase roles, plus the sentence skeleton, connection threads (what attaches to what), the grammar patterns it uses, and for several sentences a logic-flow chart of the argument (cause → example → conclusion…). Tap anything for the inspector: conjugation chain, dictionary entry, grammar notes. `index.html?s=<text>` deep-links a sentence. |
 | **Highlighter** (`highlight.html`) | Read a passage with pens (topic/subject, predicate, connector, key point) and check your marks against Reibun's analysis: each mark is graded with a reason, connectors are named by logic function, and Reibun lists what you missed. |
+| **★ Drill** (`drill.html`) | JLPT-style word ordering: four shuffled pieces, one blank marked ★. Pick the ★ piece, or order all four. Questions come from the grammar examples (by level), your Library, or the sample passages (`engine/star.js` builds them). |
 | **Grammar** (`grammar.html`) | The pattern catalog (about 490 JLPT points, N5–N1, plus about 50 connectives such as しかし and したがって), filterable by level, grammar group and logic function (cause, contrast, example, conclusion…), and searchable, each with an example that opens in Breakdown. `grammar.html#te-iru` links to one pattern. |
 | **Library** (`library.html`) | Sentences you saved, with a translation and note. |
 
