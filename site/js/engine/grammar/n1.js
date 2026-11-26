@@ -88,7 +88,7 @@ export default [
   P('shimatsu-da', 'N1', '〜始末だ', 'End up … (a bad outcome, after everything).', '悪い結果になってしまう。', [T('始末だ', 'しまつだ', '始末です', '始末である')], { group: 'attitude', ex: '彼は遅刻ばかりで、ついには無断欠勤する始末だ。' }),
   P('made-da', 'N1', '〜までだ', 'I’ll just (do) … / It’s only that …', '〜するだけだ・〜しただけだ。', [T('までだ', 'までのことだ', 'までです', 'までのことです')], { group: 'attitude', generic: true, ex: 'だめなら、もう一度やるまでだ。' }),
   P('made-mo-nai', 'N1', '〜までもない', 'There’s no need to (go as far as) …', '〜する必要もない。', [{ alt: [[T('までもない', 'までもありません', 'までもなく')], [{ b: /^.+までもない$/ }]] }], { group: 'modality', ex: 'そんなことは言うまでもない。' }),
-  P('to-iu-tokoro-da', 'N1', '〜といったところだ', 'About … at most / roughly …', 'せいぜい〜程度だ。', [T('といったところだ', 'というところだ', 'といったところです', 'というところです')], { group: 'evidential', ex: '参加者は多くても五十人といったところだ。' }),
+  P('to-iu-tokoro-da', 'N1', '〜といったところだ', 'About … at most / roughly …', 'せいぜい〜程度だ。', [T('といったところだ', 'というところだ', 'といったところです', 'というところです', 'といったところだろう', 'というところだろう', 'といったところでしょう')], { group: 'evidential', ex: '参加者は多くても五十人といったところだ。' }),
   P('de-nakute-nan-darou', 'N1', '〜でなくてなんだろう', 'If this isn’t … then what is? (it is truly …)', 'まさに〜だ。', [T('でなくてなんだろう', 'でなくて何だろう', 'でなくてなんであろう', 'でなくて何であろう')], { group: 'attitude', ex: 'これが運命でなくてなんだろう。' }),
   P('te-shikarubeki', 'N1', '〜てしかるべきだ', 'Ought to … / it would be proper to …', '〜するのが当然だ。', [TE, T('しかるべき', '然るべき')], { group: 'modality', ex: 'こんな危険な道には、信号があってしかるべきだ。' }),
   P('bekarazu', 'N1', '〜べからず', 'Must not … (signs, rules).', '〜してはいけない（禁止）。', [T('べからず', 'べからざる')], { group: 'modality', ex: 'ここで釣りをするべからず。' }),
@@ -104,7 +104,7 @@ export default [
   P('to-bakari-ni', 'N1', '〜とばかりに', 'As if to say … (showing it in actions).', 'いかにも〜と言うように。', [T('とばかりに', 'と言わんばかりに', 'といわんばかりに')], { group: 'evidential', ex: '彼は帰れとばかりに、ドアを開けた。' }),
   P('to-mieru', 'N1', '〜とみえる', 'It seems that … (judging from what I see).', '様子から判断すると〜らしい。', [T('とみえる', 'と見える', 'とみえて', 'と見えて', 'とみえ', 'と見え')], { group: 'evidential', ex: '彼は相当疲れているとみえて、すぐに寝てしまった。' }),
   P('to-oboshiki', 'N1', '〜とおぼしき', 'Apparently … / seemingly … (written).', '〜と思われる。', [T('とおぼしき', 'と思しき')], { group: 'evidential', ex: '犯人とおぼしき男が逮捕された。' }),
-  P('to-wa', 'N1', '〜とは（驚き）', 'To think that …! (surprise).', '驚き・意外な気持ち。', [PLAIN, { s: 'と', pos: '助詞' }, { s: 'は' }, { alt: [[{ s: ['。', '！', '…', '!'] }], [{ b: ['思う', 'おもう', '驚く'] }], [{ s: ['夢にも', '信じ', '思わ'] }]] }], { group: 'evidential', ex: 'まさか彼が優勝するとは。' }),
+  P('to-wa', 'N1', '〜とは（驚き）', 'To think that …! (surprise).', '驚き・意外な気持ち。', [PLAIN, { s: 'と', pos: '助詞' }, { s: 'は' }, { alt: [[{ s: ['。', '！', '…', '!', '、'] }], [{ b: ['思う', 'おもう', '驚く'] }], [{ s: ['夢にも', '信じ', '思わ'] }]] }], { group: 'evidential', ex: 'まさか彼が優勝するとは。' }),
 
   // --- Comparison, limits, scope -------------------------------------------------------------
   P('ni-todomarazu', 'N1', '〜にとどまらず', 'Not limited to … (it extends further).', '〜の範囲を超えて。', [T('にとどまらず', 'に留まらず')], { group: 'limits', ex: 'その影響は国内にとどまらず、世界中に広がった。' }),

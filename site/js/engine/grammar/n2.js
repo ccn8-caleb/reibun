@@ -26,8 +26,8 @@ export default [
   P('te-mo-sashitsukaenai', 'N2', '〜ても差し支えない', 'It’s all right to … (formal).', '〜しても問題ない（改まった言い方）。', [TE, Tx('も差し支えない', 'もさしつかえない')], { group: 'modality', ex: 'こちらの資料はお持ち帰りいただいても差し支えありません。' }),
   P('tsutsu', 'N2', '〜つつ', 'While … (also: even though …).', '〜ながら（書き言葉）、逆接。', [{ s: 'つつ', pos: '助詞' }, { not: { b: 'ある' } }], { group: 'time', ex: '体に悪いと知りつつ、タバコを吸ってしまう。' }),
   P('tsutsu-aru', 'N2', '〜つつある', 'Is in the process of … (gradually changing).', '変化が進行中。', [{ s: 'つつ', pos: '助詞' }, { b: 'ある' }], { group: 'aspect', ex: '地球の気温は上がりつつある。' }),
-  P('ippou-da', 'N2', '〜一方だ', 'Keeps …-ing (more and more, usually bad).', '変化が一方向に進み続ける。', [DICT_V, T('一方だ', '一方です', 'いっぽうだ', '一方で'), { not: { pos: ['名詞', '動詞'] } }, ENDS], { group: 'aspect', ex: '物価は上がる一方だ。' }),
-  P('bakari-da', 'N2', '〜ばかりだ', 'Just keeps getting … (a one-way change).', '悪い方向への変化が続く。', [DICT_V, T('ばかりだ', 'ばかりです')], { group: 'aspect', ex: '病気は悪くなるばかりだ。' }),
+  P('ippou-da', 'N2', '〜一方だ', 'Keeps …-ing (more and more, usually bad).', '変化が一方向に進み続ける。', [DICT_V, T('一方だ', '一方です', 'いっぽうだ', '一方である'), { not: { pos: ['名詞', '動詞'] } }], { group: 'aspect', ex: '物価は上がる一方だ。' }),
+  P('bakari-da', 'N2', '〜ばかりだ', 'Just keeps getting … (a one-way change).', '悪い方向への変化が続く。', [DICT_V, T('ばかりだ', 'ばかりです', 'ばかりで', 'ばかりである')], { group: 'aspect', ex: '病気は悪くなるばかりだ。' }),
   P('kiri', 'N2', '〜きり', 'Only … (二人きり) / since … and no more (出かけたきり).', '限定・それ以降の変化なし。', [{ s: ['きり', 'っきり', 'ぎり'], p1: ['非自立', '副助詞', '接尾'] }], { group: 'limits', ex: '彼は出かけたきり帰ってこない。' }),
 
   // --- Compound verbs & auxiliaries ----------------------------------------------------------
@@ -46,7 +46,7 @@ export default [
   P('zu-ni-sumu', 'N2', '〜ずに済む', 'Get by without …-ing / be spared …', '〜しなくても問題ない。', [T(...['ずに済', 'ずにす', 'ないで済', 'ないですん', 'ないですま', 'ないです', 'なくて済'].flatMap((x) => [x + 'む', x + 'んだ', x + 'みます', x + 'んで'])), { not: { s: 'か' } }], { group: 'modality', ex: '友達が貸してくれたので、新しく買わずに済んだ。' }),
   P('hoka-nai', 'N2', '〜ほかない', 'There’s nothing to do but …', 'それ以外に方法がない。', [DICT_V, Tx('ほかない', 'ほかはない', 'よりほかない', 'よりほかはない', '他ない', '外ない')], { group: 'modality', ex: 'バスが来ないので、歩くほかない。' }),
   P('ni-koshita-koto-wa-nai', 'N2', '〜に越したことはない', 'It’s best to … (nothing beats it).', '〜の方がいい（当然）。', [Tx('に越したことはない', 'にこしたことはない')], { group: 'modality', ex: '旅行の準備は早いに越したことはない。' }),
-  P('ni-wa-oyobanai', 'N2', '〜には及ばない', 'There’s no need to …', '〜する必要はない。', [Tx('には及ばない', 'にはおよばない')], { group: 'modality', ex: 'わざわざ来るには及ばない。' }),
+  P('ni-wa-oyobanai', 'N2', '〜には及ばない', 'There’s no need to …', '〜する必要はない。', [{ alt: [[Tx('には及ばない', 'にはおよばない')], [T('には及びません', 'にはおよびません')]] }], { group: 'modality', ex: 'わざわざ来るには及ばない。' }),
   P('ni-kimatte-iru', 'N2', '〜に決まっている', 'It’s bound to be … / surely …', '絶対に〜だ（強い確信）。', [T('に決まっている', 'に決まってる', 'に決まっています', 'にきまっている')], { group: 'evidential', ex: 'そんなに食べたら、太るに決まっている。' }),
   P('osore-ga-aru', 'N2', '〜おそれがある', 'There is a risk / fear that …', '悪いことが起こる可能性。', [T('おそれがある', '恐れがある', 'おそれもある', '恐れもある', 'おそれがあります', '恐れがあります')], { group: 'evidential', ex: '台風が上陸するおそれがある。' }),
   P('ni-hoka-naranai', 'N2', '〜にほかならない', 'Is nothing other than … / is precisely …', 'まさに〜だ。', [Tx('にほかならない', 'に他ならない')], { group: 'evidential', ex: '成功は努力の結果にほかならない。' }),
@@ -56,9 +56,9 @@ export default [
   P('mono-ga-aru', 'N2', '〜ものがある', 'There is something (deeply) … about it.', 'しみじみそう感じさせる。', [{ s: 'もの', p1: '非自立' }, { s: 'が' }, { b: 'ある' }], { group: 'attitude', ex: '彼の歌には人の心を打つものがある。' }),
   P('to-iu-mono-da', 'N2', '〜というものだ', 'That’s what … is (a general truth or judgement).', '本質についての断定。', [T('というものだ', 'というものです', 'ってもんだ', 'というもんだ')], { group: 'attitude', ex: '困ったときに助け合うのが友達というものだ。' }),
   P('to-iu-mono-dewa-nai', 'N2', '〜というものではない', 'It isn’t (always) the case that …', '必ずしもそうではない。', [T('というものではない', 'というものでもない', 'というもんじゃない', 'というものではありません')], { group: 'attitude', ex: 'お金があれば幸せになれるというものではない。' }),
-  P('koto-ka', 'N2', '〜ことか', 'How …! (deep emotion).', '感情の強調（なんと〜だろう）。', [{ s: 'こと' }, { alt: [[{ s: 'か', pos: '助詞' }], [{ b: 'です' }, { s: 'う' }, { s: 'か', opt: true }], [{ b: 'だ', cform: /^未然/ }, { s: 'う' }]] }, ENDS], { group: 'attitude', ex: '合格の知らせを聞いて、どんなにうれしかったことか。' }),
+  P('koto-ka', 'N2', '〜ことか', 'How …! (deep emotion).', '感情の強調（なんと〜だろう）。', [{ s: 'こと' }, { alt: [[{ s: 'か', pos: '助詞' }], [{ b: 'です' }, { s: 'う' }, { s: 'か', opt: true }], [{ b: 'だ', cform: /^未然/ }, { s: 'う' }]] }, { s: [...ENDS.s, '、'] }], { group: 'attitude', ex: '合格の知らせを聞いて、どんなにうれしかったことか。' }),
   P('koto-ni', 'N2', '〜ことに（は）', 'To my (surprise / regret) … — what is … is that …', '話し手の感情の強調。', [{ alt: [[{ s: 'な', ctype: '特殊・ダ' }], [{ pos: ['形容詞', '助動詞'], cform: '基本形', not: { ctype: '特殊・ナイ' } }]] }, { s: 'こと' }, T('に', 'には'), { not: { b: ['する', 'なる', 'なっ'] } }], { group: 'attitude', generic: true, ex: '残念なことに、試合は中止になった。' }),
-  P('mono-ka', 'N2', '〜ものか', 'As if I would …! / I’ll never …', '強い否定・拒否。', [T('ものか', 'もんか', 'ものですか', 'もんですか'), ENDS], { group: 'attitude', ex: 'あんな店、二度と行くものか。' }),
+  P('mono-ka', 'N2', '〜ものか', 'As if I would …! / I’ll never …', '強い否定・拒否。', [T('ものか', 'もんか', 'ものですか', 'もんですか'), { s: [...ENDS.s, '、', 'と'] }], { group: 'attitude', ex: 'あんな店、二度と行くものか。' }),
   P('you-dewa-nai-ka', 'N2', '〜ようではないか', 'Let’s … (a strong call to action).', '呼びかけ・提案。', [T('ようではないか', 'ようじゃないか', 'うではないか', 'うじゃないか', 'ようではありませんか')], { group: 'intent', ex: 'みんなで力を合わせて頑張ろうではないか。' }),
 
   // --- Conditions ----------------------------------------------------------------------------
@@ -117,7 +117,7 @@ export default [
   // --- Comparison, limits, scope -------------------------------------------------------------
   P('ni-kagitte', 'N2', '〜に限って', 'Of all (times / people) … / only when …', '特にその場合だけ（不満）。', [T('に限って', 'にかぎって')], { group: 'limits', ex: '急いでいる時に限って、電車が遅れる。' }),
   P('ni-kagirazu', 'N2', '〜に限らず', 'Not just … (but also).', '〜だけでなく。', [T('に限らず', 'にかぎらず')], { group: 'limits', ex: 'この店は若者に限らず、お年寄りにも人気がある。' }),
-  P('ni-kagiru', 'N2', '〜に限る', 'Nothing beats … / … is best. Also: limited to (に限り).', '〜が一番だ・〜だけ。', [T('に限る', 'に限ります', 'に限り', 'にかぎる'), { not: { s: ['と'] } }], { group: 'limits', ex: '疲れたときは寝るに限る。' }),
+  P('ni-kagiru', 'N2', '〜に限る', 'Nothing beats … / … is best. Also: limited to (に限り).', '〜が一番だ・〜だけ。', [T('に限る', 'に限ります', 'に限り', 'にかぎる')], { group: 'limits', ex: '疲れたときは寝るに限る。' }),
   P('bakari-ka', 'N2', '〜ばかりか', 'Not only … but even …', '〜だけでなく、さらに。', [T('ばかりか')], { group: 'limits', ex: '彼は漢字ばかりか、ひらがなも書けない。' }),
   P('mo-ba-mo', 'N2', '〜も〜ば〜も', 'Both … and … (listing).', '並列（〜も〜し、〜も）。', [{ s: 'も', p1: '係助詞' }, GAP(3), { s: 'ば', p1: '接続助詞' }, GAP(3), { s: 'も', p1: '係助詞' }], { group: 'limits', ex: '彼は英語も話せれば、中国語も話せる。' }),
   P('yara', 'N2', '〜やら〜やら', 'What with … and … (a messy list).', 'いろいろな物事の列挙。', [{ s: 'やら' }, GAP(4), { s: 'やら' }], { group: 'limits', ex: '引っ越しの準備やら仕事やらで忙しい。' }),

@@ -20,7 +20,7 @@ export default [
   // --- Particles -----------------------------------------------------------------------
   P('kke', 'N3', '〜っけ', 'Was it …? (checking something you half-remember).', '記憶の確認。', [{ s: ['っけ', 'け'], p1: '終助詞' }], { group: 'particles', ex: '会議は何時からだっけ。' }),
   P('toka', 'N3', '〜とか', 'Things like … / or something (casual examples, hearsay).', '例示（話し言葉）。', [{ s: 'とか', pos: '助詞' }], { group: 'particles', ex: '週末は映画とか買い物とかに行く。' }),
-  P('mon', 'N3', '〜もん（理由）', 'Because … (a casual, often childish excuse).', '理由・言い訳（話し言葉）。', [{ s: ['もん', 'もの'], p1: ['非自立', '終助詞'] }, { s: ['。', '！', '？', '!', '?', 'ね', 'な'] }], { group: 'particles', before: { pos: '助動詞', ctype: ['特殊・ダ', '特殊・タ', '特殊・ナイ', '特殊・デス'] }, ex: 'だって眠いんだもん。' }),
+  P('mon', 'N3', '〜もん（理由）', 'Because … (a casual, often childish excuse).', '理由・言い訳（話し言葉）。', [{ s: ['もん', 'もの'], p1: ['非自立', '終助詞'] }, { s: ['。', '！', '？', '!', '?', 'ね', 'な', 'と', '」', '』', '…'] }], { group: 'particles', before: { pos: '助動詞', ctype: ['特殊・ダ', '特殊・タ', '特殊・ナイ', '特殊・デス'] }, ex: 'だって眠いんだもん。' }),
 
   // --- te-form & aspect ------------------------------------------------------------------
   P('tokoro-datta', 'N3', '〜ところだった', 'Almost … (but it didn’t happen).', 'もう少しで〜しそうだった。', [{ s: 'ところ', p1: '非自立' }, { b: 'だ', cform: '連用タ接続' }, PAST], { group: 'aspect', ex: 'もう少しで遅刻するところだった。' }),

@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
   VIEW: 'reibun_view', // Breakdown display toggles
   DRAFT: 'reibun_draft', // last text in the Breakdown box
   HIGHLIGHT: 'reibun_highlight', // Highlighter passage and marks
+  DRILL: 'reibun_drill', // ★ drill settings (source, levels, mode)
 };
 
 export const SCHEMA_VERSION = 1;
