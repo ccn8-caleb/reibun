@@ -27,6 +27,9 @@ deploy also carries a build id (commit hash), shown next to the version in the a
   bare particle (が, を).
 
 ### Fixed
+- **★ drill:** opening a question in Breakdown (or its grammar point) and coming
+  back no longer loses the round. It resumes at the same question with your score,
+  and a reload does too. Quitting the round clears it.
 - Many grammar points no longer fire on look-alike words (found by running
   thousands of Tatoeba sentences through the matcher). For example: お下げ is not
   〜げ, わめく is not 〜めく, 椅子の下で is not 〜のもとで, 目を通して is not

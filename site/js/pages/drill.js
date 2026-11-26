@@ -46,6 +46,22 @@ const saveSettings = () => {
 
 // Round state
 let round = null; // { questions: [q], i, results: [bool], picked: [ids] , answered }
+
+// The round in progress survives leaving the page (Open in Breakdown, a grammar link,
+// a reload) and coming back: it lives in sessionStorage, so it belongs to this tab.
+function saveRound() {
+  try {
+    if (round) sessionStorage.setItem(STORAGE_KEYS.DRILL_ROUND, JSON.stringify(round));
+    else sessionStorage.removeItem(STORAGE_KEYS.DRILL_ROUND);
+  } catch (_) {}
+}
+function loadRound() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEYS.DRILL_ROUND) || 'null');
+    if (saved && Array.isArray(saved.questions) && saved.questions.length && Number.isInteger(saved.i)) return saved;
+  } catch (_) {}
+  return null;
+}
 let passages = [];
 const bank = new Map(); // level → items from data/bank/<level>.json
 
@@ -188,6 +204,7 @@ function slotsHtml(q, filled, reveal, right) {
 }
 
 function renderQuestion() {
+  saveRound();
   const box = $('dr-question');
   if (round.i >= round.questions.length) return renderSummary();
   const q = round.questions[round.i];
@@ -289,6 +306,7 @@ function next() {
 
 function quit() {
   round = null;
+  saveRound();
   $('dr-question').hidden = true;
   $('dr-setup').hidden = false;
   renderSetup();
@@ -337,4 +355,11 @@ store.onChange(() => !round && renderSetup());
 
 renderSetup();
 hydrateIcons(document.body);
+// Back from Breakdown or Grammar (or a reload): pick up where the round left off.
+round = loadRound();
+if (round) {
+  $('dr-setup').hidden = true;
+  $('dr-question').hidden = false;
+  renderQuestion();
+}
 loadPassages();
