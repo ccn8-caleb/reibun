@@ -11,7 +11,10 @@
 //   opt: true   the step may be skipped
 //   alt: [[steps], [steps]]  either sequence
 //   not: {…}    the token must not also match this; `{ not }` alone is a lookahead
-//   before: {…} the token just before the match must match this (not consumed)
+//   { ahead: {…} }  lookahead: the next token must match this (not consumed)
+//
+// Pattern options: before: {…} — the token just before the match must match this;
+// initial: true — only at the start of a sentence or clause (after 、。「 or nothing).
 //
 // `ex` is an example sentence: shown on the Grammar page and used by the tests
 // (every pattern must match its own example).
@@ -32,8 +35,12 @@ import N4 from './grammar/n4.js';
 import N3 from './grammar/n3.js';
 import N2 from './grammar/n2.js';
 import N1 from './grammar/n1.js';
+import CONNECTIVES from './grammar/connectives.js';
+import { LOGIC, LOGIC_OF_PATTERN } from './grammar/logic.js';
 
-export const PATTERNS = [...N5, ...N4, ...N3, ...N2, ...N1];
+export const PATTERNS = [...N5, ...N4, ...N3, ...N2, ...N1, ...CONNECTIVES];
+export { LOGIC };
+export const LOGIC_BY_ID = new Map(LOGIC.map((l) => [l.id, l]));
 
 export const GROUPS = [
   { id: 'basics', ja: '基本の形', en: 'Basic forms' },
@@ -56,12 +63,23 @@ export const GROUPS = [
   { id: 'formal', ja: '書き言葉・改まった表現', en: 'Formal & written' },
   { id: 'voice', ja: '使役・受身', en: 'Causative & passive' },
   { id: 'keigo', ja: '敬語', en: 'Keigo (honorific speech)' },
+  { id: 'connectives', ja: '接続表現（JLPT外）', en: 'Connectives (beyond the JLPT lists)' },
 ];
 
 export const PATTERN_BY_ID = new Map(PATTERNS.map((p) => [p.id, p]));
 const hasGap = (steps) => steps.some((st) => 'gap' in st || (st.alt && st.alt.some(hasGap)));
 const HAS_GAP = new Set(PATTERNS.filter((p) => hasGap(p.steps)).map((p) => p.id));
-export const LEVELS = ['N5', 'N4', 'N3', 'N2', 'N1'];
+export const LEVELS = ['N5', 'N4', 'N3', 'N2', 'N1', 'extra'];
+// Display names for levels that aren't JLPT levels.
+export const LEVEL_NAMES = { extra: { ja: 'JLPT外', en: 'Other' } };
+
+// Tag JLPT patterns with their logic function (connectives carry theirs already).
+for (const [logic, ids] of Object.entries(LOGIC_OF_PATTERN)) {
+  for (const id of ids) {
+    const p = PATTERN_BY_ID.get(id);
+    if (p) p.logic = logic;
+  }
+}
 
 function test(value, want) {
   if (want instanceof RegExp) return want.test(value);
@@ -81,6 +99,7 @@ function tokenMatches(tok, step) {
 }
 
 const GAP_STOP = /^[。！？!?」』]$/;
+const CLAUSE_START = /^[、。，,！？!?「『（(]$/;
 
 // End indices of the token runs starting at i that spell one of `texts`.
 function textEnds(tokens, i, texts) {
@@ -109,10 +128,12 @@ function matchSteps(tokens, i, steps) {
     }
     return -1;
   }
-  // A lookahead-only step: `not` alone tests the next token without consuming it.
+  // Lookahead-only steps test the next token without consuming it: `{ not }` must
+  // not match it, `{ ahead }` must.
   if (Object.keys(step).length === 1 && step.not) {
     return tokenMatches(tokens[i], step.not) ? -1 : matchSteps(tokens, i, rest);
   }
+  if (step.ahead) return tokenMatches(tokens[i], step.ahead) ? matchSteps(tokens, i, rest) : -1;
   // A gap: skip up to `gap` tokens (shortest first), but never past a sentence end.
   if ('gap' in step) {
     for (let k = 0; k <= step.gap && i + k <= tokens.length; k++) {
@@ -140,6 +161,7 @@ export function findPatterns(tokens) {
   for (const p of PATTERNS) {
     for (let i = 0; i < tokens.length; i++) {
       if (p.before && !tokenMatches(tokens[i - 1], p.before)) continue;
+      if (p.initial && i > 0 && !CLAUSE_START.test(tokens[i - 1].surface)) continue;
       const end = matchSteps(tokens, i, p.steps);
       if (end > i) {
         found.push({ id: p.id, start: i, end });

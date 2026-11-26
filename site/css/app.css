@@ -605,6 +605,51 @@ details.structure[open] > summary::before {
   gap: 8px;
   align-items: center;
 }
+.gr-filter-row {
+  display: flex;
+  flex-basis: 100%;
+  min-width: 0;
+  gap: 8px;
+  align-items: baseline;
+}
+.gr-filter-label {
+  flex: none;
+  min-width: 3.5em;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.gr-filter-row .chip {
+  padding: 3px 9px;
+  font-size: 12.5px;
+}
+@media (max-width: 640px) {
+  /* One swipeable line per filter row, so the cards stay on the first screen. */
+  .gr-filter-row .toggle-group {
+    flex: 1 1 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    min-width: 0;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
+    mask-image: linear-gradient(to right, #000 88%, transparent);
+  }
+  .gr-filter-row .toggle-group::-webkit-scrollbar { display: none; }
+  .gr-filter-row .chip { flex: none; }
+}
+.logic-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border-color);
+}
+.level-badge[data-level='extra'] { color: var(--text-muted); }
 .gr-filters .search-field {
   flex: 1;
   min-width: 200px;
