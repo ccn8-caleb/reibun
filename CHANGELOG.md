@@ -7,6 +7,21 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.3] — 2026-11-26 — ★ drill
+
+### Added
+- **★ drill** (★ドリル, `drill.html`): JLPT-style word ordering (文法 ② 並べ替え).
+  A sentence has four blanks, one marked ★, and four shuffled pieces.
+  - **★のみ:** pick the piece for ★, as in the exam.
+  - **全部並べる:** put all four in order. Tap a filled slot to take a piece back.
+  - **Questions from:** the grammar examples (choose levels, with the grammar point
+    shown after each answer), your Library, or the sample passages.
+  - Ten per round, with the full sentence and a link to Breakdown after each
+    answer, a score at the end, and a retry of the ones you missed. Keys 1–4 pick
+    a piece, and Enter goes on.
+- Pieces follow natural boundaries: whole phrases where possible, never inside an
+  inflection (降っ|て), and the blanks centre on the grammar point being practised.
+
 ## [0.2.2] — 2026-11-26 — Highlighter, connection threads, logic chart
 
 ### Added
