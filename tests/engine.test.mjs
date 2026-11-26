@@ -4,7 +4,9 @@ import assert from 'node:assert/strict';
 import { getTokenizer } from './tokenizer-node.mjs';
 import { analyzeText } from '../site/js/engine/analyze.js';
 import { readFileSync } from 'node:fs';
-import { PATTERNS, PATTERN_BY_ID, GROUPS, LEVELS, visiblePatterns } from '../site/js/engine/patterns.js';
+import { PATTERNS, PATTERN_BY_ID, GROUPS, LEVELS, LOGIC_BY_ID, visiblePatterns } from '../site/js/engine/patterns.js';
+import { LOGIC_OF_PATTERN } from '../site/js/engine/grammar/logic.js';
+import { logicFlow } from '../site/js/engine/discourse.js';
 import { rubyParts, splitSentences } from '../site/js/engine/tokens.js';
 
 const tokenizer = await getTokenizer();
@@ -28,6 +30,33 @@ test('pattern ids are unique and groups exist', () => {
     assert.ok(GROUPS.some((g) => g.id === p.group), `${p.id}: unknown group ${p.group}`);
     assert.ok(LEVELS.includes(p.level), `${p.id}: bad level ${p.level}`);
   }
+});
+
+test('logic tags name real patterns and functions', () => {
+  for (const [logic, list] of Object.entries(LOGIC_OF_PATTERN)) {
+    assert.ok(LOGIC_BY_ID.has(logic), `unknown logic function ${logic}`);
+    for (const id of list) assert.ok(PATTERN_BY_ID.has(id), `logic.js: unknown pattern ${id}`);
+  }
+  for (const p of PATTERNS) if (p.logic) assert.ok(LOGIC_BY_ID.has(p.logic), `${p.id}: unknown logic ${p.logic}`);
+  for (const p of PATTERNS.filter((x) => x.group === 'connectives')) assert.ok(p.logic, `${p.id} has no logic function`);
+});
+
+test('connectives only count at the start of a clause', async () => {
+  const notConn = ['彼もまた来た。', 'ただで手に入れた。', '実際に行ってみた。', 'まずいラーメンだ。'];
+  for (const text of notConn) {
+    const s = await analyze(text);
+    assert.deepEqual(s.patterns.filter((m) => PATTERN_BY_ID.get(m.id).group === 'connectives').map((m) => m.id), [], text);
+  }
+});
+
+test('logic flow of a paragraph', async () => {
+  const text = '最近、電車がよく遅れる。なぜなら、利用者が増えたからだ。例えば、朝は駅に入れないこともある。したがって、早めに家を出たほうがいい。';
+  const sentences = await analyzeText(text, (x) => tokenizer.tokenize(x));
+  const flow = logicFlow(sentences);
+  const first = (s) => flow.find((f) => f.s === s)?.logic;
+  assert.equal(first(1), 'cause');
+  assert.equal(first(2), 'example');
+  assert.equal(first(3), 'result');
 });
 
 // The starter sentences (site/data/samples.json) must show the patterns they're there for.

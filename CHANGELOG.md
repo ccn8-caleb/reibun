@@ -15,6 +15,17 @@ deploy also carries a build id (commit hash), shown next to the version in the a
   has an example sentence, and Breakdown finds them in your own sentences.
 - New groups on the Grammar page: basic forms, particles, giving and receiving,
   time, contrast, emphasis, judgement and feeling, and formal / written style.
+- **Connectives beyond the JLPT lists** (しかし, したがって, つまり, なぜなら, 例えば,
+  まず…, about 50): the words that link sentences into an argument. They count
+  only at the start of a sentence or clause.
+- **Logic functions:** connectives and the JLPT patterns that link ideas are tagged
+  with what they do in an argument: adding, contrast, concession, cause, result,
+  condition, purpose, example, rephrasing, conclusion, sequence, or topic. Breakdown
+  shows the function on each grammar chip and in the inspector, and the engine can
+  list a text's line of reasoning sentence by sentence, ready for a paragraph chart.
+- **Grammar filters:** besides the level chips, two multi-select dropdowns filter the
+  Grammar page by grammar group (文法) and by logic function (論理). Choices within
+  one filter widen it; filters together narrow it (N2 + 理由).
 - Breakdown leaves the most basic points (は, が, を, です, ます…) out of a
   sentence's grammar chips so the interesting ones stand out. Tap a word to see
   every pattern it belongs to.

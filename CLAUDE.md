@@ -12,8 +12,10 @@ the same change belongs in Kanji Nexus too.
   IPADIC tokenizes unpredictably (compound verbs are often one token; set phrases split
   oddly), so check real tokens before writing steps, and prefer `T('phrase')` for fixed
   phrases. Mark a pattern `generic` when a longer one contains it, `quiet` when it's too
-  basic for Breakdown's chips. After changes, run unrelated sentences through the
-  matcher and look for false positives, not just the examples.
+  basic for Breakdown's chips. Logic functions (cause, contrast…) for JLPT patterns
+  live in `grammar/logic.js`; connectives carry theirs inline and use `initial`.
+  After changes, run unrelated sentences through the matcher and look for false
+  positives, not just the examples.
 - Tooling is Go (`tools/reibun`), stdlib only. Run `gofmt` and `go vet`.
 - `site/js/vendor/kuromoji.js` is vendored with one patch marked `[reibun patch]`.
 - Versioning: patch bump per release (0.2.1, 0.2.2, …) in `site/js/core/version.js`
