@@ -8,6 +8,7 @@ export const STORAGE_KEYS = {
   LIBRARY: 'reibun_library',
   VIEW: 'reibun_view', // Breakdown display toggles
   DRAFT: 'reibun_draft', // last text in the Breakdown box
+  HIGHLIGHT: 'reibun_highlight', // Highlighter passage and marks
 };
 
 export const SCHEMA_VERSION = 1;

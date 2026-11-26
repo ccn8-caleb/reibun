@@ -7,6 +7,19 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.2] — 2026-11-26 — Highlighter
+
+### Added
+- **Highlighter** (蛍光ペン, `highlight.html`): read a passage with four pens:
+  topic/subject, predicate, connector and key point. Select words to mark them, and
+  tap a mark to erase it. **Check** grades each mark against Reibun's own analysis:
+  - right, close or not quite, with a reason (the particle was left off, the mark
+    covers too much, this is a linked clause's predicate and not the main one…);
+  - connectors are named with their logic function (cause, contrast…);
+  - a list of what Reibun would also have marked.
+  **Reibun's marks** shows its answer key as underlines. Key points aren't graded.
+  Four sample passages (N5–N2); the passage and marks are kept on this device.
+
 ## [0.2.1] — 2026-11-26 — Full JLPT grammar
 
 ### Added
