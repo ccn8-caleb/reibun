@@ -23,8 +23,9 @@ deploy also carries a build id (commit hash), shown next to the version in the a
   condition, purpose, example, rephrasing, conclusion, sequence, or topic. Breakdown
   shows the function on each grammar chip and in the inspector, and the engine can
   list a text's line of reasoning sentence by sentence, ready for a paragraph chart.
-- **Grammar filters:** besides level, filter the Grammar page by grammar group and by
-  logic function. Chips within a row widen the filter; rows narrow it (N2 + 理由).
+- **Grammar filters:** besides the level chips, two multi-select dropdowns filter the
+  Grammar page by grammar group (文法) and by logic function (論理). Choices within
+  one filter widen it; filters together narrow it (N2 + 理由).
 - Breakdown leaves the most basic points (は, が, を, です, ます…) out of a
   sentence's grammar chips so the interesting ones stand out. Tap a word to see
   every pattern it belongs to.
