@@ -11,7 +11,7 @@ Live at **https://reibun.concatn8.com/** (deployed from `master`).
 | Page | Purpose |
 | :--- | :--- |
 | **Breakdown** (`index.html`) | Paste text. Each sentence is split into phrases (文節) with furigana, word-class colours and phrase roles, plus the sentence skeleton, a structure tree and the grammar patterns it uses. Tap anything for the inspector: conjugation chain, dictionary entry, grammar notes. `index.html?s=<text>` deep-links a sentence. |
-| **Grammar** (`grammar.html`) | The pattern catalog (N5–N3), filterable, each with an example that opens in Breakdown. `grammar.html#te-iru` links to one pattern. |
+| **Grammar** (`grammar.html`) | The pattern catalog (about 490 JLPT points, N5–N1, plus about 50 connectives such as しかし and したがって), filterable by level, grammar group and logic function (cause, contrast, example, conclusion…), and searchable, each with an example that opens in Breakdown. `grammar.html#te-iru` links to one pattern. |
 | **Library** (`library.html`) | Sentences you saved, with a translation and note. |
 
 ## How the analysis works
@@ -29,13 +29,21 @@ Live at **https://reibun.concatn8.com/** (deployed from `master`).
    common reading.
 4. **Conjugation** (`conjugation.js`): the stack of auxiliaries on each verb or
    adjective, in order.
-5. **Patterns** (`patterns.js`): a catalog of grammar points, each a sequence of
-   token tests with an example sentence.
+5. **Patterns** (`patterns.js`): the matcher. The catalog is in `grammar/n5.js` …
+   `grammar/n1.js`, one file per JLPT level: each grammar point is a sequence of token
+   tests (or a phrase matched however the tokenizer split it) with an example
+   sentence. There is no official JLPT grammar list, so levels follow the common
+   study lists. `grammar/connectives.js` holds connectives outside the JLPT lists,
+   and `grammar/logic.js` tags patterns with their logic function.
+6. **Discourse** (`discourse.js`): `logicFlow()` lists the logic functions a text uses,
+   sentence by sentence (cause → example → result…), for charting an argument.
 
 ### Adding a grammar pattern
 
-Add an entry to `PATTERNS` in `site/js/engine/patterns.js` with an example sentence
-(`ex`). Then run the tests: every pattern must match its own example.
+Add an entry to the level's file in `site/js/engine/grammar/` with an example
+sentence (`ex`); the step syntax is described at the top of `patterns.js`. Then run
+the tests: every pattern must match its own example, and every starter sentence
+(`site/data/samples.json`) must still show the patterns in its `focus`.
 
 ```bash
 go run ./tools/reibun kuromoji fetch   # once: tokenizer dictionary for tests

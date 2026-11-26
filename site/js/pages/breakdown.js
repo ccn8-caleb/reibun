@@ -16,8 +16,8 @@ import { analyze, onTokenizerState, preloadTokenizer, tokenizerState } from '../
 import { KINDS, POS_GROUPS } from '../engine/tokens.js';
 import { CONNECTORS } from '../engine/roles.js';
 import { CLASSES, FORMS, summarize } from '../engine/conjugation.js';
-import { PATTERN_BY_ID } from '../engine/patterns.js';
-import { sentenceLineHtml, skeletonHtml, treeHtml, patternChipsHtml, highlightTokens, rubyHtml, posGroup, roleOf } from './render.js';
+import { PATTERN_BY_ID, LOGIC_BY_ID } from '../engine/patterns.js';
+import { sentenceLineHtml, skeletonHtml, treeHtml, patternChipsHtml, highlightTokens, rubyHtml, posGroup, roleOf, levelBadge, logicBadge } from './render.js';
 
 const { store } = await initPage('breakdown');
 
@@ -340,11 +340,12 @@ function renderPatternInspector(s, id) {
     <div class="inspector-head">
       <div>
         <div class="insp-word" lang="ja">${esc(p.label)}</div>
-        <div class="insp-sub"><span class="level-badge" data-level="${p.level}">${p.level}</span><span lang="ja">${esc(text)}</span></div>
+        <div class="insp-sub">${levelBadge(p.level)}${logicBadge(p)}<span lang="ja">${esc(text)}</span></div>
       </div>
       ${closeBtn()}
     </div>
     ${sectionHtml(t('意味', 'Meaning'), `<p>${esc(t(p.ja, p.en))}</p><p class="muted">${esc(t(p.en, p.ja))}</p>`)}
+    ${p.logic ? sectionHtml(t('論理の働き', 'Role in an argument'), `<p>${logicBadge(p)} ${esc(tr(LOGIC_BY_ID.get(p.logic).hint))}</p>`) : ''}
     ${sectionHtml(t('例文', 'Example'), `<a class="gr-example" href="index.html?s=${encodeURIComponent(p.ex)}" lang="ja"><span>${esc(p.ex)}</span>${icon('arrowRight')}</a>`)}
     <div class="insp-links"><a class="tb-btn" href="grammar.html#${esc(p.id)}">${icon('dictionary')}${esc(t('文法一覧で見る', 'Open in Grammar'))}</a></div>`;
 }
@@ -383,7 +384,7 @@ function renderTokenInspector(s, tok) {
     ${patterns.length ? sectionHtml(t('この語を含む文法', 'Grammar involving this word'), `<div class="pattern-row">${patterns
       .map((id) => {
         const p = PATTERN_BY_ID.get(id);
-        return `<button type="button" class="pattern-chip" data-insp-pattern="${id}"><span class="level-badge" data-level="${p.level}">${p.level}</span><span lang="ja">${esc(p.label)}</span></button>`;
+        return `<button type="button" class="pattern-chip" data-insp-pattern="${id}">${levelBadge(p.level)}<span lang="ja">${esc(p.label)}</span>${logicBadge(p)}</button>`;
       })
       .join('')}</div>`) : ''}
     <div class="insp-section" id="insp-dict"></div>`;

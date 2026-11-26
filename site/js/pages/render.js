@@ -7,7 +7,7 @@ import { t, tr } from '../core/prefs.js';
 import { KINDS, rubyParts } from '../engine/tokens.js';
 import { ROLES, CONNECTORS } from '../engine/roles.js';
 import { summarize } from '../engine/conjugation.js';
-import { PATTERN_BY_ID } from '../engine/patterns.js';
+import { PATTERN_BY_ID, LOGIC_BY_ID, LEVEL_NAMES, visiblePatterns } from '../engine/patterns.js';
 
 export const posGroup = (tok) => KINDS[tok.kind]?.group || 'other';
 export const roleOf = (b) => ROLES[b.role] || ROLES.noun;
@@ -74,19 +74,29 @@ export function treeHtml(s) {
   return `<ul class="tree">${roots.map(node).join('')}</ul>`;
 }
 
+// A pattern's level badge (N5 … N1, or JLPT外 for connectives).
+export const levelBadge = (level) =>
+  `<span class="level-badge" data-level="${level}">${esc(LEVEL_NAMES[level] ? tr(LEVEL_NAMES[level]) : level)}</span>`;
+
+// A pattern's logic function (cause, contrast…), if it has one.
+export function logicBadge(p) {
+  const l = p.logic && LOGIC_BY_ID.get(p.logic);
+  return l ? `<span class="logic-badge" data-logic="${l.id}" title="${esc(tr(l.hint))}">${esc(tr(l))}</span>` : '';
+}
+
 export function patternChipsHtml(s) {
-  if (!s.patterns.length) return `<span class="insp-empty">${t('この文では文法パターンが見つかりませんでした。', 'No grammar patterns found in this sentence.')}</span>`;
+  if (!patternIds(s).length) return `<span class="insp-empty">${t('この文では文法パターンが見つかりませんでした。', 'No grammar patterns found in this sentence.')}</span>`;
   return `<div class="pattern-row">${patternIds(s)
     .map((id) => {
       const p = PATTERN_BY_ID.get(id);
       const n = s.patterns.filter((m) => m.id === id).length;
-      return `<button type="button" class="pattern-chip" data-pattern="${id}"><span class="level-badge" data-level="${p.level}">${p.level}</span><span lang="ja">${esc(p.label)}</span>${n > 1 ? `<span class="pattern-en">×${n}</span>` : ''}</button>`;
+      return `<button type="button" class="pattern-chip" data-pattern="${id}">${levelBadge(p.level)}<span lang="ja">${esc(p.label)}</span>${logicBadge(p)}${n > 1 ? `<span class="pattern-en">×${n}</span>` : ''}</button>`;
     })
     .join('')}</div>`;
 }
 
-// Distinct pattern ids in order of first appearance.
-export const patternIds = (s) => [...new Set(s.patterns.map((m) => m.id))];
+// Distinct pattern ids in order of first appearance (quiet basics left out).
+export const patternIds = (s) => [...new Set(visiblePatterns(s.patterns).map((m) => m.id))];
 
 // Mark every occurrence of pattern `id` (or clear with null) inside root.
 export function highlightTokens(root, s, id) {
