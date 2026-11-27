@@ -29,6 +29,21 @@ deploy also carries a build id (commit hash), shown next to the version in the a
   〜ものの before a number (取ったものの一度も) are recognised.
 - **★ pieces** never start with a stray っ (IPADIC splits 分かりっこない oddly).
 
+## [0.2.5] — 2026-11-27 — Reading comprehension
+
+### Added
+- **Reading questions** on the Highlighter page, now called **読解** (Reading):
+  - Eight sample passages from N5 to N1, each with two JLPT-style questions (what a
+    phrase means, the writer's reason, the main point).
+  - On any passage, including your own, a **logic question** for every sentence
+    that opens with a linking word: what does it do relative to the sentence
+    before (contrast, cause, rephrasing, result…)? The wrong options are the
+    functions most easily confused with the answer.
+  - For each question you can tap the sentence that proves your answer. Checking
+    grades the answer and the evidence separately, explains each answer, and can
+    light up the right evidence in the passage.
+  - Answers are kept with the passage and its marks.
+
 ## [0.2.4] — 2026-11-26 — Tatoeba sentence bank
 
 ### Added
