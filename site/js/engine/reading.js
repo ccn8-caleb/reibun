@@ -69,13 +69,15 @@ export function logicQuestions(sentences, text) {
   return out;
 }
 
-// written: [{ id, q, options: [string], answer, evidence: quote, explain: { ja, en } }]
+// written: [{ id, q, options: [string], answer, evidence: quote, explain: { ja, en }, en: { q, options } }]
 export function prepareQuestions(sentences, text, written = []) {
   const own = written.map((w) => ({
     id: w.id,
     kind: 'written',
     prompt: w.q,
     options: w.options,
+    // English for the question and options (shown under the Japanese in English mode).
+    en: w.en || null,
     answer: w.answer,
     evidence: evidenceSentences(sentences, text, w.evidence),
     explain: w.explain,

@@ -354,6 +354,9 @@ function evidenceHere(k) {
 }
 const sentenceText = (k) => sentences[k]?.text || '';
 const optionText = (q, n) => (q.kind === 'logic' ? tr(LOGIC_BY_ID.get(q.logicOptions[n])) : q.options[n]);
+// Written questions stay in Japanese (reading them is part of the practice); in English
+// mode their translation appears underneath.
+const gloss = (text) => (t('', text) && text ? `<span class="rc-gloss">${esc(text)}</span>` : '');
 
 function renderQuestions() {
   const box = $('rc');
@@ -376,7 +379,7 @@ function renderQuestions() {
           if (a.choice === i) cls.push('chosen');
           if (r && i === q.answer) cls.push('right');
           if (r && a.choice === i && !r.right) cls.push('wrong');
-          return `<button type="button" class="${cls.join(' ')}" data-choice="${i}" ${state.checked ? 'disabled' : ''}><span class="dr-num">${i + 1}</span><span${q.kind === 'logic' ? '' : ' lang="ja"'}>${esc(optionText(q, i))}</span></button>`;
+          return `<button type="button" class="${cls.join(' ')}" data-choice="${i}" ${state.checked ? 'disabled' : ''}><span class="dr-num">${i + 1}</span><span class="rc-opt-text"><span${q.kind === 'logic' ? '' : ' lang="ja"'}>${esc(optionText(q, i))}</span>${gloss(q.en?.options?.[i])}</span></button>`;
         })
         .join('');
       const ev = a.evidence != null
@@ -392,7 +395,7 @@ function renderQuestions() {
         : '';
       return `<article class="rc-q" data-q="${q.id}">
         <div class="rc-head"><span class="rc-num">${esc(t(`問${n + 1}`, `Q${n + 1}`))}</span>${q.kind === 'logic' ? `<span class="rc-kind">${esc(t('論理', 'Logic'))}</span>` : ''}</div>
-        <p class="rc-prompt"${q.kind === 'logic' ? '' : ' lang="ja"'}>${esc(typeof q.prompt === 'string' ? q.prompt : tr(q.prompt))}</p>
+        <p class="rc-prompt"${q.kind === 'logic' ? '' : ' lang="ja"'}>${esc(typeof q.prompt === 'string' ? q.prompt : tr(q.prompt))}</p>${gloss(q.en?.q)}
         <div class="rc-options">${options}</div>
         <div class="rc-ev">${pickBtn}${ev}</div>
         ${verdict}
