@@ -23,6 +23,7 @@ test('every written question is well formed and its evidence is in the passage',
       assert.ok(p.ja.includes(w.evidence), `${p.id}/${w.id}: evidence not in passage: ${w.evidence}`);
       assert.ok(evidenceSentences(sentences, p.ja, w.evidence).length, `${p.id}/${w.id}: no evidence sentence`);
       assert.ok(w.explain.ja && w.explain.en, `${p.id}/${w.id}: explanation`);
+      assert.ok(w.en?.q && w.en.options?.length === 4 && w.en.options.every(Boolean), `${p.id}/${w.id}: question and options in English`);
     }
   }
 });

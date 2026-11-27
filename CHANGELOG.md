@@ -7,6 +7,14 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.7] — 2026-11-27 — Reading questions in English
+
+### Fixed
+- **Reading questions in English mode:** the passage questions and their options
+  were shown only in Japanese. They still are (reading them is part of the
+  practice), but in English mode each question and option now has its English
+  translation underneath. A test makes sure every passage question has one.
+
 ## [0.2.6] — 2026-11-27 — Every grammar point in the ★ drill
 
 ### Changed
