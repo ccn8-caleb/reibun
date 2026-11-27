@@ -19,7 +19,7 @@ import { FAMILY } from './constants.js';
 export const APPS = [
   { id: 'breakdown', ja: '文の分析', en: 'Breakdown', tipJa: '文を語・文節・役割・文法に分解', tipEn: 'Break a sentence into words, phrases, roles and grammar', file: 'index.html', icon: 'breakdown' },
   { id: 'grammar', ja: '文法', en: 'Grammar', tipJa: '文法パターン一覧と例文', tipEn: 'Grammar patterns with examples', file: 'grammar.html', icon: 'dictionary' },
-  { id: 'highlight', ja: '蛍光ペン', en: 'Highlighter', tipJa: '文章に印を付けて読み解く', tipEn: 'Mark up a passage and check your reading', file: 'highlight.html', icon: 'highlighter' },
+  { id: 'highlight', ja: '読解', en: 'Reading', tipJa: '文章に印を付けて、問題に答える', tipEn: 'Mark up a passage and answer questions about it', file: 'highlight.html', icon: 'highlighter' },
   { id: 'drill', ja: '★ドリル', en: '★ Drill', tipJa: '語の並べ替え（★問題）', tipEn: 'JLPT-style word ordering (★ questions)', file: 'drill.html', icon: 'drill' },
   { id: 'library', ja: '例文帳', en: 'Library', tipJa: '保存した例文', tipEn: 'Your saved sentences', file: 'library.html', icon: 'library' },
 ];
