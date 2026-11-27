@@ -6,7 +6,7 @@
 // BUILD / BUILD_DATE: stamped by tools/stamp-deploy.sh at deploy time
 //   (commit hash and UTC date). They stay 'dev' / '' when running locally.
 
-export const APP_VERSION = '0.2.4';
+export const APP_VERSION = '0.2.6';
 export const BUILD = 'dev';
 export const BUILD_DATE = '';
 

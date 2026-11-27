@@ -1,4 +1,4 @@
-{"source":"Tatoeba","url":"https://tatoeba.org","license":"CC BY 2.0 FR","licenseUrl":"https://creativecommons.org/licenses/by/2.0/fr/","note":"Sentences by native speakers of Japanese (by = Tatoeba username), chosen by tools/bank/build.mjs. Each has a page: https://tatoeba.org/sentences/show/<t>","built":"2026-11-26","items":[{"t":9817434,"ja":"あいつが来ようが来まいが、俺には関係ない。","en":"It makes no difference to me whether he comes or not.","by":"small_snow","p":"mai"},
+{"source":"Tatoeba","url":"https://tatoeba.org","license":"CC BY 2.0 FR","licenseUrl":"https://creativecommons.org/licenses/by/2.0/fr/","note":"Sentences by native speakers of Japanese (by = Tatoeba username), chosen by tools/bank/build.mjs. Each has a page: https://tatoeba.org/sentences/show/<t>","built":"2026-11-27","items":[{"t":9817434,"ja":"あいつが来ようが来まいが、俺には関係ない。","en":"It makes no difference to me whether he comes or not.","by":"small_snow","p":"mai"},
 {"t":8901604,"ja":"トムはメアリーをアザだらけになるまで殴った。","en":"Tom beat Mary black and blue.","by":"bunbuku","p":"darake"},
 {"t":1071236,"ja":"さあ、できたての温かいうちに食べてください。","en":"Please eat it while it's still hot.","by":"bunbuku","p":"tate"},
 {"t":10762828,"ja":"パスタをズルズルと音立てながら食べるのはやめなさい。","en":"Stop making that slurping noise when you eat your pasta.","by":"small_snow","p":"tate"},
@@ -96,6 +96,7 @@
 {"t":10465238,"ja":"あの人たちは、スリルを味わうためだけにやってるんだよ。","en":"They do it just for the thrill of it.","by":"bunbuku","p":"dake-ni"},
 {"t":10657620,"ja":"お腹が空いてなかったから、コーヒーだけにしたわ。","en":"I only ordered coffee, since I wasn't hungry.","by":"small_snow","p":"dake-ni"},
 {"t":1151788,"ja":"彼が頭がいいからと言って、彼が誠実であると決まったわけではない。","en":"Just because he's wise doesn't mean that he's honest.","by":"bunbuku","p":"kara-to-itte"},
+{"t":2922474,"ja":"ネイティブスピーカーが書いた文だからといってそれがよい保証には全くならない。","en":"In no way does the fact that a text was written by a native speaker guarantee that it is any good.","by":"odango_daisuki","p":"kara-to-itte"},
 {"t":9740680,"ja":"猫耳を付けたからって、ケモナーってわけじゃないよ。","en":"Just because someone is wearing cat ears doesn't mean they're a furry.","by":"small_snow","p":"kara-to-itte"},
 {"t":9923218,"ja":"プロフィールのアイコンが二次元の動物キャラクターだからといってケモナーであるとは限りません。","en":"Just because I have a cartoon animal as my profile picture, it doesn't mean that I'm a furry.","by":"KK_kaku_","p":"kara-to-itte"},
 {"t":10988848,"ja":"ミスしたからって気にするなよ。","en":"Don't worry about making mistakes.","by":"small_snow","p":"kara-to-itte"},

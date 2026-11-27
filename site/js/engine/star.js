@@ -42,6 +42,8 @@ function canCut(tok, c) {
   if (!next || !prev) return false;
   if (next.pos === '助動詞' || next.pos1 === '接尾' || (next.pos === '助詞' && next.pos1 === '接続助詞')) return false;
   if (prev.pos === '接頭詞') return false;
+  // No piece starts with a small っ (IPADIC splits 分かりっこない as 分かり|っ|こ|ない).
+  if (next.surface.startsWith('っ') && next.pos !== '助詞') return false;
   // のに / のは / んだ: the nominalizer stays with what follows.
   if (prev.pos1 === '非自立' && ['の', 'ん'].includes(prev.surface) && ['助詞', '助動詞'].includes(next.pos)) return false;
   return true;

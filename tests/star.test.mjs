@@ -44,7 +44,7 @@ test('no sentence end inside the blanks; too-short sentences give null', async (
   assert.equal(makeStarQuestion(await analyze('はい。')), null);
 });
 
-test('drill sentences: one sentence each, matching their pattern; most make a fair question', async () => {
+test('drill sentences: one sentence each, matching their pattern, each making a fair question', async () => {
   let made = 0;
   let total = 0;
   for (const p of PATTERNS) {
@@ -56,14 +56,15 @@ test('drill sentences: one sentence each, matching their pattern; most make a fa
     assert.ok(ss[0].patterns.some((m) => m.id === p.id), `${p.id}: drill sentence doesn't match: ${text}`);
     total++;
     const q = makeStarQuestion(ss[0], { focus: p.id, seed: 1 });
-    if (!q) continue; // more than one right order everywhere: the drill skips it
+    // Write the point among pieces that can't move (verb chains, relative clauses,
+    // 〜の modifiers), with free-floating phrases (〜は, 〜を, time words) outside the blanks.
+    assert.ok(q, `${p.id}: no fair ★ question (pieces could go in more than one order): ${text}`);
     made++;
     assert.ok(q.before && q.after.replace(/[。！？]/g, ''), `${p.id}: no context`);
     assert.equal(rebuild(q), plain(text), p.id);
   }
   for (const id of Object.keys(DRILL_SENTENCES)) assert.ok(PATTERNS.some((p) => p.id === id), `drill sentence for unknown pattern ${id}`);
-  // Raise this as sentences are rewritten to allow only one order.
-  assert.ok(made >= 230, `only ${made} of ${total} drill sentences make a fair question`);
+  assert.equal(made, total);
 });
 
 test('the ★ goes where every valid order agrees, and other valid orders count as right', async () => {

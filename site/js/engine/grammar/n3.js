@@ -82,7 +82,7 @@ export default [
   P('you-ni-mieru', 'N3', '〜ように見える', 'Looks like … / appears to be …', '外見からの判断。', [{ s: 'よう' }, { s: 'に' }, { b: ['見える', 'みえる'] }], { group: 'evidential', ex: '彼は怒っているように見える。' }),
   P('sou-ni-nai', 'N3', '〜そうにない／そうもない', 'Doesn’t look like it will …', '〜する様子がない。', [{ s: 'そう', p1: '接尾' }, { s: ['に', 'も', 'にも'] }, ...NEG_END], { group: 'evidential', ex: '雨はなかなかやみそうにない。' }),
   P('marude', 'N3', 'まるで〜ようだ', 'Just like … / as if …', '比喩の強調。', [{ s: 'まるで' }, GAP(6), { s: ['よう', 'みたい'] }], { group: 'evidential', ex: 'まるで夢のようだ。' }),
-  P('to-iu-koto-da', 'N3', '〜ということだ／とのことだ', 'I hear that … / That means …', '伝聞・結論。', [T('ということだ', 'ということです', 'とのことだ', 'とのことです', 'ってことだ', 'ってことです')], { group: 'evidential', ex: '社長は明日戻るということだ。' }),
+  P('to-iu-koto-da', 'N3', '〜ということだ／とのことだ', 'I hear that … / That means …', '伝聞・結論。', [T('ということだ', 'ということです', 'ということなので', 'ということだった', 'ということでした', 'とのことだ', 'とのことです', 'とのことなので', 'とのことでした', 'ってことだ', 'ってことです')], { group: 'evidential', ex: '社長は明日戻るということだ。' }),
 
   // --- Comparison, limits, scope -------------------------------------------------------------
   P('kesshite-nai', 'N3', '決して〜ない', 'Never … (strong).', '強い否定。', [{ s: ['決して', 'けっして'] }, GAP(5), ...NEG_ANY], { group: 'limits', ex: '決して嘘はつかない。' }),
