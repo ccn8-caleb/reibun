@@ -66,7 +66,9 @@ const TIME_SUFFIX = /^(時|分|秒|日|月|年|曜日|週|時間|頃|ごろ)$/;
 // Time words among IPADIC's 副詞可能 nouns (which also include たくさん, 全部…).
 const TIME_WORD = /[日年月時分秒朝昼晩夜週頃昔今前後春夏秋冬]|いつ|さっき|あした|あす|きのう|きょう|ごろ|とき|うち/;
 
+// 違いない / しょうがない: IPADIC splits them into a ナイ形容詞語幹 noun + ない.
 const isPredicateToken = (t) =>
+  (t.pos === '助動詞' && t.ctype === '特殊・ナイ') ||
   t.kind === 'verb' || t.kind === 'i-adj' || t.kind === 'aux-verb' || (t.pos === '助動詞' && ['特殊・ダ', '特殊・デス', 'ナ'].some((c) => t.ctype.startsWith(c)) && t.cform !== '体言接続');
 
 // Does this chunk contain a verb, adjective, or copula (= can head a clause)?
@@ -109,8 +111,20 @@ function roleFor(b, next, isLast) {
   if (core.length >= 3 && last.surface === 'に' && core[core.length - 2].surface === 'の' && core[core.length - 2].pos1 === '非自立' && ['助動詞', '形容詞'].includes(core[core.length - 3].pos)) {
     return { role: 'clause', connector: 'のに', ...info };
   }
+  // 引き受けた上は / 決めた以上は: "now that …", a linked clause, not a topic.
+  const ue = core.findIndex((t) => ['上', 'うえ', '以上'].includes(t.surface) && t.pos === '名詞');
+  if (ue > 0 && last.surface === 'は' && ue === core.length - 2 && (isPredicateToken(core[ue - 1]) || core[ue - 1].pos === '助動詞') && core[ue - 1].cform === '基本形') {
+    return { role: 'clause', connector: core[ue].surface + 'は', ...info };
+  }
+  // 手伝ったものを (if only…): a linked clause, not an object.
+  const n = core.length;
+  if (n >= 3 && last.surface === 'を' && core[n - 2].surface === 'もの' && core[n - 3].ctype === '特殊・タ') return { role: 'clause', connector: 'ものを', ...info };
+  // 言われようが / 降ろうと (no matter…): volitional + が/と links a clause.
+  if (n >= 2 && ['が', 'と'].includes(last.surface) && core[n - 2].pos === '助動詞' && ['う', 'よう'].includes(core[n - 2].base)) return { role: 'clause', connector: core[n - 2].surface + last.surface, ...info };
   const conn = particles.find((p) => p.pos1 === '接続助詞');
-  if (conn && isPredicate(b)) return { role: 'clause', connector: conn.surface, ...info };
+  // 本なので / 静かなのに: the copula's な before ので is still a predicate.
+  const copulaNa = core.some((t) => t.pos === '助動詞' && t.surface === 'な' && t.cform === '体言接続');
+  if (conn && (isPredicate(b) || copulaNa)) return { role: 'clause', connector: conn.surface, ...info };
   if (last.pos === '助動詞' && last.ctype === '特殊・タ' && last.cform === '仮定形') return { role: 'clause', connector: 'たら', ...info };
 
   if (particles.length) {
@@ -118,6 +132,9 @@ function roleFor(b, next, isLast) {
     const surfaces = particles.map((p) => p.surface);
     if (first.pos2 === '引用' || first.surface === 'って') return { role: 'quote', ...info };
     if (first.pos2 === '連体化' || (first.surface === 'の' && first.pos1 === '連体化')) return { role: 'possessive', ...info };
+    // 買ったばかりの / 駅までの: whatever comes before, a final の ties it to the next noun.
+    const tail = particles[particles.length - 1];
+    if (particles.length > 1 && tail.surface === 'の' && tail.pos1 === '連体化') return { role: 'possessive', ...info };
     if (first.pos1 === '終助詞' || (isLast && first.pos1.includes('終助詞'))) return { role: isPredicate(b) ? 'predicate' : 'noun', ending: first.surface, ...info };
     if (LIMITERS.has(first.surface) && particles.length === 1) return { role: 'limiter', ...info };
     // は / も replace or follow a case particle: 私は (topic), 学校には (target + topic).
@@ -175,8 +192,12 @@ function acceptsArgument(b, c) {
   if (!isPredicate(c)) return false;
   if (c.role !== 'modifier') return true;
   if (b.role === 'clause') return false;
-  return c.tokens[c.head]?.kind === 'verb' || b.role === 'adverbial';
+  // …and a subject can sit inside an adjective's relative clause too (値段が安い店).
+  const kind = c.tokens[c.head]?.kind;
+  return kind === 'verb' || b.role === 'adverbial' || (b.role === 'subject' && ['i-adj', 'na-adj'].includes(kind));
 }
+
+const SET_ASIDE = new Set(['ともかく', 'もちろん', 'さておき', 'もとより', 'おろか', 'さる']);
 
 // Adds b.role / b.roleInfo / b.dep (index of the chunk it attaches to, -1 for the root).
 export function assignRoles(chunks) {
@@ -194,6 +215,11 @@ export function assignRoles(chunks) {
     // は usually reaches past embedded clauses to the main predicate:
     // 私は [雨が降ったので] 家にいた → 私は … いた.
     // A sentence-opening connector (しかし, つまり…) links the whole sentence.
+    // 値段はともかく / 味はもちろん: the は phrase belongs to the word after it.
+    if (['topic', 'also'].includes(b.role) && SET_ASIDE.has(chunks[k + 1]?.tokens[0]?.surface)) {
+      b.dep = k + 1;
+      return;
+    }
     if ((b.role === 'topic' || b.roleInfo.topic || b.role === 'conjunction') && root && root.id > k) {
       b.dep = root.id;
       return;

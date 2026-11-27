@@ -90,8 +90,8 @@ export default [
   P('noni', 'N4', '〜のに', 'Even though … (unexpected or frustrating result).', '逆接・不満。', [{ alt: [[{ s: 'のに', p1: '接続助詞' }], [{ pos: '助動詞', ctype: ['特殊・タ', '特殊・ナイ', '特殊・ダ'] }, { s: 'の', p1: '非自立' }, { s: 'に', p1: '格助詞' }, { not: { pos: '動詞', b: ['使う', 'なる', 'する'] } }]] }], { group: 'contrast', ex: '約束したのに来なかった。' }),
 
   // --- Appearance, hearsay, probability ------------------------------------------------------
-  P('sou-appearance', 'N4', '〜そう（様態）', 'Looks like / seems about to (from what you can see).', '見た様子からの判断。', [{ s: 'そう', pos: '名詞', p1: '接尾' }], { group: 'evidential', generic: true, ex: '雨が降りそうだ。' }),
-  P('sou-hearsay', 'N4', '〜そうだ（伝聞）', 'I heard that … / they say …', '伝聞。', [{ s: 'そう', pos: '名詞', p1: '特殊' }, COPULA], { group: 'evidential', ex: '明日は雨が降るそうだ。' }),
+  P('sou-appearance', 'N4', '〜そう（様態）', 'Looks like / seems about to (from what you can see).', '見た様子からの判断。', [{ s: 'そう', pos: '名詞', p1: '接尾' }], { group: 'evidential', before: { not: { cform: '基本形' } }, generic: true, ex: '雨が降りそうだ。' }),
+  P('sou-hearsay', 'N4', '〜そうだ（伝聞）', 'I heard that … / they say …', '伝聞。', [{ s: 'そう', pos: '名詞', p1: ['特殊', '接尾'] }, { alt: [[COPULA], [{ s: 'な', pos: '助動詞' }, { s: 'ので' }]] }], { group: 'evidential', before: { cform: '基本形' }, ex: '明日は雨が降るそうだ。' }),
   P('ni-yoru-to', 'N4', '〜によると', 'According to … (the source of what you heard).', '情報の出所。', [T('によると', 'によれば')], { group: 'evidential', ex: '天気予報によると、明日は雨だ。' }),
   P('you-da', 'N4', '〜ようだ', 'It seems that … (judging from evidence).', '根拠のある推量。', [{ s: 'よう', p1: '非自立' }, { b: ['だ', 'です'], not: { cform: ['連用形', '体言接続'] } }], { group: 'evidential', ex: '誰か来たようだ。' }),
   P('no-you-na', 'N4', '〜のような／〜のように', 'Like … / similar to … (a comparison or example).', '比喩・例示。', [{ s: 'の', p1: '連体化' }, { s: 'よう', p1: '非自立' }, { s: ['な', 'に', 'だ', 'です'] }], { group: 'evidential', ex: '鳥のように空を飛びたい。' }),

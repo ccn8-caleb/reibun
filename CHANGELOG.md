@@ -7,6 +7,28 @@ deploy also carries a build id (commit hash), shown next to the version in the a
 **Numbering (from 0.2.0):** every release bumps the patch number (0.2.1, 0.2.2, …,
 0.2.15 is fine). The minor number only moves for a milestone called out on purpose.
 
+## [0.2.6] — 2026-11-27 — Every grammar point in the ★ drill
+
+### Changed
+- **★ drill sentences rewritten:** 231 of the hand-written drill sentences were
+  ones where the pieces could go in more than one order, so the drill skipped
+  their grammar points. Every one of them now makes a ★ question with one right
+  answer: the grammar point sits among pieces that can't move (verb chains,
+  relative clauses, 〜の phrases), with context before and after the blanks. All
+  of N5–N1 can now be drilled from the built-in sentences, including the 97 points
+  the Tatoeba bank has no sentence for.
+
+### Fixed
+- **Sentence structure:** 本なので and 静かなのに are read as linked clauses, not
+  nouns; 違いない and しょうがない as predicates; 買ったばかりの and 駅までの
+  as modifiers of the next noun; 引き受けた上は, 手伝ったものを and 言われようが
+  as linked clauses; 値段は in 値段はともかく belongs to ともかく, not the main
+  verb; and a subject can sit inside an adjective's relative clause (値段が安い店).
+- **Grammar matching:** 降るそうなので is hearsay (IPADIC tags it like 降りそう);
+  〜一方なので, 〜ばかりなので, 〜ということなので / ということだった, and
+  〜ものの before a number (取ったものの一度も) are recognised.
+- **★ pieces** never start with a stray っ (IPADIC splits 分かりっこない oddly).
+
 ## [0.2.4] — 2026-11-26 — Tatoeba sentence bank
 
 ### Added

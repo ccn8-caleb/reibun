@@ -26,8 +26,8 @@ export default [
   P('te-mo-sashitsukaenai', 'N2', '〜ても差し支えない', 'It’s all right to … (formal).', '〜しても問題ない（改まった言い方）。', [TE, Tx('も差し支えない', 'もさしつかえない')], { group: 'modality', ex: 'こちらの資料はお持ち帰りいただいても差し支えありません。' }),
   P('tsutsu', 'N2', '〜つつ', 'While … (also: even though …).', '〜ながら（書き言葉）、逆接。', [{ s: 'つつ', pos: '助詞' }, { not: { b: 'ある' } }], { group: 'time', ex: '体に悪いと知りつつ、タバコを吸ってしまう。' }),
   P('tsutsu-aru', 'N2', '〜つつある', 'Is in the process of … (gradually changing).', '変化が進行中。', [{ s: 'つつ', pos: '助詞' }, { b: 'ある' }], { group: 'aspect', ex: '地球の気温は上がりつつある。' }),
-  P('ippou-da', 'N2', '〜一方だ', 'Keeps …-ing (more and more, usually bad).', '変化が一方向に進み続ける。', [DICT_V, T('一方だ', '一方です', 'いっぽうだ', '一方である'), { not: { pos: ['名詞', '動詞'] } }], { group: 'aspect', ex: '物価は上がる一方だ。' }),
-  P('bakari-da', 'N2', '〜ばかりだ', 'Just keeps getting … (a one-way change).', '悪い方向への変化が続く。', [DICT_V, T('ばかりだ', 'ばかりです', 'ばかりで', 'ばかりである')], { group: 'aspect', ex: '病気は悪くなるばかりだ。' }),
+  P('ippou-da', 'N2', '〜一方だ', 'Keeps …-ing (more and more, usually bad).', '変化が一方向に進み続ける。', [DICT_V, { alt: [[T('一方だ', '一方です', 'いっぽうだ', '一方である'), { not: { pos: ['名詞', '動詞'] } }], [T('一方なので')]] }], { group: 'aspect', ex: '物価は上がる一方だ。' }),
+  P('bakari-da', 'N2', '〜ばかりだ', 'Just keeps getting … (a one-way change).', '悪い方向への変化が続く。', [DICT_V, T('ばかりだ', 'ばかりです', 'ばかりで', 'ばかりである', 'ばかりなので')], { group: 'aspect', ex: '病気は悪くなるばかりだ。' }),
   P('kiri', 'N2', '〜きり', 'Only … (二人きり) / since … and no more (出かけたきり).', '限定・それ以降の変化なし。', [{ s: ['きり', 'っきり', 'ぎり'], p1: ['非自立', '副助詞', '接尾'] }], { group: 'limits', ex: '彼は出かけたきり帰ってこない。' }),
 
   // --- Compound verbs & auxiliaries ----------------------------------------------------------
@@ -103,7 +103,7 @@ export default [
   P('ni-mo-kakawarazu', 'N2', '〜にもかかわらず', 'Despite … / even though …', '〜なのに（書き言葉）。', [T('にもかかわらず', 'にも関わらず', 'にも拘らず', 'にも拘わらず')], { group: 'contrast', ex: '雨にもかかわらず、大勢の人が来た。' }),
   P('ni-kakawarazu', 'N2', '〜にかかわらず', 'Regardless of …', '〜に関係なく。', [T('にかかわらず', 'に関わらず', 'に拘らず', 'に拘わらず')], { group: 'contrast', ex: '年齢にかかわらず、誰でも参加できる。' }),
   P('wo-towazu', 'N2', '〜を問わず', 'Regardless of … / no matter …', '〜に関係なく。', [T('を問わず', 'をとわず', 'は問わず', 'は問いません')], { group: 'contrast', ex: 'この仕事は経験を問わず応募できる。' }),
-  P('mono-no', 'N2', '〜ものの', 'Although … (but in fact).', '〜けれども（書き言葉）。', [{ pos: ['動詞', '形容詞', '助動詞'], cform: '基本形' }, T('ものの'), { not: { pos: '名詞' } }], { group: 'contrast', ex: '車の免許は取ったものの、ほとんど運転していない。' }),
+  P('mono-no', 'N2', '〜ものの', 'Although … (but in fact).', '〜けれども（書き言葉）。', [{ pos: ['動詞', '形容詞', '助動詞'], cform: '基本形' }, T('ものの'), { not: { pos: '名詞', not: { p1: '数' } } }], { group: 'contrast', ex: '車の免許は取ったものの、ほとんど運転していない。' }),
   P('nagara-mo', 'N2', '〜ながらも', 'Although … / while …', '〜けれども。', [T('ながらも')], { group: 'contrast', generic: true, before: { not: { pos: '動詞', cform: '連用形' } }, ex: '狭いながらも、楽しい我が家だ。' }),
   P('hanmen', 'N2', '〜反面', 'On the other hand … (two sides of the same thing).', '一つの物事の別の面。', [T('反面', '半面')], { group: 'contrast', ex: 'この薬はよく効く反面、副作用も強い。' }),
   P('ippou-de', 'N2', '〜一方（で）', 'While … / on the other hand …', '対比・並行。', [{ pos: ['動詞', '形容詞', '助動詞'], cform: '基本形', opt: true }, T('一方で', '一方では', '一方、', 'いっぽうで')], { group: 'contrast', ex: '彼は仕事をする一方で、大学にも通っている。' }),
